@@ -1,0 +1,198 @@
+/* 
+color-bg-colors.html
+*/
+header {
+	background-color: #d8d5d5;
+	background-image: url("../../Images/rikke-hembre.jpg");
+	/* background-size: 100% 500px; */
+	background-size: cover;
+	background-position: center;
+	height: 500px;
+}
+
+.main-header {
+	text-align: center;
+	font-size: 3rem;
+	font-weight: bold;
+	font-style: oblique;
+}
+
+.red-border {
+	border-width: 5px;
+	border-style: solid;
+	border-color: red;
+	border-radius: 10px;
+}
+
+.blue-border {
+	border: 5px solid blue;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+.green-border {
+	border: 5px solid green;
+	border-radius: 0 10px 10px 0;
+	/* top-left top-right bottom-left bottom-right */
+}
+
+/*
+colors.html
+ */
+h1 {
+	color: wheat;
+}
+
+h2 {
+	color: rgb(125, 125, 125);
+}
+
+h3 {
+	color: rgba(0, 0, 0, 0.5);
+}
+
+a {
+	color: wheat;
+}
+
+a:hover {
+	color: red;
+}
+
+/* display.html */
+.red {
+	border: 5px solid red;
+	display: inline;
+	background-color: rgb(231, 153, 153);
+}
+
+.blue {
+	border: 5px solid blue;
+	display: inline-block;
+	width: 150px;
+	height: 150px;
+	background-color: rgb(172, 167, 240);
+}
+
+.half-width {
+	width: 50%;
+	border: 1px solid black;
+}
+
+.custom-height {
+	border: 1px solid black;
+	height: 500px;
+	width: 500px;
+	display: inline-block;
+}
+
+.shadow {
+	width: 200px;
+	height: 200px;
+	border: 1px solid plum;
+	background-image: url("../../Images/HTML.png");
+	background-position: center center;
+	background-size: 200px 200px;
+	background-repeat: no-repeat;
+	border-radius: 0 50% 0 50%;
+	box-shadow: 6px 6px inset rgb(192, 41, 3);
+}
+
+.padding-margin {
+	width: 30px;
+	height: 60px;
+	text-align: center;
+	padding: 10px;
+	margin: 10px auto;
+	font-size: 24px;
+	font-weight: bold;
+	display: block;
+	border: 3px solid rgb(150, 149, 149);
+	box-shadow: 3px 3px 3px rgb(150, 149, 149);
+}
+
+.padding-margin p {
+	color: rgb(247, 66, 11);
+	font-size: 1.05em;
+	text-shadow: 3px 3px 3px rgb(150, 149, 149);
+}
+
+/* index.html */
+
+h4 {
+	background-color: yellow;
+}
+
+#select-me {
+	text-decoration: underline;
+}
+.uppercase {
+	text-transform: uppercase;
+}
+
+ul li strong {
+	color: beige;
+}
+
+li {
+	font-size: 25px;
+}
+
+a {
+	color: wheat;
+}
+
+a:hover {
+	color: aliceblue;
+}
+
+a:active {
+	color: blue;
+}
+
+a:visited {
+	color: chartreuse;
+}
+
+/*
+      a:visited {
+        color: orangered;
+      }
+*/
+.rem {
+	font-size: 2rem;
+}
+
+.em {
+	font-size: 1em;
+}
+
+/* max-width */
+.inline {
+	display: inline-block;
+	max-width: 750px;
+	min-width: 300px;
+	border: 1px solid red;
+}
+/* opacity.html */
+.box {
+	display: block;
+	width: 750px;
+	height: 750px;
+	margin: 50px auto;
+	background-color: black;
+	color: white;
+	text-align: center;
+	padding: 25px;
+
+	background-image: url("../../Images/rikke-hembre.jpg");
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+.box p {
+	font-size: 3em;
+	text-shadow: 3px 3px 3px black;
+	opacity: 0.5;
+}
