@@ -41,6 +41,9 @@ colors.html
  */
 h1 {
 	color: wheat;
+	text-align: center;
+	font-size: 36px;
+	text-shadow: 1px 1px 4px black;
 }
 
 h2 {
@@ -195,4 +198,29 @@ a:visited {
 	font-size: 3em;
 	text-shadow: 3px 3px 3px black;
 	opacity: 0.5;
+}
+
+.float-img {
+	width: 50%;
+	margin: auto;
+}
+.floating-img {
+	border: 2px solid wheat;
+	border-radius: 25px;
+	box-shadow: 2px 2px inset wheat;
+	width: 300px;
+	float: right;
+	margin: 10px;
+}
+.cart {
+	margin: 5px;
+	border: 1px solid black;
+	float: left;
+	list-style: none;
+}
+.inline-span {
+	display: block;
+	width: 200px;
+	height: 200px;
+	border: 1px solid black;
 }
