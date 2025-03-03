@@ -20,11 +20,32 @@ div {
 	margin-top: 25px;
 }
 
+.border-box:not(.dont-select-me) {
+	background-color: blue;
+	/* 
+		class .dont-select-me will not have a an orange bg color like the 
+		rest of border-box class element, instead it will have it' own properties
+	*/
+}
+
+.border-box:hover {
+	background-color: orangered;
+	color: white;
+}
+
 .border-box {
 	box-sizing: border-box;
+	margin: 30px auto; /* top/bottom 30px and right/left auto* to center a block element */
+	background-color: orange;
 }
+
 .content-box {
 	box-sizing: content-box;
+	background-color: blueviolet;
+	overflow: auto;
+}
+.content-box:hover {
+	color: white;
 }
 .outline {
 	outline: 2px solid red;
@@ -36,4 +57,65 @@ div {
 	height: unset;
 	min-width: 500px;
 	max-width: 600px;
+}
+
+.dont-select-me {
+	background-color: red;
+	width: 300px;
+	height: 300px;
+}
+#parent {
+	background-color: cadetblue;
+	margin-bottom: 1000px;
+}
+.same-box:hover {
+	background-color: chartreuse;
+	color: white;
+}
+/* select only child number 2 of class same-box*/
+.same-box:nth-child(2) {
+	background-color: rgb(47, 48, 46);
+	color: red;
+}
+
+.before-class {
+	position: relative;
+	border: 2px solid black;
+	margin: auto;
+}
+.before-class::before {
+	content: " ";
+	display: block;
+	border: 1px solid salmon;
+	width: 300px;
+	height: 300px;
+	position: absolute;
+	top: -30px;
+	left: -30px;
+
+	z-index: -1; /* Places the absolute element BEHIND its relative */
+	background-color: beige;
+}
+.before-class::after {
+	content: " ";
+	display: block;
+	border: 1px solid gold;
+	width: 300px;
+	height: 300px;
+	position: absolute;
+	bottom: -30px;
+	right: -30px;
+
+	z-index: 10; /* Places the absolute element BEHIND its relative */
+	background-color: burlywood;
+}
+.first-letter {
+	font-size: 20px;
+	margin: 20px;
+	padding: 20px;
+}
+.first-letter::first-letter {
+	font-size: 50px;
+	float: left;
+	margin: 5px;
 }

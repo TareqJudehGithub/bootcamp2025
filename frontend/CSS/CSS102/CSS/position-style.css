@@ -36,6 +36,8 @@ h1 {
 	top: 0;
 	left: 0;
 }
-.sticky {
-	
+.sticky-parent {
+	background-color: cornsilk;
+	position: sticky;
+	bottom: 0;
 }
