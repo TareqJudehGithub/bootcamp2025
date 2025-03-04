@@ -119,3 +119,8 @@ div {
 	float: left;
 	margin: 5px;
 }
+/* highlight text with certain color on the browser only upon selection*/
+span::selection,
+.highlighted::selection {
+	background-color: gold;
+}
