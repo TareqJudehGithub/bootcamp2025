@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSS Link-->
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Joe's Diner</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div id="top" class="logo">
+          <img
+               src="../images/Logo.png" alt="Joe's Burger Logo"
+               width="75px">
+
+        </div> <!--Back to Top -->
+        <ul>
+          <li>Why Joe's Burger?</li>
+          <li class="menu">
+            <!--Drop down: Burgers, Side, and drinks-->
+            <select onchange="window.location=this.value">
+
+              <option value="" selected disabled>Our Menu</option>
+
+              <option value="#beef-burgers">Beef burgers</option>
+              <option value="#chicken-burgers">Chicken burgers</option>
+              <option value="#sides">Side orders</option>
+              <option value="#drinks">Drinks</option>
+            </select>
+          </li>
+          <li>Customers Reviews</li>
+          <li>Contact Us</li> <!--Who we Are and a location map-->
+          <li></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section class="main-header">
+        <h4>We came all the way from Texas!</h4>
+        <h2>Joe's Burger</h2>
+      </section>
+
+      <section id="why-joe" class="why-joe">
+        <h2>Why are we the number one burger in town?</h2>
+        <div class="card-container">
+          <div class="card">
+            <i class="fa-regular fa-face-grin-tongue"></i>
+            <h4>Tastes greet!</h4>
+            <p>In Joe's Burger, each burger is carefully prepared to deliver the upmost
+              standard and taste!
+            </p>
+          </div>
+          <div class="card">
+            <i class="fa-regular fa-heart"></i>
+            <h4>Local and organic</h4>
+            <p>Without any artificial flavors!
+              Meaning you know what's going into your body.</p>
+          </div>
+          <div class="card">
+            <i class="fa-brands fa-envira"></i>
+            <h4>Fresh Ingredients</h4>
+            <p>The secret of our success is in our fresh daily supplied ingredients.</p>
+          </div>
+
+          <div class="card">
+            <i class="fa-regular fa-face-smile"></i>
+            <h4>Happy Customers</h4>
+            <p>With our continuous follow up and support, we make sure to deliver you the
+              best!</p>
+          </div>
+
+          <div class="card">
+            <i class="fa-solid fa-truck-fast"></i>
+            <h4>Fresh Ingredients</h4>
+            <p>The secret of our success is in our fresh daily supplied ingredients.</p>
+          </div>
+        </div>
+      </section>
+      <section id="beef-burgers" class="beef-burger">
+        <h2>Why are we the number one burger in town?</h2>
+        <div class="card-container">
+          <div class="card classic-beef">
+            <h4>Burger Name</h4>
+            <p>Ingredients and description
+            </p>
+          </div>
+        </div>
+      </section>
+      <section id="chicken-burgers">Chicken Burgers Menu</section>
+      <section id="sides">Sides Menu</section>
+      <section id="drinks">Drink Menu</section>
+      <section>Location on map</section>
+    </main>
+    <footer>
+      <ul>
+        <li><a href="#top">Top</a></li>
+        <li></li>
+
+      </ul>
+    </footer>
+    Icons br
+
+    <i class="fa-regular fa-handshake"></i>
+    <i class="fa-solid fa-utensils"></i>
+    <i class="fa-solid fa-burger"></i>
+    <!--Font Awesome link-->
+    <script src="https://kit.fontawesome.com/8e84d33e32.js"
+            crossorigin="anonymous"></script>
+  </body>
+</html>
