@@ -3,18 +3,25 @@
 	padding: 0;
 	box-sizing: border-box;
 }
+body {
+	font-family: "Roboto", sans-serif;
+}
+
 nav {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-
+	position: fixed;
+	width: 100%;
+	z-index: 4;
 	background-color: rgb(48, 47, 47);
 	color: white;
 	font-size: 20px;
 	box-shadow: 0 3px 5px rgb(247, 95, 7);
 
-	padding: 20px;
+	padding: 10px;
 	margin-bottom: 3px;
+	scroll-behavior: smooth;
 }
 nav ul {
 	list-style: none;
@@ -23,6 +30,10 @@ nav ul {
 nav li {
 	padding-right: 20px;
 }
+nav li a {
+	color: white;
+	text-decoration: none;
+}
 .menu select {
 	color: white;
 	font-size: 16px;
@@ -30,26 +41,33 @@ nav li {
 	text-shadow: 1px 1px 2px rgb(48, 47, 47);
 	border-radius: 25px;
 	padding: 5px;
+
+	/* Make select tag dropdown cursor disappear*/
 	text-align: center;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	text-indent: 1px;
 	text-overflow: "";
 }
-.logo:hover,
+
+.logo:hover {
+	cursor: pointer;
+	border-radius: 50%;
+	box-shadow: 2px 2px 2px rgb(247, 95, 7);
+}
+
 li:hover,
 .menu select:hover {
 	cursor: pointer;
+	text-shadow: 1px 1px 2px rgb(247, 95, 7);
 }
 
-body {
-}
 section {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 35px;
+	margin-bottom: 75px;
 }
 
 .main-header {
@@ -76,7 +94,7 @@ section {
 .why-joe h2 {
 	padding: 10px;
 }
-.card-container {
+.cards-container {
 	width: 95%;
 	display: flex;
 	flex-wrap: wrap;
@@ -89,6 +107,9 @@ section {
 	margin: 7px;
 	padding: 10px;
 	width: 30%;
+	max-width: 300px;
+	min-height: 125px;
+	max-height: 200px;
 }
 .fa-regular,
 .fa-solid,
@@ -96,16 +117,394 @@ section {
 	color: rgb(247, 95, 7);
 }
 .card p {
-	font-size: 16px;
+	font-size: 14px;
+}
+.menu-card {
+	box-shadow: 2px 2px 5px lightgray;
+	text-align: center;
+	margin: 7px;
+	width: 350px;
+	max-width: 350px;
+	min-width: 300px;
+	height: 500px;
+	min-height: 500px;
+	max-height: 450px;
+	border-radius: 10px;
+	overflow: hidden;
+	transition: all 1s;
+}
+.menu-header {
+	font-size: 40px;
+	font-weight: bold;
+	margin-bottom: 15px;
+	text-align: center;
+}
+.menu-card h4,
+.menu-card p {
+	padding: 4px;
+}
+.beef-burgr-details,
+.item-details {
+	font-size: 14px;
 }
 .classic-beef {
 	background-image: linear-gradient(
 			45deg,
 			rgba(0, 0, 0, 0.2),
-			rgba(0, 0, 0, 0.9)
+			rgba(0, 0, 0, 0.5)
 		),
-		url("../images/main-header2.jpg.png");
+		url("../images/beef-classic1.png");
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
+	width: 100%;
+	height: 75%;
+	transition: all 2s;
+	border-radius: 10px;
+}
+.classic-beef:hover {
+	background-image: linear-gradient(45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+		url("../images/beef-classic1.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	transform: scale(1.03);
+}
+
+.famous-beef {
+	background-image: linear-gradient(
+			45deg,
+			rgba(0, 0, 0, 0.2),
+			rgba(0, 0, 0, 0.5)
+		),
+		url("../images/beef-famous-rocca.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 100%;
+	height: 75%;
+	transition: all 2s;
+}
+.famous-beef:hover {
+	background-image: linear-gradient(45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+		url("../images/beef-famous-rocca.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	transform: scale(1.03);
+}
+.mushroom-beef {
+	background-image: linear-gradient(
+			45deg,
+			rgba(0, 0, 0, 0.2),
+			rgba(0, 0, 0, 0.5)
+		),
+		url("../images/beef-mushroom2.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 100%;
+	height: 75%;
+	transition: all 2s;
+}
+.mushroom-beef:hover {
+	background-image: linear-gradient(45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+		url("../images/beef-mushroom2.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	transform: scale(1.03);
+}
+.cowboy-beef {
+	background-image: linear-gradient(
+			45deg,
+			rgba(0, 0, 0, 0.2),
+			rgba(0, 0, 0, 0.5)
+		),
+		url("../images/beef-cowboy.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 100%;
+	height: 75%;
+	transition: all 2s;
+}
+.cowboy-beef:hover {
+	background-image: linear-gradient(45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+		url("../images/beef-cowboy.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	transform: scale(1.03);
+}
+.hammer-beef {
+	background-image: linear-gradient(
+			45deg,
+			rgba(0, 0, 0, 0.2),
+			rgba(0, 0, 0, 0.5)
+		),
+		url("../images/beef-hammer.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 100%;
+	height: 75%;
+	transition: all 2s;
+}
+.hammer-beef:hover {
+	background-image: linear-gradient(45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+		url("../images/beef-hammer.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	transform: scale(1.03);
+}
+
+.texas-beef {
+	background-image: linear-gradient(
+			45deg,
+			rgba(0, 0, 0, 0.2),
+			rgba(0, 0, 0, 0.5)
+		),
+		url("../images/beef-texas.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 100%;
+	height: 75%;
+	transition: all 2s;
+}
+.texas-beef:hover {
+	background-image: linear-gradient(45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+		url("../images/beef-texas.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	transform: scale(1.03);
+}
+.menu-card:hover {
+	box-shadow: 2px 2px 5px lightgray;
+	box-shadow: 2px 2px 5px rgb(247, 95, 7);
+}
+.price-add {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: bold;
+	margin: 0 20px 0 20px;
+}
+.price-add button {
+	padding: 5px;
+	border-radius: 5px;
+
+	background-color: rgb(247, 95, 7);
+	border-color: rgb(247, 95, 7);
+	color: rgb(247, 95, 7);
+	font-weight: bold;
+	background-color: white;
+	transition: all 0.5s;
+}
+.price-add button:hover {
+	cursor: pointer;
+	background-color: rgb(247, 95, 7);
+	color: white;
+	border-color: lightgray;
+}
+/* .famous-beef:hover,
+.mushroom-beef:hover,
+.cowboy-beef:hover,
+.hammer-beef:hover,
+.texas-beef:hover */
+
+/* .chicken-burger-classic {
+	background-image: linear-gradient(
+			45deg,
+			rgba(0, 0, 0, 0.2),
+			rgba(0, 0, 0, 0.5)
+		),
+		url("../images/beef-famous-rocca.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 100%;
+	height: 75%;
+	background-color: rgba(26, 25, 25, 0.6);
+	background-blend-mode: darken;
+	transition: all 0.2s;
+} */
+
+.menu-card img {
+	object-fit: cover;
+	width: 100%;
+	height: 75%;
+	max-height: 75%;
+	transition: all 2s;
+	border-radius: 10px;
+	padding: 3px;
+}
+.menu-card-drinks img {
+	width: 100%;
+	height: 75%;
+	max-height: 75%;
+	transition: all 2s;
+	border-radius: 10px;
+}
+.menu-card img:hover {
+	transform: scale(1.02);
+}
+#chicken-burgers,
+#drinks {
+	background-color: rgba(247, 95, 7, 0.15);
+	padding: 10px 0 10px 0;
+}
+
+#drinks .price-add {
+	margin-top: 15px;
+}
+.soda {
+}
+
+.customers-cards-container {
+	width: 95%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	flex-direction: row;
+}
+.customers-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	margin: 25px;
+	padding: 5px;
+	width: 200px;
+	min-width: 300px;
+	max-width: 300px;
+	height: 200px;
+	min-height: 200px;
+	border-radius: 10px;
+}
+.customers-card-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	margin: 0 30px 10px 0;
+}
+.customers-card-header div {
+	margin-bottom: 20px;
+}
+.fa-star {
+	margin-top: 2px;
+}
+.customers-card img {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	/* margin-bottom: 10px; */
+	margin: 0 30px 10px 0;
+}
+.customer-name {
+	margin-top: 10px;
+	font-size: 14px;
+	color: rgb(182, 180, 180);
+}
+footer {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: top;
+	width: 100%;
+	height: 250px;
+	background-color: rgb(48, 47, 47);
+	color: white;
+	font-size: 20px;
+	padding: 20px;
+	border-top: 2px solid rgb(247, 95, 7);
+}
+footer ul {
+	list-style: none;
+	color: rgb(182, 180, 180);
+	font-size: 16px;
+}
+
+.footer-list-header {
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+footer li {
+	margin-bottom: 10px;
+}
+.footer-logo {
+}
+.logos {
+	margin-top: -7px;
+}
+.order-online {
+	display: flex;
+	flex-direction: column;
+	justify-items: center;
+	align-content: center;
+	margin-left: 5px;
+	margin-bottom: 2px;
+}
+.social-media {
+	display: flex;
+	justify-content: start;
+}
+.social-media li {
+	padding-right: 20px;
+	margin-bottom: 40px;
+}
+.online-apps {
+	display: flex;
+	justify-content: start;
+	margin-right: 20px;
+	margin-bottom: 5px;
+}
+.online-apps li {
+	padding-right: 20px;
+	margin-bottom: 10px;
+}
+.talabat-careem {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding-right: 10px;
+}
+.talabat-careem li {
+	display: flex;
+	flex-direction: row;
+	justify-content: start;
+	align-content: top;
+	align-items: top;
+	margin-top: 0;
+}
+.talabat-text {
+	margin-right: 2px;
+}
+.talabat-careem li img {
+	padding-left: 10px;
+	width: 30px;
+}
+.careem-logo {
+	/* padding-right: 5px; */
+}
+.copyright {
+	font-size: 15px;
+}
+.fa-facebook {
+	color: rgb(13, 132, 230);
+}
+.fa-instagram {
+	color: rgb(248, 34, 6);
+}
+.fa-twitter {
+	color: rgb(13, 132, 230);
+}
+.fa-google-play {
+	color: rgb(108, 147, 221);
+}
+.fa-apple {
+	color: white;
 }
