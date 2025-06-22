@@ -1,0 +1,15 @@
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\bin\Debug\net8.0\Basics.exe
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\bin\Debug\net8.0\Basics.deps.json
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\bin\Debug\net8.0\Basics.runtimeconfig.json
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\bin\Debug\net8.0\Basics.dll
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\bin\Debug\net8.0\Basics.pdb
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\obj\Debug\net8.0\Basics.GeneratedMSBuildEditorConfig.editorconfig
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\obj\Debug\net8.0\Basics.AssemblyInfoInputs.cache
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\obj\Debug\net8.0\Basics.AssemblyInfo.cs
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\obj\Debug\net8.0\Basics.csproj.CoreCompileInputs.cache
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\obj\Debug\net8.0\Basics.sourcelink.json
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\obj\Debug\net8.0\Basics.dll
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\obj\Debug\net8.0\refint\Basics.dll
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\obj\Debug\net8.0\Basics.pdb
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\obj\Debug\net8.0\Basics.genruntimeconfig.cache
+E:\WebDev\FullStack2025\Class\Backend\CSharp\Basics\obj\Debug\net8.0\ref\Basics.dll

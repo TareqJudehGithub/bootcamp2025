@@ -1,0 +1,15 @@
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\bin\Debug\net8.0\CSharpLanguage.exe
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\bin\Debug\net8.0\CSharpLanguage.deps.json
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\bin\Debug\net8.0\CSharpLanguage.runtimeconfig.json
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\bin\Debug\net8.0\CSharpLanguage.dll
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\bin\Debug\net8.0\CSharpLanguage.pdb
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\obj\Debug\net8.0\CSharpLanguage.GeneratedMSBuildEditorConfig.editorconfig
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\obj\Debug\net8.0\CSharpLanguage.AssemblyInfoInputs.cache
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\obj\Debug\net8.0\CSharpLanguage.AssemblyInfo.cs
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\obj\Debug\net8.0\CSharpLanguage.csproj.CoreCompileInputs.cache
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\obj\Debug\net8.0\CSharpLanguage.sourcelink.json
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\obj\Debug\net8.0\CSharpLanguage.dll
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\obj\Debug\net8.0\refint\CSharpLanguage.dll
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\obj\Debug\net8.0\CSharpLanguage.pdb
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\obj\Debug\net8.0\CSharpLanguage.genruntimeconfig.cache
+E:\WebDev\FullStack2025\Class\Backend\CSharp\CSharpLanguage\obj\Debug\net8.0\ref\CSharpLanguage.dll

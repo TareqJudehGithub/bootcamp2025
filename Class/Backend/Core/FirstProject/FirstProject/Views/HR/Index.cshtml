@@ -1,0 +1,32 @@
+﻿@model List<Employee>
+
+<table class="table-secondary">
+    <thead>
+    <th>Name</th>
+    <th>Email</th>
+    <thead>Department</thead>
+    <th>Salary</th>
+    <th>Hire Date</th>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+
+            <tr class="table-active">
+                <td>@item.Name</td>
+                <td>@item.Email</td>
+                <td>@item.Department.Name</td>
+                <td>@item.Salary</td>
+                <td>@item.HireDate</td>
+            </tr>
+        }
+        <tr>
+            <th scope="row">3</th>
+            <td>John</td>
+            <td>Doe</td>
+            <td class="table-active"></td>
+        </tr>
+    </tbody>
+</table>
+<!--  REMINDER: DB Localization! -->
