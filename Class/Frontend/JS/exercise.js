@@ -50,7 +50,6 @@ Result = string
 Because Javascript converted b to a string, the data type of result5, is 
 of course a string  ("5" + "2")
 
-
 ******************************************************************/
 
 // 2. Arrays - Array Manipulation
