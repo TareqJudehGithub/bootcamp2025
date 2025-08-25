@@ -21,13 +21,19 @@ let inputText = document.getElementById("text");
 let button = document.getElementById("btn");
 let resetUser = document.getElementById("reset-user");
 
+// @ts-ignore
 button.addEventListener("click", function () {
+	// @ts-ignore
 	h2Tag.innerText = "أهلا بك Welcome";
+	// @ts-ignore
 	h2Tag.textContent = `${h2Tag.innerHTML} ${inputText.value}!`;
 });
 
+// @ts-ignore
 resetUser.addEventListener("click", function () {
+	// @ts-ignore
 	h2Tag.innerText = "أهلا بك Welcome!";
+	// @ts-ignore
 	inputText.value = "";
 });
 
@@ -42,16 +48,26 @@ const bmiBtn = document.getElementById("bmi-btn");
 const result = document.getElementById("result");
 let resetBmi = document.getElementById("reset-bmi");
 
+// Calculate BMI
+// @ts-ignore
 const calculate = bmiBtn.addEventListener("click", function () {
+	// @ts-ignore
 	result.innerHTML = "BMI result: ";
+	// @ts-ignore
 	const bmi = weight.value / ((height.value / 100) * (height.value / 100));
-	//result.textContent = String(parseFloat(bmi.toFixed(1)));
+	// @ts-ignore
 	result.textContent = `${result.innerHTML} ${String(
 		parseFloat(bmi.toFixed(1))
 	)}`;
 });
+
+// Reset Data
+// @ts-ignore
 resetBmi.addEventListener("click", function () {
+	// @ts-ignore
 	weight.value = "";
+	// @ts-ignore
 	height.value = "";
+	// @ts-ignore
 	result.innerHTML = "BMI result: ";
 });

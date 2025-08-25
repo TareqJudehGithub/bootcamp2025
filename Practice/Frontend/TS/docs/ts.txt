@@ -1,0 +1,5 @@
+TypeScript  (TS)
+
+ - A static type checker that does checking for JS types.
+ - TS helps us find error in Development before the code is running in the browser.
+ - 
