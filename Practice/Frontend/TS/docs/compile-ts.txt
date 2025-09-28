@@ -1,0 +1,5 @@
+Compiling TS code into JS
+After finishing writing our code in the .ts file (making sure we have no errors), we now
+can compile that .ts file in the Terminal using the tsc command:
+  $ tsc file-name.ts
+This process generates a compiled .js file with the same .ts file name.
