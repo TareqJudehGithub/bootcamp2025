@@ -1,0 +1,3 @@
+Type Object
+  - TS creates annotations that describe the shape of an object.
+  - 
