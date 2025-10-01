@@ -1,0 +1,12 @@
+Type interface
+ 
+ - interface (with a small i), is very similar to type alias.
+ - interfaces allows us to describe the shape of objects, and ONLY objects.
+ - It is a convention to use semi colon; between interface members.
+ - syntax:
+  interface Person {
+    name: string,
+    age: number
+  }
+
+  

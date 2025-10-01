@@ -3,6 +3,7 @@ Type Alias
    them separately in a type alias.
  - Type alias allows us to make our code more readable and even gives us 
    the ability to reuse it elsewhere in our project.
+ - It is a convention to use semi colon; between type members.
 
  - Example:   
   First we specify a type alias using the 'type' keyword
