@@ -5,6 +5,11 @@ TS Inference
     let isFunny = false;
     isFunny = true;
     isFunny = "false";
+    
+  - In case we initialized a variable when declared, there's no need to annotate it,
+    because TS will infers it's type automatically.
+
+    cont number = 0;
 
   - In case of a function defined without annotating it's return type and without 
     including a return keyword, TS will be expecting a 'void' return type here.

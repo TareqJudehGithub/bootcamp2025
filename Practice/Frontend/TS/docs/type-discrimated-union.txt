@@ -1,0 +1,7 @@
+type-discrimated-union
+
+ A common pattern in TS involves creating a literal property that is common 
+ across multiple types.
+ We can then narrow the type using that literal property.
+
+ 
