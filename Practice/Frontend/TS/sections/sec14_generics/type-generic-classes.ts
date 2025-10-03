@@ -17,3 +17,9 @@ class Playlist<T> {
 
 const songs = new Playlist<Song>();
 const videos = new Playlist<Video>();
+
+videos.add({
+	title: "Alien",
+	creator: "director",
+	resolution: "reso",
+});
