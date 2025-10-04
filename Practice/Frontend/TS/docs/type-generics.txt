@@ -39,4 +39,5 @@ Generics
   const doSomething = <T,>(param: <T>): T => {
     // code
   }
+  const arrowFun = <T,>(x: T): T => x;
 
