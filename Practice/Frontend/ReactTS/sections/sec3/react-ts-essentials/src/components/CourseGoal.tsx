@@ -6,12 +6,14 @@ export default function CourseGoal(props: CourseGoalProps): JSX.Element {
 				<h2>{props.title}</h2>
 				{props.children}
 			</div>
-			<button>Delete</button>
+			<button onClick={() => props.onDelete(props.id)}>Delete</button>
 		</article>
 	);
 }
 
 interface CourseGoalProps {
+	id: number;
 	title: string;
 	children: ReactNode;
+	onDelete: (id: number) => void;
 }
