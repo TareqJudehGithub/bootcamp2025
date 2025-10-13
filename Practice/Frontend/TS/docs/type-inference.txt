@@ -15,5 +15,4 @@ TS Inference
     including a return keyword, TS will be expecting a 'void' return type here.
   - In case we did not annotate a return type, but we did include the return keyword,
     TS will infers and set a return type to that function based on it's return value.
-
-
+  - TS cannot infer an array, so we have to set that one's type manually.

@@ -37,3 +37,14 @@ function pinLocationObj(obj: { x: number; y: number }): Object {
 
 const homePin = pinLocation({ x: 34, y: 2 });
 console.log(homePin);
+
+// function as a parameter
+function calculate(
+	a: number,
+	b: number,
+	calcFn: (a: number, b: number) => number
+): number {
+	return calcFn(a, b);
+}
+
+//  () =>   type creation and not a value creation

@@ -1,0 +1,58 @@
+Forms and TS in React
+
+Input forms using useRef()
+
+  - For useRef() type we use <HTMLInputElement> type
+  - for handleSubmit function event (e) parameter, we use FormEvent for 
+    React, while we use FormSubmit for JS forms.
+  - Always include an exclamation mark '!' after the current keyword when
+    defining an input value.
+  
+  - <HTMLFormElement>
+      <HTMLFormElement> is type used with handleSubmit event parameter.
+  - we can use .reset() after submitting a form, to it's default input values.
+        e.currentTarget.reset();
+
+  - label and input elements 
+    - for label element, use htmlFor attribute to link an input field. In that
+      target input field, use an id with the same htmlFor attribute value used in
+      the label element.
+          <label htmlFor="goal">Your Goal</label>
+          <input type="text" id="goal" autoFocus ref={goal} />
+
+
+
+  Below is an example of the NewGoal component from Maximilian's TS course.        
+
+  import { useRef, type FormEvent, type JSX } from "react";
+
+  export default function NewGoal(props: NewGoalProps): JSX.Element {
+    // Hooks
+    const goal = useRef<HTMLInputElement>(null);
+    const summary = useRef<HTMLInputElement>(null);
+
+    function handleSubmit(e: FormEvent<HTMLFormElement>) {
+      e.preventDefault();
+      const enteredGoal = goal.current!.value;
+      const enteredSummary = summary.current!.value;
+      props.onAddGoal(enteredGoal, enteredSummary);
+      .currentTarget.reset()
+    }
+    return (
+      <form onSubmit={handleSubmit}>
+        <p>
+          <label htmlFor="goal">Your Goal</label>
+          <input type="text" id="goal" autoFocus ref={goal} />
+        </p>
+        <p>
+          <label htmlFor="summary">Short Summary</label>
+          <input type="text" id="summary" ref={summary} />
+        </p>
+        <button>Add Goal</button>
+      </form>
+    );
+  }
+
+  interface NewGoalProps {
+    onAddGoal: (goal: string, summary: string) => void;
+  }
