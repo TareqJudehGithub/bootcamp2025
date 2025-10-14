@@ -7,7 +7,7 @@ export default function Button({
 	if (props.el === "anchor") {
 		return (
 			<a className="button" {...props}>
-				{children}{" "}
+				{children}
 			</a>
 		);
 	}
