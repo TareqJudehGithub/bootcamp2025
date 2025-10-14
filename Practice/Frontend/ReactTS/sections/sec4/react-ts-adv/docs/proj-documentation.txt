@@ -1,0 +1,53 @@
+Course Goals TODO List project documentation
+
+  1. Creating a new project:
+   $ npm create vite@latest react-ts-adv
+      - Option to choose in order during project creation process:
+        React, TS + WC, No to experimental, and Yes to installing NPM
+  
+  2. Project setup, folder structure
+    - assets
+       goals.jpg 
+    - components
+      - Header
+          Header.tsx
+        CourseGoal.tsx
+        CourseGoalList.tsx
+        InfoBox.tsx
+        NewGoal.tsx
+    - models
+        courseGoal.model
+      App.tsx
+      index.css
+      main.tsx
+
+  Header component
+    - The Header component provides a header with an image and custom text.
+      Here, I created three props (src, alt, and children), which will be help 
+      render image goals.jpg and our custom text into the UI.
+
+  CourseGoal.tsx
+   This component is responsible for rendering goals items (title and description).
+   CoarseGoal props will pass into CourseGoalList as a child component.
+
+  CourseGoalList.tsx
+   Renders CourseGoal items passed as a list, with a delete button on every item.
+   CourseGoalListProps accepts interface CoarseGoal as an array type. 
+   CourseGoal interface is located under the models folders.
+
+  NewGoal.tsx
+   A component, which serves as form for adding new course goals entries.
+   Here, we use useRef (instead of useState) for capturing input values.
+   OnAddGoal props is a function for adding new goal items with two parameters:
+   goal: string, and summary: string. Parameters which will take the user input 
+   from the input fields.
+
+  InfoBox.tsx
+   - An alert-like component, which will pop alerts to the user, based on the state
+     of the CourseGoalList length. 
+   - For props, I used type discrimination union, to separate "warnings" from "hint" 
+     alerts, through the 'mode' prop.
+   - If mode is set to a hint, the hint css styling will be applied, if not, or if it's 
+     a warning, then the warning CSS styling will be applied to the rendered element.
+   - In warning, the 'severity' prop will decide the color of that alert rendered, based 
+     on conditionals implemented for the CourseGoalList length.
