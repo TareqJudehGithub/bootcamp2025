@@ -1,6 +1,10 @@
 import type { ComponentPropsWithoutRef, JSX } from "react";
 
-export default function Input({ id, label, ...props }: InputProps) {
+export default function Input({
+	id,
+	label,
+	...props
+}: InputProps): JSX.Element {
 	return (
 		<form>
 			<label htmlFor={id}>{label}</label>

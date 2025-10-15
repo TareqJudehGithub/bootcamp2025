@@ -1,8 +1,9 @@
 // Custom components
 import Main from "./components/Main/Main";
-import Input from "./components/Input";
-import Button from "./components/Main/Button";
-import ButtonV2 from "./components/Main/ButtonV2";
+import Input from "./components/Input/Input";
+import Button from "./components/Button/Button";
+import ButtonV2 from "./components/Button/ButtonV2";
+import Container from "./components/Container/Container";
 
 function App() {
 	return (
@@ -21,12 +22,13 @@ function App() {
 			<Button el="anchor" href="https://www.google.com" target="_blank">
 				Google
 			</Button>
-			<div>
+			<Container as="aside">
 				<ButtonV2 type="reset">Reset</ButtonV2>
 				<ButtonV2 href="https://mail.google.com/mail" target="_blank">
 					Gmail
 				</ButtonV2>
-			</div>
+			</Container>
+			<Container>Click me!</Container>
 		</Main>
 	);
 }
