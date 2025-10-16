@@ -3,15 +3,24 @@ Forms and TS in React
 Input forms using useRef()
 
   - For useRef() type we use <HTMLInputElement> type
+      useRef<HTMLInputElement>(null);
+
   - for handleSubmit function event (e) parameter, we use FormEvent for 
     React, while we use FormSubmit for JS forms.
-  - Always include an exclamation mark '!' after the current keyword when
-    defining an input value.
+    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+      event.preventDefault();
+      // code...
+    }
+
+  - Always include an exclamation mark '!' after the 'current' keyword when
+    defining an input value, when using useRef().
   
   - <HTMLFormElement>
       <HTMLFormElement> is type used with handleSubmit event parameter.
-  - we can use .reset() after submitting a form, to it's default input values.
-        e.currentTarget.reset();
+    - <HTMLFormElement> gives us or allow access to all 'event' parameter 
+    properties, like for example the reset() property after submitting a form, 
+    to it's default input values.
+        event.currentTarget.reset();
 
   - label and input elements 
     - for label element, use htmlFor attribute to link an input field. In that
@@ -19,7 +28,6 @@ Input forms using useRef()
       the label element.
           <label htmlFor="goal">Your Goal</label>
           <input type="text" id="goal" autoFocus ref={goal} />
-
 
 
   Below is an example of the NewGoal component from Maximilian's TS course.        

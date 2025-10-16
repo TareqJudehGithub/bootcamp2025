@@ -2,7 +2,7 @@ Generics
  - What are generics?
   - Generics are special syntax that allows us to define a reusable classes and 
     functions that can work with multiple types.
-  
+  - Generic types allows us to connect multiple types and have them work together.
   - In this example, we provided an interface with a type between brackets as a TS 
     type.
     const numbers: Array<number> = [];
