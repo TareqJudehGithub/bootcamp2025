@@ -1,0 +1,21 @@
+Connection String
+
+ - Tells an application how to connect to a server, providing the DB
+   location, name, and other information.
+
+ - Install package Microsoft.EntityFrameworkCore.SqlServer from NuGet, for 
+   a connection string for MS SQL Server.
+
+  Include this connection string inside the onConfiguring method
+
+   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+  {
+   // SQL Server                                            
+    optionsBuilder.UseSqlServer(
+      "Server=TareqPC\\MSSQLSRV; 
+      Database=FootballLeague_EFCore; 
+      Encrypt=False; Integrated Security=True; 
+      TrustServerCertificate=True;");
+  }
+
+      

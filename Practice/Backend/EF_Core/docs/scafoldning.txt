@@ -1,0 +1,6 @@
+Scaffolding (Reverse Engineering)
+ - Is the process of generating code models of the database.
+ - Also known as Database first approach.
+ - This needs to be repeated each time the database changes.
+ - Need to use - force parameter to regenerate files.
+ 

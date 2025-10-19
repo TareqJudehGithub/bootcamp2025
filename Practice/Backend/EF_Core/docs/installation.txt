@@ -1,7 +1,9 @@
 EF Core .Net installation
 
+Install package Microsoft.EntityFrameworkCore from NuGet.
 To install dotnet-ef, write in the Terminal:
   $ dotnet tool install --global dotnet-ef
+
 
 If successful, you should receive the following message in
 return:
@@ -11,4 +13,3 @@ return:
 
 To update dotnet-ef:
   $ dotnet tool update --global dotnet-ef
-  

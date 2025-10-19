@@ -3,4 +3,35 @@ Database Context DbContext
  - Lists the models and their DB table names
  - Instantiates a DB connection during app runtime.
  - Allows for on creation customizations and custom table configurations.
- 
+
+Solution 'EntityFrameWorkCore'
+ - EntityFrameWorkCore.Date;
+    - FootballLeagueDbContext.cs
+ - EntityFrameWorkCore.Domain;
+    - Coach.cs
+    - Team.cs
+
+  using Microsoft.EntityFrameWorkCore;
+  using EntityFrameWorkCore.Date;
+  using EntityFrameWorkCore.Domain;
+
+    class FootballLeagueDbContext: DbContext 
+    {
+      // Tables
+      public DbSet<Team> Teams {get; set;}
+      public DbSet<Coach> Coaches {get; set;}
+
+      // Conn string
+      protected override void onConfiguring(DbContextOptionsBuilder optionsBuilder)
+      {
+        optionsBuilder.UseSqlServer("
+        Server=localHost\\MSSQLSRV; 
+        Database="DB_Name";
+        Integrated Security=True;       // Windows login
+        TrustServerCertificate=True;
+        Encrypt=False
+        
+        );
+      }
+
+    }
