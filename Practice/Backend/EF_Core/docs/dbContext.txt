@@ -1,0 +1,6 @@
+Database Context DbContext
+ - Abstraction of the DB structure in code
+ - Lists the models and their DB table names
+ - Instantiates a DB connection during app runtime.
+ - Allows for on creation customizations and custom table configurations.
+ 

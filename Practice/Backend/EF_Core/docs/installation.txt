@@ -1,0 +1,14 @@
+EF Core .Net installation
+
+To install dotnet-ef, write in the Terminal:
+  $ dotnet tool install --global dotnet-ef
+
+If successful, you should receive the following message in
+return:
+  You can invoke the tool using the following command: dotnet-ef
+  Tool 'dotnet-ef' (version '9.0.10') was successfully installed.
+
+
+To update dotnet-ef:
+  $ dotnet tool update --global dotnet-ef
+  

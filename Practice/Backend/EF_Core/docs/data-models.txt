@@ -1,0 +1,14 @@
+Data Models
+ - Data models are classes that are used to model what the table will look like.
+ - The properties defined inside a class, will become a table in the database.
+ - Each property datatype is mapped to the matching SQL datatype.
+ - EF Core uses certain naming convection to make assumptions. So if 
+   a property was named Id, EF Core will automatically assume this is a PK of the 
+   table.
+
+Datatype mapping:
+ 
+ property         Column
+ iD               PK
+ string           VARCHAR
+ 
