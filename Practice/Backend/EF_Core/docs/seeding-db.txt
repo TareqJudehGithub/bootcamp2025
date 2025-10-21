@@ -1,0 +1,20 @@
+Data Seeding
+  Data seeding in .NET Core with Entity Framework (EF) Core involves populating your 
+  database with initial data.
+
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Category>().HasData(
+            new Category { CategoryId = 1, Name = "Electronics" },
+            new Category { CategoryId = 2, Name = "Books" }
+        );
+
+        modelBuilder.Entity<Product>().HasData(
+            new Product { ProductId = 1, Name = "Laptop", Price = 1200.00m, CategoryId = 1 },
+            new Product { ProductId = 2, Name = "C# Book", Price = 45.00m, CategoryId = 2 }
+        );
+    }
+
+  Now, and in the PM console, run:
+  PM> Add-Migration SeededTeams -Context FootballLeagueDbContext  
+  PM> Update-Database -Context FootballLeagueDbContext

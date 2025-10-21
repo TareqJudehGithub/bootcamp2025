@@ -1,0 +1,32 @@
+Filtering Data
+
+ - We use .Where() for filtering and setting conditions querying data.
+ - Task is used instead of void type in case of using async/await.
+ 
+ var context = new FootballLeagueDbContext();
+
+ async Task GetAllItems()
+ {
+    var coaches = await context.Coaches.ToListAsync();
+    foreach (var item in coaches)
+    {
+      // Return all coach names
+      Console.WriteLine(item.Name)
+    }
+ }
+ async Task GetOneItem()
+ {
+  // By Id
+  var coachById = await context.Coaches.FirstOrDefaultAsync(
+    q => q.Id == 1);
+
+  We can also use find 
+  var coachById = await context.Coaches.FindAsync(1);
+
+  // By a condition
+   var idGreaterThanTwo = await context.Coaches.Where(
+    q => q.Id > 2).ToListAsync();
+ }
+
+
+ // returns all coaches in the list

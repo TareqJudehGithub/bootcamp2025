@@ -1,0 +1,34 @@
+// Skip and Take  - skip x numbers of records, and take x numbers of records
+// Displays certain amount of data based on the Skip() and the Take() methods.
+async Task SkipAndTake()
+{
+    Console.WriteLine("\nSkip and Take");
+    var recordCount = 3;
+    var page = 0;
+    var next = true;
+
+    while (next)
+    {
+        var teams = await context.Teams
+                .Skip(page * recordCount)
+                .Take(recordCount)
+                .ToListAsync();
+
+        foreach (var team in teams)
+        {
+            Console.WriteLine(team.Name);
+        }
+        Console.Write("Continue? (true/false): ");
+        next = Convert.ToBoolean(Console.ReadLine());
+
+        // Break the loop
+        if (!next) { break; }
+
+        // Or, increment by 1
+        page += 1;
+
+    }
+
+
+}
+//    await SkipAndTake();

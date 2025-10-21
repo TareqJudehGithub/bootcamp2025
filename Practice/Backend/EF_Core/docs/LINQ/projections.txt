@@ -1,0 +1,29 @@
+Projects
+ .NET EF Core projections involve selecting a subset of properties from your 
+ database entities and mapping them into a new, often simpler, C# type. 
+
+
+
+ class TeamInfo
+{
+    #region Properties
+    public int TeamInfoID { get; set; }
+    public string TeamInfoName { get; set; }
+    #endregion
+}
+
+  Console.WriteLine("\nProjections:");
+  // Create a list of TeamInfo objects 
+  var teamsInfo = await context.Teams
+      .OrderBy(q => q.TeamId)
+      .Select(q => new TeamInfo
+      {
+          TeamInfoID = q.TeamId,
+          TeamInfoName = q.Name
+      })
+      .ToListAsync();
+
+  foreach (var team in teamsInfo)
+  {
+      Console.WriteLine($"ID: {team.TeamInfoID} Name: {team.TeamInfoName}");
+  }

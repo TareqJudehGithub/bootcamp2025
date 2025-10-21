@@ -1,0 +1,15 @@
+LINQ
+ Setting up LINQ in EF Core
+
+ In the .Program.cs under Console project:
+ 
+  using EntityFrameworkCore.Data;
+
+  // Create new instance of context - FootballLeagueDbContext
+  var context = new FootballLeagueDbContext();
+
+
+  // Select * from Teams
+
+  // Look at the Teams, convert it to List, then we can start querying.
+  var teams = context.Teams.ToList();

@@ -1,0 +1,8 @@
+Efficient Querying
+ - Use indexes wisely
+ - Use projections as often as possible
+ - Limit result set (skip and take)
+ - Use Async methods
+ - Use raw SQL queries (FROMSQLRaw() method)
+ - Use no-tracking
+ - Do batch operations

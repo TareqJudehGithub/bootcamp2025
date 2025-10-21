@@ -4,3 +4,10 @@ Scaffolding (Reverse Engineering)
  - This needs to be repeated each time the database changes.
  - Need to use - force parameter to regenerate files.
  
+
+ In Package Manager(PM) DbContext 
+  $ Scafold-DbContext 'Server=TareqPC\\MSSQLSRV;
+   Database=FootballLeague_EFCore;
+    Encrypt=False; Integrated Security=True; 
+    TrustServerCertificate=True;
+    ' Microsoft.EntityFrameWorkCore.SqlServer - ContextDir ScaffoldContext -OutputDir ScaffoldModels -force

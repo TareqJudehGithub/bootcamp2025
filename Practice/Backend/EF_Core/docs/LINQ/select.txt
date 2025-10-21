@@ -1,0 +1,30 @@
+ // Select
+ Console.WriteLine("Press any key to continue");
+ Console.Read();
+ Console.Clear();
+
+ async Task Select()
+ {
+
+     Console.WriteLine("Select() - Press any key to continue");
+     var teamNames = await context.Teams
+         .OrderBy(q => q.Name)
+         .Select(q => q.Name)
+         .ToListAsync();
+
+     foreach (var team in teamNames)
+     {
+         Console.WriteLine(team);
+     }
+
+     // Return more than one column using Select()
+     var teamsIdAndName = await context.Teams
+         .OrderBy(q => q.TeamId)
+         .Select(q => new { q.TeamId, q.Name })
+         .ToListAsync();
+
+     foreach (var team in teamsIdAndName)
+     {
+         Console.WriteLine($"ID: {team.TeamId} Name: {team.Name}");
+     }
+ }

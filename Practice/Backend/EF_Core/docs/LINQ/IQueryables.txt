@@ -1,0 +1,12 @@
+IQueryable types
+ Records stay as IQueryable until the ToListAsync() is executed, then the 
+ final query is performed.
+
+ - Represents a query that has not yet been executed against the database.
+ - Allows for the deferred execution of queries, meaning the actual database interaction 
+   is delayed until the data is explicitly requested.
+ - Enables the construction of complex queries step-by-step, with LINQ expressions 
+   being translated into optimized SQL by EF Core.
+ - Filters, sorts, and projections applied to an IQueryable are translated into 
+   corresponding SQL clauses and executed on the database server. This is generally 
+   more efficient, especially for large datasets, as only the necessary data is retrieved.
