@@ -5,9 +5,12 @@ Database Context DbContext
  - Allows for on creation customizations and custom table configurations.
 
 Solution 'EntityFrameWorkCore'
- - EntityFrameWorkCore.Date;
+ - EntityFrameWorkCore.Date project
     - FootballLeagueDbContext.cs
- - EntityFrameWorkCore.Domain;
+
+Install package(s): MS EF Core, and MS EF Core SqlServer
+
+ - EntityFrameWorkCore.Domain;  (entities)
     - Coach.cs
     - Team.cs
 
@@ -17,9 +20,13 @@ Solution 'EntityFrameWorkCore'
 
     class FootballLeagueDbContext: DbContext 
     {
-      // Tables
+      // MAKE SURE entities classes have public access modifier, otherwise
+      // we cannot used them as entity types like in the example below.
+      // Entities
       public DbSet<Team> Teams {get; set;}
       public DbSet<Coach> Coaches {get; set;}
+
+     
 
       // Conn string
       protected override void onConfiguring(DbContextOptionsBuilder optionsBuilder)

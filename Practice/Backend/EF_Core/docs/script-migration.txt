@@ -1,0 +1,8 @@
+
+Run:
+PM> Script-Migration -Context FootballLeagueDbContext
+
+Make sure in PMC that the Data project is selected.
+
+Script Migration, does not stop (aborts) in case an error occurred, it will just
+keep moving into the next command.

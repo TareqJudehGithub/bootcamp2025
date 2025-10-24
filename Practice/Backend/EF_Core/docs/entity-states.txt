@@ -1,0 +1,21 @@
+Entity States
+EF Core entities can exist in one of five distinct states, which determine how the DbContext interacts with them and what actions are performed during SaveChanges(). These states are:
+Added:
+The entity is being tracked by the context but does not yet exist in the database.
+When SaveChanges() is called, EF Core generates an INSERT statement to add the entity to the database.
+Unchanged:
+The entity is being tracked by the context and exists in the database.
+Its property values have not changed from the values in the database.
+SaveChanges() will not perform any action for Unchanged entities.
+Modified:
+The entity is being tracked by the context and exists in the database.
+Some or all of its property values have been modified since it was loaded or attached to the context.
+When SaveChanges() is called, EF Core generates an UPDATE statement to reflect the changes in the database.
+Deleted:
+The entity is being tracked by the context and exists in the database.
+It has been marked for deletion from the database.
+When SaveChanges() is called, EF Core generates a DELETE statement to remove the entity from the database.
+Detached:
+The entity is not currently being tracked by any DbContext instance.
+This is the initial state of an entity before it is attached to a context, or after it has been explicitly detached or loaded using AsNoTracking(). 
+SaveChanges() has no effect on Detached entities.

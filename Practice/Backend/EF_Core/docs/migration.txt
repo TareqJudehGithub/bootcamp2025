@@ -1,3 +1,14 @@
+Database Migration
+
+ - Migration is used to control changes to the database. Entity or Context
+   changes.
+ - Applied using Update-Database command in Package Manager(PM) Console.
+ - Can be rolled back.
+ - Tracked in source control.
+ - Database changes are tracked in the _EFMigrationsHistory table.
+ - Can be replayed to create a database at anytime.
+
+ 
 Migration from .Net to SQL Server
  
 Install package Microsoft.EntityFrameworkCore.Tools from NuGet, in order
@@ -7,7 +18,7 @@ Add Project Reference between Console project and .Data project.
 
 Make the Console project your startup project in VS.
 1 - In Package Manager(PM) Console, and from Default Project dropdown menu, make
-  sure the Data project is the default 'selected' project.
+  sure the 'Data' project is the default 'selected' project.
 
 2 - In the Console PM run: $ Add-Migration InitialMigration
  - This will start building up the migration file for us, in the Migration

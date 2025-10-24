@@ -1,0 +1,28 @@
+Microsoft Entity Framework
+
+An object-relational mapper (O/RM) for .NET that simplifies database 
+access by letting developers work with relational data using 
+domain-specific objects instead of writing most of the traditional 
+data-access code. I
+
+Entity(s) can be on the form of class files .cs in a .Net project.
+- An entity is a model class that contains properties.
+- Each model class represents a table in the DB, and each property is 
+  a column in that table.
+
+
+Benefits of using MS EF
+- Object-relational mapping: Entity Framework maps your .NET objects to tables 
+  in a relational database, eliminating the need for most data access code. 
+- LINQ support: Allows you to write queries against data in the database using 
+  Language Integrated Query (LINQ) in C#. 
+- Database support: Works with a variety of databases, including SQL Database,
+  Azure SQL, SQLite, MySQL, PostgreSQL, and Azure Cosmos DB. 
+- Change tracking: Automatically tracks changes to objects and handles updates, 
+  inserts, and deletes to the database. 
+- Migrations: Provides a way to manage changes to your database schema as your 
+  application evolves, allowing you to translate code changes into database schema 
+  updates. 
+- Cross-platform: The modern version, Entity Framework Core, is open-source and 
+  cross-platform, running on Windows, macOS, and Linux.
+  
