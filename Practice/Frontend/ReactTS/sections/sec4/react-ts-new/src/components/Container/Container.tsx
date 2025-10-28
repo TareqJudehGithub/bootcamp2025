@@ -1,14 +1,15 @@
-import type { ElementType, JSX, ReactNode } from "react";
+import type {ComponentPropsWithoutRef, ElementType, JSX, ReactNode } from "react";
 
-export default function Container({
+export default function Container<U extends ElementType>({
 	as,
-	children,
-}: ContainerProps): JSX.Element {
-	const Component = as;
-	return <Component>{children}</Component>;
+  children,
+  ...props
+}: ContainerProps<U>): JSX.Element {
+	const Component = as || "div";   // || means Default value
+	return <Component className="container" {...props}>{children}</Component>;
 }
 
-type ContainerProps = {
-	as: ElementType;
-	children: ReactNode;
-};
+type ContainerProps<T extends ElementType> = {
+	as?: T;
+	children: ReactNode; // children
+} & ComponentPropsWithoutRef<T>;

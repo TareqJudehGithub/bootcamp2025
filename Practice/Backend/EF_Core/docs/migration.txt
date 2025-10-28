@@ -36,4 +36,7 @@ Make the Console project your startup project in VS.
     Applying migration '20251019213306_InitialMigration'.
     Done.
 
+Migration at runtime (without PMC)
 
+in the Console Program.cs project file:
+  await context.Database.MigrationAsync();

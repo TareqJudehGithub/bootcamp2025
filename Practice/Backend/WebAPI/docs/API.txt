@@ -1,0 +1,3 @@
+API
+  - API allows different applications to communicate.
+  

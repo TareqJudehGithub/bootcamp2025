@@ -1,0 +1,17 @@
+Rollback Migration
+
+PM> Get-Migration -Context FootballLeagueDbContext
+
+  - Returns a list of our migrations
+  
+id                                        name                       safeName                   applied
+--                                        ----                       --------                   -------
+20251021150208_InitialMigrationPracticeDB InitialMigrationPracticeDB InitialMigrationPracticeDB    True
+20251021151450_SeededTeams                SeededTeams                SeededTeams                   True
+20251022151314_AddMoreEntities            AddMoreEntities            AddMoreEntities               True
+20251022152305_SeedingTeamsAgain          SeedingTeamsAgain          SeedingTeamsAgain             True
+20251022164514_AddedSeedsTeamsLeagues     AddedSeedsTeamsLeagues     AddedSeedsTeamsLeagues        True
+
+Remove-Migration
+ - Removes the last applied migration.
+PM> Remove-Migration -Context FootballLeagueDbContext

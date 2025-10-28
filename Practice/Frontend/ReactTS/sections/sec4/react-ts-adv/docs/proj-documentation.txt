@@ -3,7 +3,7 @@ Course Goals TODO List project documentation
   1. Creating a new project:
    $ npm create vite@latest react-ts-adv
       - Option to choose in order during project creation process:
-        React, TS + WC, No to experimental, and Yes to installing NPM
+        React, TS + SWC, No to experimental, and Yes to installing NPM
   
   2. Project setup, folder structure
     - assets
