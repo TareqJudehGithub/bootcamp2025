@@ -4,8 +4,11 @@ import Input from "./components/Input/Input";
 import Button from "./components/Button/Button";
 import ButtonV2 from "./components/Button/ButtonV2";
 import Container from "./components/Container/Container";
+import { useRef } from "react";
 
 function App() {
+	const input = useRef<HTMLInputElement>(null);
+
 	return (
 		<Main>
 			<Input
@@ -15,7 +18,13 @@ function App() {
 				placeholder="Enter name.."
 				autoFocus
 			/>
-			<Input type="number" id="age" label="age" placeholder="Enter age.." />
+			<Input
+				type="number"
+				id="age"
+				label="age"
+				placeholder="Enter age.."
+				ref={input}
+			/>
 			<Button el="button" type="submit">
 				Submit
 			</Button>
