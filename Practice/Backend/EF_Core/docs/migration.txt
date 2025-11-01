@@ -40,3 +40,7 @@ Migration at runtime (without PMC)
 
 in the Console Program.cs project file:
   await context.Database.MigrationAsync();
+
+
+  To remove a migration incase of errors
+  PM> Remove-Migration -Context FootballLeagueDbContext

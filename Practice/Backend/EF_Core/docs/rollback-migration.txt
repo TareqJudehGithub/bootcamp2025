@@ -15,3 +15,8 @@ id                                        name                       safeName   
 Remove-Migration
  - Removes the last applied migration.
 PM> Remove-Migration -Context FootballLeagueDbContext
+
+
+Rollback to a specific migration
+
+PM>Update-Database -Context FootballLeagueDbContext -Migration migrationID

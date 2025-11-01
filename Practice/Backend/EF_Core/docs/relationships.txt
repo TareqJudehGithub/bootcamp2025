@@ -1,0 +1,18 @@
+Entity Relationships in EF
+  - One to many
+    - One record is related to, or referenced by several others.
+    - Parent entity should have a collection of the related entities.
+    - Related entity or child, should have FK and navigation properties
+      representing the parent.
+    - Use nullable types for optional relationships.
+  - By using conventions, the relationship will be discovered by EF Core.  
+
+  - One To One
+    - One record of an entity is related to one record of another entity.
+    - In EF Core, always define a parent/child
+      - Navigation on both sides, with one FK.   
+      - Navigation on one side, FK on the other.
+      - Navigation on both sides - manual configuration.
+    - Can be optional or required
+      - Use   nullable types for optional relationships.
+      

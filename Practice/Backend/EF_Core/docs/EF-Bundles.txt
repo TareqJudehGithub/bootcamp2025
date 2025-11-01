@@ -1,0 +1,8 @@
+EF Bundles
+ - Another way to apply migration to the DB.
+ - An executable file to apply migration.
+ - Can be run without needing additional tools or runtime.
+ - Can be used as part of CI/CD deployment
+ - Better Error handlnig ensures that database changes
+   succeed or fail together.
+   
