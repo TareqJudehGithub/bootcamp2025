@@ -1,0 +1,20 @@
+0Loading related data
+
+ Eager Loading
+  - Related data is loaded from the database as part of the initial query.
+  - use AsSplitQuery() as needed
+  - Include() and Where()
+  - If we are using Include(), this means we are using Eager Loading.
+  
+ 
+ Explicit Loading
+  - Related data is explicitly loaded from the database user.
+  - Data can be explicitly loaded by executing a separate query.
+  - We use DbContext.Entry()API
+ 
+ Lazy Loading
+  - Related data is loaded from the database accessing the navigation property.
+  - Requires:
+    Microsoft.EntityFrameworkCore.Proxies
+    Enabled with the UseLazyLoadingProxies() added to DbContext config
+    Navigation properties must be virtual.
