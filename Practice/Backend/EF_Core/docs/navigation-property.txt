@@ -1,0 +1,48 @@
+Navigation
+  - Navigations are layered over foreign keys to provide a natural, object-oriented 
+    view for reading and manipulating relationships.
+  - EF Core navigation properties are properties defined within entity classes that 
+    represent relationships between those entities.
+  - They allow for easy traversal and management of related data within an application.  
+
+  There are two main types of navigation properties:
+   - Reference Navigation Properties
+    - These properties represent one-to-one or one-to-many relationships, where the 
+      current entity refers to a single instance of another entity.
+      For example, a Customer entity might have a BillingAddress property of type 
+      Address, representing a one-to-one relationship.
+      
+        public class Order
+        {
+            public int OrderId { get; set; }
+            public DateTime OrderDate { get; set; }
+            public int CustomerId { get; set; }
+
+            // Reference Navigation Property
+            public Customer Customer { get; set; } 
+        }
+
+   - Collection Navigation Properties
+    - These properties represent one-to-many or many-to-many relationships, where the 
+      current entity is associated with a collection of other entities.
+      For example, a Customer entity might have an Orders property of type
+      ICollection<Order>, representing a one-to-many relationship.
+
+          public class Customer
+          {
+              public int CustomerId { get; set; }
+              public string Name { get; set; }
+
+              // Collection Navigation Property
+              public ICollection<Order> Orders { get; set; } 
+          }
+
+  - Navigation properties are crucial for:
+
+- Navigation properties are crucial for:  
+ - Defining relationships: They explicitly declare the connections between different 
+   entities in your model.
+ - Loading related data: EF Core can use navigation properties to load associated 
+   entities through eager, explicit, or lazy loading.
+ - Simplifying data manipulation: They enable intuitive access and modification of 
+   related data without manually managing foreign keys.         

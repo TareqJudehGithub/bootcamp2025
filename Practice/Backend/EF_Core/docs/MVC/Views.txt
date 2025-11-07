@@ -1,0 +1,10 @@
+Views
+  - Responsible for presenting content for the UI.
+  - With .chhtml extension, using Razor view engine to embed .NET code in
+    HTML markup.
+    - .chhtml is a hybrid HTML file that allows C# code to be written as 
+      needed.
+  - Designed to display data (static or dynamic) with a little logic as 
+    possible.
+
+  -   

@@ -1,0 +1,9 @@
+Controllers
+ - Controllers handle requests, work with the model, and selects a view to render.
+ - Views only display information, so the Controller:
+  - handles a user request (HTTP request)
+  - Invokes a method called an 'action'
+  - Performs business logic as needed (from that action method)
+  - After that, the action returns a view (a response) with the relevant data
+    rendering its corresponding view.
+    

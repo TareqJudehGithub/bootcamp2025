@@ -1,0 +1,8 @@
+Model
+ - A C# class that contains properties to store data needed for an operation.
+ - Strongly typed views typically use ViewModel types designed to contain 
+   data to display on that view.
+ - The controller creates and populates these ViewModel objects from the model.
+ - ASP .NET Core MVC uses 'model binding' to convert request data (from values, query 
+   string parameters, etc.) into objects that the controller can handle.
+   
