@@ -1,0 +1,23 @@
+using EntityFrameworkCore.Data;
+
+// Create new instance of context - FootballLeagueDbContext
+using var context = new FootballLeagueDbContext();
+
+// Call or get all teams
+// GetAllTeams();
+
+// Select * from Teams
+
+void GetAllTeams()
+{
+    // Create an object of Teams class
+    // Look at the Teams, convert it to List, then we can start querying.
+    var teams = context.Teams.ToList();
+
+    foreach (var team in teams)
+    {
+        Console.WriteLine(team.Name);
+    }
+}
+
+

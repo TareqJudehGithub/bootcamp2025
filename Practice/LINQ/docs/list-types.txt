@@ -1,0 +1,17 @@
+ToList() or ToListAsync()
+
+ - After executing to ToListAsync(), the records are loaded into memory, and any 
+ operation is then done in memory.
+
+ - Always end your LINQ query with ToList() or ToListAsync in case of
+   async/await.
+
+
+ToList():
+- Is an extension method that immediately executes the IQueryable query and 
+  materializes the results into a List<T> in memory.
+- Once ToList() is called, all subsequent operations (like filtering or sorting) are 
+  performed in memory on the retrieved List<T>, not on the database.
+- This can be less efficient for large datasets, as the entire dataset is loaded 
+  into memory before any in-memory operations are applied.
+     

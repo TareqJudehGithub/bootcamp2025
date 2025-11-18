@@ -1,0 +1,64 @@
+/ Aggregate Methods
+Console.WriteLine("\nAggregate Functions");
+async Task AggregateMethods()
+{
+    // Count or CountAsync  - Counts total items inside a table object
+    var numberOfTeams = await context.Teams.CountAsync();
+    var numberOfTeamsFiltered = await context.Teams.CountAsync(q => q.Name.Contains("Man"));
+
+    // Max value
+    var maxTeamId = await context.Teams.MaxAsync(q => q.TeamId);
+    // Min  value
+    var minTeamId = await context.Teams.MinAsync(q => q.TeamId);
+
+    // Average
+    var avgTeamId = await context.Teams.AverageAsync(q => q.TeamId);
+
+    // Sum
+    var sumOfTeamId = await context.Teams.SumAsync(q => q.TeamId);
+
+
+    Console.WriteLine($"No. of teams: {numberOfTeams}");
+    Console.WriteLine($" Contains word 'Man': {numberOfTeamsFiltered}");
+    Console.WriteLine($"Max Id: {maxTeamId}");
+    Console.WriteLine($"Min Id: {minTeamId}");
+    Console.WriteLine($"Avg Team ID: {avgTeamId}");
+    Console.WriteLine($"Sum of IDs: {sumOfTeamId}");
+
+    // Grouping and Aggregating  - Group by a specific column
+    Console.WriteLine("\nGroup By");
+    var groupedTeams = context.Teams
+        .GroupBy(q => new { q.CreatedDate.Date });
+
+    foreach (var group in groupedTeams)
+    {
+        Console.WriteLine($"group.Key: {group.Key}");
+        Console.Write("Group by Sum: ");
+        Console.WriteLine(group.Sum(q => q.TeamId));
+        foreach (var team in group)
+        {
+            Console.WriteLine(team.Name);
+        }
+    }
+
+    // Order By - rearrange the order the table items would be presented
+    Console.WriteLine("\nOrder By");
+    var orderedTeams = await context.Teams
+        .OrderBy(q => q.Name)
+        .ToListAsync();
+
+    foreach (var team in orderedTeams)
+    {
+        Console.WriteLine(team.Name);
+    }
+
+    // Order by - Descending
+    Console.WriteLine("\nOrder By - Descending");
+    var orderedTeamsDesc = await context.Teams
+        .OrderByDescending(q => q.Name)
+        .ToListAsync();
+
+    foreach (var team in orderedTeamsDesc)
+    {
+        Console.WriteLine(team.Name);
+    }

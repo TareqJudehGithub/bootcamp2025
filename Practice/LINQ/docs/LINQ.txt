@@ -1,0 +1,28 @@
+Language Integrated Query (LINQ)
+  - What is LINQ?
+   - A set of technologies that allow a simple and efficient querying over different
+     kinds of data.
+   - LINQ works efficiently with collections (for example lists).
+   - LINQ works with databases (SQL queries). LINQ C# code is transferred into 
+     SQL queries upon execution.
+
+  Benefits of LINQ
+   - Clean, readable, and short.
+   - A simple, efficient, and unified way of querying over different types of 
+     data which is optimal for performance point of view.
+   - Queries execute only when the result is required.
+   
+ Setting up LINQ in EF Core
+
+ In the .Program.cs under Console project:
+ 
+  using EntityFrameworkCore.Data;
+
+  // Create new instance of context - FootballLeagueDbContext
+  var context = new FootballLeagueDbContext();
+
+
+  // Select * from Teams
+
+  // Look at the Teams, convert it to List, then we can start querying.
+  var teams = context.Teams.ToList();
