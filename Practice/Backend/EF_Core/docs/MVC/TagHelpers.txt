@@ -1,0 +1,10 @@
+HTML Helpers
+ - DisplayNameFor and DisplayFor are HTML Helper methods used to render information 
+   from a model in a view.
+ - @Html.DisplayNameFor():
+   This helper is used to render the display name of a model property. 
+ - It typically retrieves the name from the [Display] attribute applied to 
+   the property in the model, or if no such attribute exists, it uses the property's 
+   actual name.   
+ - DisplayNameFor is commonly used for rendering labels or table headers,
+   providing a user-friendly name for a data field.

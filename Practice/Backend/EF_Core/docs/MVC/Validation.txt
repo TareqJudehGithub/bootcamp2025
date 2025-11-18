@@ -1,0 +1,16 @@
+Validations
+  - Model validation occurs after model binding.
+  - Validation reports errors where data doesn't conform to business rules.
+  -  Model validation occurs before the execution of a controller action.
+  
+  - Validation attributes (annotation) let you specify validating rules for
+    model properties.
+  - Annotation or custom validation should be included in the View Model, and not 
+    the Model it self.
+  
+  - Client-side validation
+    - Avoid unnecessary round top to the server when input errors occur on a form.
+    - The jQuery Unobtrustive Validation script is a custom MS frontend library that
+      builds on the popular Query Validation plugin.
+      - Added by the _ValidationScriptsPartial.cshtml
+      

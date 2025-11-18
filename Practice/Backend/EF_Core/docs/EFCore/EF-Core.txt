@@ -1,0 +1,42 @@
+Entity Framework EF Core
+
+  - EF Core is an open-source ORM library with APIs that make it easy to interact
+    with our database.
+  - EF Core increases productivity while eliminating repeating code and allowing
+    you to connect to many data stores while retaining a consistent code base.
+  - Used in millions of applications and is stable, robust, a high-performance
+    enough to handle extreme workload applications.
+
+  EF Core Patterns:
+   
+   Code First
+    - Uses classes to model the entity (table) 
+    - Generate database and tables based on code.
+    - Updates are made through migrations.
+
+   Database First
+    - Connect to and model an existing database (reverse engineering)
+    - Classes are generated to match the existing database.
+    - When updates are made to the database, the process must be repeated
+      to regenerate models.
+
+
+EF Core Key Components
+  Database Adapter
+    For Microsoft, we use MS SQL Server
+  Database Context 
+    A class that represents the database model in code
+  Data models
+    Classes that represent tables and structures
+
+Language Integrated Query (LINQ)
+  - LINQ in written in C#, converted to SQL for database execution
+  - Can be used for non-database operations, like on regular lists/collections.
+
+  
+
+
+
+
+
+    

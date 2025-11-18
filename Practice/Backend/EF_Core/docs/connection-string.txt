@@ -1,8 +1,8 @@
 Connection String
 
- - Tells an application how to connect to a server, providing the DB
-   location, name, and other information.
-
+ - Defines or tells an application how to connect to a server, providing the DB
+   location, name, credentials, and other information.
+ 
  - Install package Microsoft.EntityFrameworkCore.SqlServer from NuGet, for 
    a connection string for MS SQL Server.
 

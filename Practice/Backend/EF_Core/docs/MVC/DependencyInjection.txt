@@ -1,0 +1,22 @@
+Dependency Injection (DI)
+ - A software design pattern and a technique for achieving 
+ inversion of control (IoC) between classes and their dependencies.
+
+ - Dependency: An object that another object depend on. For example,
+   the Controller depends on the DbContext.
+ - A class can create an instance of a dependency class to use the methods.
+   For example, the Controller uses the data access methods from the database
+   context class.
+
+ Why use DI?
+  - Objects are disposed of automatically.
+    - Manual instantiating requires more deliberate effort to prevent memory leaks. 
+  - Easier long-term maintenance of application code.
+  - Keeps the codebase SOLID - Dependency Inversion Principle (DIP)
+    - High-level modules should not depend on low-level modules; both should 
+      depend on abstractions like interfaces or abstract classes.   
+    - This principle promotes decoupling by inverting the direction of dependency,
+      making code more flexible, maintainable, and testable.
+    - High-level components (business logic) and low-level components (e.g., 
+      database access) should both rely on an abstraction, which is then implemented 
+      by the low-level component. 

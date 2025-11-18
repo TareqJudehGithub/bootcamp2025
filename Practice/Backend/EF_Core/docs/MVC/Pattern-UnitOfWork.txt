@@ -1,0 +1,22 @@
+Unit of Work Pattern (UoW)
+ - A behavioral pattern in software development, which helps us encapsulate
+   multiple data related operations into one thing.
+ - When the operations are finished, we want all or nothing.
+    - All the work must be successful or fail.
+    - Like a database transaction
+ - Essential for maintaining *ACID principles in a database
+ 
+
+
+
+
+
+
+
+
+
+ACID is a set of principles that guarantee the reliability of database 
+transactions, standing for Atomicity, Consistency, Isolation, and Durability. 
+These principles ensure that a transaction is processed as a single, 
+all-or-nothing unit, maintaining data integrity and correctness even in the 
+event of system failures. 

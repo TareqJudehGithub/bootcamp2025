@@ -1,0 +1,12 @@
+Mapping or AutoMapper
+
+ - Quickly convert between complex data types. For example, from Data Model to
+   a View Model.
+ - Reduces the manual code to be written.
+ - Might affect code performance.
+ - Introduces another layer of third-party code
+ - Options include:
+    - AutoMapper
+    - Mapster
+      
+ 

@@ -1,0 +1,20 @@
+Dependency Injection (DI)
+
+  - DI is a technique for achieving loose coupling between object and their dependencies.
+  - Loose coupling is a software design principle where components or modules of a system
+    are designed to be largely independent of each other. Like for example, the DB 
+    Context injecting the _mapper.
+    
+
+  Scoped vs Transient bs Singleton
+    - AddTransient 
+      - Services are created each time they are requested.
+      - This lifetime works best for lightweight stateless services.
+    - AddScoped 
+      - Created once per request.
+      - EF Core is automatically registered as an AddScoped service.
+    - AddSingelton
+      - Created the first time they are requested and then every subsequent request
+        will use the same instance.
+      - Good for static resources, like a file that has to be available all the time.
+        

@@ -1,0 +1,9 @@
+ModelState
+  - The model state represents errors from the model binding and from the model 
+    validation subsystems.
+  - For web apps, it's the app's responsibility to inspect ModelState.IsValid and
+    react appropriately.
+  - Errors can be added to the ModelState manually in the action.
+    - For example, calculate some value.. etc.
+    - This error can be added to the ModelState to fail the validation.
+    

@@ -1,0 +1,19 @@
+Model Binding
+ - Controllers work with data coming from HTTP requests.
+ - The incoming data is automatically bound to the matching properties.
+    - Field names can also be bound to C# variables with MATCHING names 
+      defined in the action parameters.
+ - Forms can be generated from a model.
+ - Form controls are automatically created BASED on the data type of the 
+   property being captured.
+ - ASP.NET Core provides Tag Helpers to enable server-side code to participate 
+   in creating and rendering HTML elements in Razor files. For example, the <input>
+   element contains the asp-for attribute. This attribute binds the control to the 
+   name of model's property and facilitates the model binding.
+ 
+ - The <form> tag helper automatically generates a hidden Request Verification Token
+   to prevent cross-site request forgery. This binds to the [ValidateAntiForgeryToken]
+   attribute above the POST action method.
+
+ - asp-controller tag helper defines which controller you want to go to.
+ - asp-action tag helper defines the form action destination.

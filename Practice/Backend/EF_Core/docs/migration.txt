@@ -2,6 +2,7 @@ Database Migration
 
  - Migration is used to control changes to the database. Entity or Context
    changes.
+ - Migration can also be used as a manual backup and to restore procedures.
  - Applied using Update-Database command in Package Manager(PM) Console.
  - Can be rolled back.
  - Tracked in source control.
@@ -28,8 +29,11 @@ Make the Console project your startup project in VS.
         Build succeeded.
         To undo this action, use Remove-Migration.
 
-3- Finally run,  Update-Database
+3- Finally run,  PM> Update-Database
    This command should create the database and the tables (model class properties).
+   
+   *** For SQL Server, make sure you have package MS EntityFrameworkCore Design 
+       installed before you run Update-Database command
   If all went well: 
     Build started...
     Build succeeded.

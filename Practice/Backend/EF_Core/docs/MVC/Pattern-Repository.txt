@@ -1,0 +1,7 @@
+Repository Pattern (Rep)
+ - Used to abstract data access
+ - Typically used within the Service layer to handle data retrieval
+   and persistence
+ - A service layer can access/query multiple repositories
+ - It hides all the data-related operations from other layers.
+ - Each repository will only be responsible for a single model/table.

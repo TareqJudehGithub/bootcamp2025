@@ -1,0 +1,11 @@
+Service Layer
+ - A level of abstraction for business login
+ - Allows all logic related to a module to be implemented
+ - Removes concerns from Controllers, allowing them to focus on directing
+   web traffic.
+ - Includes a contract (interface) and an implementation (class)
+ - All dependencies for the module will be injected here.
+
+ - It is reasonable to use EF Core directly (like in the service layer) and
+   directly access all features for database accesses.
+   

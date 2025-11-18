@@ -1,0 +1,61 @@
+View Models
+ - View models are classes that abstract the data to be used by a view.
+ - Help create specific over-posting and inadvertent data exposure.
+ - Acts as an intermediary between the Business Logic Model and the View, exposing 
+  only the necessary data and functionality for the UI.
+ - Never expose your Entity models directly to the View/API. 
+ - The View Model should contain only the properties required for a specific view or 
+   form. This ensures that only relevant data is bound from the request, preventing 
+   unintended properties from being updated. 
+ - Use the [Bind] attribute on your action methods or PageModel properties to explicitly
+   specify which properties should be included or excluded during model binding.  
+ - You should only include properties in the [Bind] attribute that you want to change.   
+ 
+ public async Task<IActionResult> Index()
+{
+    var data = await _context.LeaveTypes.ToListAsync();
+    // Convert data model to View Model (VM) by crearting a new  VM object from it's VM class.
+    var viewData = data.Select(q => new IndexVM
+    {
+        Id = q.Id,
+        Name = q.Name,
+        NumberOfDays = q.NumberOfDays
+    });
+
+    // return the View Model to the View
+    return View(viewData);
+}
+
+Create Action method using Bind()
+public async Task<IActionResult> Create([Bind("Id,Name,NumberOfDays")] LeaveType leaveType)
+{
+   if (ModelState.IsValid)
+   {
+       _context.Add(leaveType);
+       await _context.SaveChangesAsync();
+       return RedirectToAction(nameof(Index));
+   }
+   return View(leaveType);
+}
+
+
+
+Data Transfer Objects (DTO) 
+ - Use DTOs that only contain the fields you want the client to update.
+    - Create a new model DTO class containing only properties you need/want the client
+      to see or update.
+    - Create the needed action in the Controller.
+      public async Task<IActionResult> Create(LeaveTypeCreateVM model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                // Convert data from LeaveTypeCreateVM to LeaveType using AutoMapper
+                var leaveType = _mapper.Map<LeaveType>(model);
+                _context.Add(leaveType);
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
