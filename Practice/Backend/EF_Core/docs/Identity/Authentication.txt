@@ -1,0 +1,7 @@
+Authentication
+ - The process of confirming that users are who they say they are, providing
+   a username and a password.
+ - After user confirmation, users are granted access to protected parts of the
+   application.
+    
+ 

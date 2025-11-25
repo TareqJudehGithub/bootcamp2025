@@ -1,0 +1,38 @@
+ASP .NET Core IDentity
+ - An API that supports user interface (UI) login
+ - manages users, passwords, profile data, roles, claims, tokens, email confirmation,
+   and more.
+ - Supports external login providers like Facebook, Google, MS, and Twitter.
+ 
+ - Choosing Individual User Accounts option as an Authentication type when creating 
+   a new project, enables Identity features (tables and views).
+ - In Program.cs calling UseAuthentication service enables Identity.
+ - When authentication is successful, a claims principle is created to support 
+   authorization decisions.
+    - The Principal represents a programmatic collection of claims.
+    - Claim are pieces of information about a user like username.
+
+ - [Authorize] is used on a controller to restrict access to all actions in 
+   the controller.
+     - Can be places over a specific action.
+     - Can include further restrictions based on roles, claims, and security 
+       policies.
+ - [AllowAnonymous] is used to allow anonymous access to a resource.
+ 
+ - Why use Identity?
+  - Includes several features:
+    - User-related UI external login provider support, etc.
+    - built on top of industry-standard security best practices:
+      - Passwords hashing is automatic
+    - Database structure: tables and helper services and methods for quick and 
+      easy development.
+
+ - In ApplicationDbContext.cs under Data folder:
+   1- Create the roles
+   2- Create the users
+   3- Map the a user (defined in step 2-) to a role using Id
+   -  The order of creating (seeding data) is important. Start with the roles, then
+      follow that with the users, finishing with the mapping.
+   4- Add-Migration and Update-Database
+   
+    

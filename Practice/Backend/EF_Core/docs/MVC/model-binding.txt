@@ -17,3 +17,5 @@ Model Binding
 
  - asp-controller tag helper defines which controller you want to go to.
  - asp-action tag helper defines the form action destination.
+ - asp-for tag helper is responsible for binding entity properties to input
+   fields in the form.

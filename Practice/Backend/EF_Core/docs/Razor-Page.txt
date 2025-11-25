@@ -1,0 +1,20 @@
+Razor Pages
+  - Razer Pages can make coding page-focused scenarios easier and more productive
+    than using controllers and views.
+    
+  - Razer Pages uses razor views (.cshtml)  
+      - @page must be the first line of the view. It makes the file into an MVC action,
+        so it can handle requests directly without going through a controller.
+
+  - Features a code behind-file with default methods for GET and POST operations.
+  - Features a code behind the view fil for logic (no controllers)  
+  - Code behind file features handlers for routing logic (no actions)
+  - Models can be defined in code behind the view file nd bound to the 
+    form (view model files)
+  - Reduces file and folders (compared to MVC) and is a simpler way to organize 
+    logic, views and model.
+
+  - When to use Razor Pages?
+    Choose Razor Pages if building a new application with mostly page-based 
+    functionality, or for adding simple, self-contained features to an existing 
+    application. They are also a good default choice for new page-based functionality.   

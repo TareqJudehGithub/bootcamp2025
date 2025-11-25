@@ -1,8 +1,22 @@
 Database Context DbContext
  - Abstraction of the DB structure in code
+ - Serves as a connection/bridge between entities and the database.
  - Lists the models and their DB table names
  - Instantiates a DB connection during app runtime.
- - Allows for on creation customizations and custom table configurations.
+ - Allows for on-creation customizations and custom table configurations.
+
+ - Through DbContext, we can have the following features:
+  - Querying (interacting with the database)
+  - Performing CRUD operation on the database using EF Core
+  - Change Tracking (migrations) 
+  - Persistence
+  - Manage Relationships
+  - Caching
+  - Transaction
+  - Object Materialization
+
+
+
 
 Solution 'EntityFrameWorkCore'
  - EntityFrameWorkCore.Date project

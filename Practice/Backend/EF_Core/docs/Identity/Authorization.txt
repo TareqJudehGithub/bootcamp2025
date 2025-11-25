@@ -1,0 +1,8 @@
+Authorization
+ - Determining wether a user has access to a resource or not.
+ - Not ALL authenticated users might have access to to parts of an application. 
+   For example, Admin panels should not be accessible to regular users.
+ - Authorization is independent and happens after authentication. However, authenticated
+   requires an authentication mechanism.
+   
+ 

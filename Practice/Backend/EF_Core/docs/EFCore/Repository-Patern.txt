@@ -1,0 +1,58 @@
+Repository Pattern
+  - The Repository Pattern in ASP.NET Core is a design pattern that abstracts 
+    the data access ayer, mediating between the domain/business logic and the 
+    underlying data storage mechanism (e.g., EF Core).
+  - Repository pattern encapsulates the logic for retrieving, storing, and manipulating 
+    data, allowing the application's business logic to remain independent of the data 
+    access specifics. 
+
+  Key Concepts:
+   Abstraction of Data Access: Repositories hide the details of how data is persisted 
+   and retrieved. This means the business logic doesn't need to know if data comes 
+   from a relational database, a NoSQL database, or an external service.
+
+  Separation of Concerns: It promotes a clean separation between the data access layer 
+  and the business logic layer, making the codebase more organized and maintainable.
+
+  Testability: By providing an interface for data access, repositories make it easier 
+  to mock data access operations during unit testing, isolating the business logic for 
+  more effective testing.
+
+  Flexibility and Maintainability: Changes to the data storage mechanism 
+  (e.g., switching databases) can be made within the repository layer without impacting 
+  the rest of the application.
+
+
+  Configuring the Repository in a project
+
+  - Create a new Repositories or Services folder.
+  - Inside the new folder created in the previous step, Create a new interface
+    for abstracted method (CRUD method operations)
+  - Implement the abstracted method in a new class created under the same folder
+      Repositories
+        - IServiceLayer.cs
+        - ServiceLayer.cs
+  - Inject the new Interface and its Implementation class in Program.cs
+    using AddScoped service.
+      - builder.Services.AddScoped<IServiceLayer, ServiceLayer>();
+  
+  - Inside ServiceLayer.cs:
+    - Inject DBContext class with the class constructor.
+        #region Fields
+        private readonly BloggieDbContext _dbContext;
+        #endregion
+        #region Constructor
+        // Constructor injection
+        public TagRepository(BloggieDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+    - Build every CRUD method inside the class.
+  
+  - Inside the designated controller:
+    - Inject the IServiceLayer with the class constructor.
+    - Use _serviceLayer to extract every method implemented inside the 
+      ServiceLayer class.
+    
+    
