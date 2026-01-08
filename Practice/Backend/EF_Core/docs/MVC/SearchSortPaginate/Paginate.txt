@@ -1,0 +1,239 @@
+Pagination
+  We will be using the All Tags page 
+   
+   1. Add two new int parameters to the Index action method in AdminTagsController
+
+     [HttpGet]
+  public async Task<IActionResult> Index(
+      string? searchQuery,
+      string? sortBy,
+      string? sortDirection,
+      int pageSize = 3, // Total of results return per page
+      int pageNumber = 1
+      )
+  {
+    2. Calculate total pages according to your reference
+
+      // Total number or records in Tags entity/table
+      var totalRecords = await _tagRepository.CountAsync();
+      // Example: total records = 10 / 5 = 2 pages
+      var totalPages = Math.Ceiling(Convert.ToDecimal(totalRecords) / pageSize);
+
+      // Prevent user from using Previous/Next buttons if  at the 1st and the last page
+      //if (pageNumber > totalPages)
+      //{
+      //    pageNumber--;
+      //}
+      //if (pageNumber < 1)
+      //{
+      //    pageNumber++;
+      //}
+
+    3. Pagination viewbags
+      // Pagination
+      ViewBag.TotalPages = totalPages;
+      ViewBag.PageNumber = pageNumber;
+      ViewBag.PageSize = pageSize;
+
+      // Save search state after submission a search request
+      ViewBag.SearchQuery = searchQuery;
+
+      // Sorting 
+      ViewBag.SortBy = sortBy;
+      ViewBag.SortDirection = sortDirection;
+
+    4. pass the new parameters in .GetAll() repository class method
+      var domainModel = await _tagRepository
+          .GetAll(
+          searchQuery, sortBy, sortDirection,
+          pageSize,
+          pageNumber
+          );
+      // Convert to View Model data
+      var viewData = domainModel.Select(q => new ReadOnlyTagRequestVM
+      {
+          Id = q.Id,
+          Name = q.Name,
+          DisplayName = q.DisplayName
+      });
+
+      return View(viewData);
+  }
+
+  5. Inject the new parameters in both the repository interface and class.
+    public interface ITagRepository
+    {
+        Task<IEnumerable<Tag>> GetAll(
+            string? searchQuery = null,
+            string? sortBy = null,
+            string? sortDirection = null,
+            int pageSize = 100,
+            int pageNumber = 1
+            );
+    }
+
+   public async Task<IEnumerable<Tag>> GetAll(
+     string? searchQuery,
+     string? sortBy,
+     string sortDirection,
+     int pageSize = 3,
+     int pageNumber = 1
+     )
+   {
+      // Turn Tags to a list of items that we can query - Search
+      var query = _bloggieDbContext.Tags
+          .OrderBy(q => q.Name)
+          .AsQueryable();
+
+      // query = query.OrderBy(q => q.Name);
+
+      // Filtering
+      // Use input value in searchQuery 
+      if (!string.IsNullOrWhiteSpace(searchQuery))
+      {
+          // If the search input value matches any of Name of DisplayName, then return that  result back.
+          query = query
+              .Where(
+              q => q.Name.Contains(searchQuery) ||
+              q.DisplayName.Contains(searchQuery)
+          );
+      }
+
+      // Sorting 
+      if (!string.IsNullOrWhiteSpace(sortBy))
+      {
+          // Desc order - Check if sortDirection value = "Desc"
+          var isDesc = string.Equals(sortDirection, "Desc", StringComparison.OrdinalIgnoreCase);
+
+          var isAsc = string.Equals(sortDirection, "Asc", StringComparison.OrdinalIgnoreCase);
+
+          // Check if sorting was by Name/Tag Code column
+          if (string.Equals(sortBy, "Name", StringComparison.OrdinalIgnoreCase))
+          {
+              query = isDesc
+                  ?
+                  query.OrderByDescending(q => q.Name)
+                  : query.OrderBy(q => q.Name);
+          }
+
+          // Check if sorting was by DisplayName/Tag Description column
+          if (string.Equals(sortBy, "DisplayName", StringComparison.OrdinalIgnoreCase))
+          {
+              if (isDesc)
+              {
+                  query = query.OrderByDescending(q => q.DisplayName);
+                  sortDirection = "Asc";
+              }
+              else
+              {
+                  query = query.OrderBy(q => q.DisplayName);
+                  sortDirection = "Desc";
+              }
+          }
+      }
+
+  6. Calculate number of pages needed
+      // Pagination
+      // Skip 0 Take 5 => Page 1 of 5 results
+      // Skip 5 Take next 5 => Page 2 of 5 results
+      var skipResults = (pageNumber - 1) * pageSize;
+      query = query.Skip(skipResults).Take(pageSize);
+
+      return await query.ToListAsync();
+
+      // Code before implementing Search and Sort
+      // var domainModel = await _blogieDbContext.Tags.ToListAsync();
+      // return domainModel;
+  }  
+
+  7. Index.cshtml
+
+  @model IEnumerable<ReadOnlyTagRequestVM>
+
+
+  @{    
+      // Pagination: Previous/Next buttons
+      int prevPage = Convert.ToInt32(ViewBag.PageNumber - 1);
+      int nextPage = Convert.ToInt32(ViewBag.PageNumber + 1);
+  }
+
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+
+        @if (ViewBag.PageNumber == 1)
+        {
+            <li class="page-item">
+                <button hidden
+                        class="page-link bg-secondary bg-opacity-25">
+                    Previous
+                </button>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a asp-controller="AdminTags"
+                   asp-action="Index"
+                   asp-route-pageNumber="@prevPage"
+                   asp-route-pageSize="@ViewBag.PageSize"
+                   asp-route-sortyBy="@ViewBag.SortyBy"
+                   asp-route-sortDirection="@ViewBag.SortyDirection"
+                   class="page-link">Previous</a>
+            </li>
+        }
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+
+            @if (i == ViewBag.PageNumber)
+            {
+                <li class="page-item">
+                    <a asp-controller="AdminTags"
+                       asp-action="Index"
+                       asp-route-pageNumber="@i"
+                       asp-route-pageSize="@ViewBag.PageSize"
+                       class="page-link bg-secondary bg-opacity-25">
+                        <span class="">@i</span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item ">
+                    <a asp-controller="AdminTags"
+                       asp-action="Index"
+                       asp-route-pageNumber="@i"
+                       class="page-link">
+                        @i
+                    </a>
+                </li>
+            }
+        }
+        @if (ViewBag.PageNumber == ViewBag.TotalPages)
+        {
+            <li class="page-item">
+                <button hidden
+                        class="page-link bg-secondary bg-opacity-25">
+                    Next
+                </button>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a asp-controller="AdminTags"
+                   asp-action="Index"
+                   asp-route-pageNumber="@nextPage"
+                   asp-route-pageSize="@ViewBag.PageSize"
+                   asp-route-sortyBy="@ViewBag.SortyBy"
+                   asp-route-sortDirection="@ViewBag.SortyDirection"
+                   class="page-link">Next</a>
+            </li>
+        }
+    </ul>
+  </nav>
+
+  
+
+
+

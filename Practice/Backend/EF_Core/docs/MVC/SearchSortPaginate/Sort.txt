@@ -1,0 +1,146 @@
+Sorting in ASP.NET MVC 
+
+  - We sort by a column (property) ascending or descending order.
+
+    Our example will be the All Tags page in Bloggie
+
+  1. Add string parameters to the action method in the controller
+
+        public async Task<IActionResult> Index(
+        string? searchQuery,
+        string? sortBy,
+        string? sortDirection     
+        )
+    {
+      1+. Create viewbags for every parameter in order to pass them to the view.
+        // Save search state after submission a search request
+        ViewBag.SearchQuery = searchQuery;
+
+        // Sorting 
+        ViewBag.SortBy = sortBy;
+        ViewBag.SortDirection = sortDirection;
+
+    2. Inject the three new parameters in the related repository method.
+
+        var domainModel = await _tagRepository
+        .GetAll(
+          searchQuery, sortBy, sortDirection     
+        );
+
+    // Convert to View Model data
+    var viewData = domainModel.Select(q => new ReadOnlyTagRequestVM
+    {
+        Id = q.Id,
+        Name = q.Name,
+        DisplayName = q.DisplayName
+    });
+
+    return View(viewData);
+
+    }
+
+ 3. Inject the three added parameters in both the interface and the class repository.
+    public interface ITagRepository
+    {
+          Task<IEnumerable<Tag>> GetAll(
+            string? searchQuery = null,
+            string? sortBy = null,
+            string? sortDirection = null          
+            );
+    }
+
+     public async Task<IEnumerable<Tag>> GetAll(
+     string? searchQuery,
+     string? sortBy,
+     string sortDirection,   
+     )
+ {
+     // Turn Tags to a list of items that we can query - Search
+     var query = _bloggieDbContext.Tags
+         .OrderBy(q => q.Name)
+         .AsQueryable();
+
+      // Default listing order 
+     // query = query.OrderBy(q => q.Name);
+
+     // Filtering -  Search
+     // Use input value in searchQuery 
+     if (!string.IsNullOrWhiteSpace(searchQuery))
+     {
+         // If the search input value matches any of Name of DisplayName, then return that  result back.
+         query = query
+             .Where(
+             q => q.Name.Contains(searchQuery) ||
+             q.DisplayName.Contains(searchQuery)
+         );
+     }
+
+     // Sorting 
+     if (!string.IsNullOrWhiteSpace(sortBy))
+     {
+         // Desc order - Check if sortDirection value = "Desc"
+         var isDesc = string.Equals(sortDirection, "Desc", StringComparison.OrdinalIgnoreCase);
+        
+         // Check if sorting was by Name/Tag Code column
+         if (string.Equals(sortBy, "Name", StringComparison.OrdinalIgnoreCase))
+         {
+             query = isDesc
+                 ?
+                 query.OrderByDescending(q => q.Name)
+                 : query.OrderBy(q => q.Name);
+         }
+     }
+
+     return await query.ToListAsync();
+ }
+
+4. Build the UI and pass the ViewBags to the View (Index.cshtml)
+
+
+  // Search element 
+  <form asp-controller="AdminTags"
+      asp-action="Index"
+      method="get">
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col col-md-3 d-flex">
+                <!--name="searchQuery" is what filters down the results-->
+                <input class="form-control" type="text" name="searchQuery" placeholder="Search tags..." value="@ViewBag.SearchQuery" />
+                <button class="btn btn-secondary ms-3">Search</button>
+            </div>
+        </div>
+    </div>
+  </form>
+
+  // Sort buttons and logic 
+   <table class="table">
+    // Header
+     <thead>
+         <tr>                  
+             <th>
+
+                 @Html.DisplayNameFor(item => item.Name)
+                 @ViewBag.PageNumber
+                 <span>
+                     @if (ViewBag.SortDirection == "Desc")
+                     {
+                         <a asp-controller="AdminTags"
+                            asp-action="Index"
+                            asp-route-sortBy="DisplayName"
+                            asp-route-sortDirection="Asc"
+                            asp-route-searchQuery="@ViewBag.SearchQuery">
+                             <i class="bi bi-chevron-compact-up text-dark"></i>
+                         </a>
+                     }
+                     @if (ViewBag.SortDirection == "Asc" || ViewBag.SortDirection is null)
+                     {
+                         <a asp-controller="AdminTags"
+                            asp-action="Index"
+                            asp-route-sortBy="DisplayName"
+                            asp-route-sortDirection="Desc"
+                            asp-route-searchQuery="@ViewBag.SearchQuery">
+                             <i class="bi bi-chevron-compact-down text-dark"></i>
+                         </a>
+                     }
+                 </span>
+             </th>
