@@ -5,7 +5,8 @@ Repository Pattern
   - Repository pattern encapsulates the logic for retrieving, storing, and manipulating 
     data, allowing the application's business logic to remain independent of the data 
     access specifics. 
-
+  - Through the Repository pattern, we connect or contact the database, and not through 
+    the view model. The repository should contact the Domain Model only.
   Key Concepts:
    Abstraction of Data Access: Repositories hide the details of how data is persisted 
    and retrieved. This means the business logic doesn't need to know if data comes 

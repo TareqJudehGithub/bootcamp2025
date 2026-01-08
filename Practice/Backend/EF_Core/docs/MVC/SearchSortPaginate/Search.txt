@@ -1,0 +1,75 @@
+Searching in ASP.NET MVC
+
+  In order to search data in ASP.NET MVC, we should implement the following:
+    1. In the action controller:
+      - Add a parameter of type string? to the Index action controller, where
+        we are implementing the Search feature.
+          [HttpGet]
+          public async Task<IActionResult> Index(string? searchQuery)
+          {
+              var domainModel = await _tagRepository.GetAll(searchQuery);
+
+              // Save search state
+              ViewBag.SearchQuery = searchQuery;
+              // Convert to View Model data
+              var viewData = domainModel.Select(q => new ReadOnlyTagRequestVM
+              {
+                  Id = q.Id,
+                  Name = q.Name,
+                  DisplayName = q.DisplayName
+              });
+
+              return View(viewData);
+          }
+
+    2. In the Index view:
+      - Build a form of method="get", with a search input that includes
+        a name="searchQuery" attribute. Notice how the name attribute value
+        matches the Index controller action method parameter name.
+
+          <form 
+            asp-controller="AdminTags"
+            asp-action="Index"
+            
+            method="get"
+            >
+          <div class="container mb-3">
+              <div class="row">
+                  <div class="col col-md-3 d-flex">
+                      <!--name="searchQuery" is what filters down the results-->
+                      <input class="form-control" type="text" name="searchQuery" placeholder="Search tags..." value="@ViewBag.SearchQuery"/>
+                      <button class="btn btn-secondary ms-3">Search</button>
+                  </div>
+              </div>
+          </div>
+        </form>
+
+
+
+    
+    3.  The service layer (repository pattern class method)
+        Here, build the logic of search/filter, and sort
+
+         public async Task<IEnumerable<Tag>> GetAll(string? searchQuery)
+         {        
+            // Turn Tags to a list of items that we can query - Search
+            var query = _bloggieDbContext.Tags.AsQueryable();
+
+            // Filtering
+            if (string.IsNullOrWhiteSpace(searchQuery) == false)
+            {
+                // If the search input value matches any of Name of DisplayName, then return that  result back.
+                query = query.Where(q => q.Name.Contains(searchQuery) ||
+                q.DisplayName.Contains(searchQuery)
+
+                );
+            }
+            // Sorting 
+
+            // Pagination
+
+
+            return await query.ToListAsync();
+         }
+
+        

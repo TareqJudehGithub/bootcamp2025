@@ -1,0 +1,11 @@
+async and Task<>
+
+ - We convert an action method to an async method, in case we needed to
+   contact a database
+
+  public async Task<IActionResult> Index()
+  {
+    var model = await .. database connect code
+
+    return View(model);
+  }

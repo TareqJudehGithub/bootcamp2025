@@ -1,0 +1,50 @@
+In .NET Core MVC, the relationship between the Domain Model and View Model can be 
+visualized as follows:
+
+
++-----------------+      +-----------------+      +-----------------+
+|   Domain Model  |----->|   Controller    |----->|    View Model   |
+| (Business Logic)|      | (Orchestration) |      | (Presentation)  |
++-----------------+      +-----------------+      +-----------------+
+        ^                                                |
+        |                                                |
+        |                                                V
+        +------------------------------------------------+
+                               |
+                               V
+                          +---------+
+                          |   View  |
+                          | (UI Layer)|
+                          +---------+
+Explanation:
+Domain Model:
+Represents the core business entities and logic of the application.
+Contains data and behavior related to the problem domain (e.g., Product, Order, Customer).
+Is independent of the UI and presentation concerns.
+Often persists to a database or other data store.
+Controller:
+Receives user requests from the View.
+Interacts with the Domain Model to perform business operations (e.g., retrieve data, save
+changes).
+Maps data from the Domain Model to the appropriate View Model.
+Selects the correct View to render and passes the View Model to it.
+View Model:
+A class specifically designed to hold data required by a particular View.
+Contains only the data necessary for the View to display, potentially aggregated or 
+transformed from the Domain Model.
+Can include properties for UI-specific concerns like formatting, validation messages, or 
+dropdown list options.
+Decouples the View from the complexities of the Domain Model, promoting separation of 
+concerns.
+View:
+The UI layer responsible for displaying information to the user.
+Receives a View Model from the Controller.
+Renders the data from the View Model, typically using Razor syntax in .NET Core MVC.
+Does not directly interact with the Domain Model.
+Key Principles:
+Separation of Concerns: The Domain Model focuses on business logic, the View Model on 
+presentation data, and the View on UI rendering.
+Data Transformation: The Controller acts as a bridge, transforming data between the 
+Domain Model and the View Model as needed.
+Loose Coupling: Changes to the UI or presentation logic (View and View Model) should 
+ideally not impact the core business logic (Domain Model), and vice-versa.

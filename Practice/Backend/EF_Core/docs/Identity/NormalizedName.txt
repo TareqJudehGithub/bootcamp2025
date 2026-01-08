@@ -1,0 +1,24 @@
+NormalizedName property
+
+The NormalizedName property in ASP.NET Core Identity is a case-insensitive, uppercase 
+version of the Name field for roles (IdentityRole) and the UserName and Email fields for 
+users (IdentityUser). Its primary purpose is to provide a consistent, searchable format 
+for identity lookups, ensuring that comparisons in the database are reliable and not 
+affected by character casing. 
+
+Purpose and Function
+Case-Insensitive Lookups: ASP.NET Core Identity performs identity lookups (e.g., finding 
+a user by username or email, or finding a role by name) using the normalized fields. 
+This makes searching case-insensitive. For example, a search for the role "Admin" will 
+match a role stored as "admin" if both have the same NormalizedName (which would 
+typically be "ADMIN").
+
+Database Efficiency: Storing a normalized version allows for the application of unique 
+constraints and indexes at the database level, preventing duplicate entries that differ 
+only in casing (e.g., both "User@example.com" and "user@example.com" would normalize to 
+"USER@EXAMPLE.COM").
+
+Internal Management: The Identity framework's managers, like UserManager and 
+RoleManager, automatically calculate and set these normalized values when creating or 
+updating users and roles. Developers generally don't need to manually set this property 
+unless they are writing a custom storage provider from scratch. 

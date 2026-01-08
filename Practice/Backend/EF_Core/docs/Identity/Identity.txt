@@ -10,7 +10,7 @@ ASP .NET Core IDentity
  - When authentication is successful, a claims principle is created to support 
    authorization decisions.
     - The Principal represents a programmatic collection of claims.
-    - Claim are pieces of information about a user like username.
+    - Claims are pieces of information about a user like username.
 
  - [Authorize] is used on a controller to restrict access to all actions in 
    the controller.
@@ -23,7 +23,7 @@ ASP .NET Core IDentity
   - Includes several features:
     - User-related UI external login provider support, etc.
     - built on top of industry-standard security best practices:
-      - Passwords hashing is automatic
+    - Passwords hashing is automatic
     - Database structure: tables and helper services and methods for quick and 
       easy development.
 

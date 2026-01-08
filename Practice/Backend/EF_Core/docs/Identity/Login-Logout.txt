@@ -1,0 +1,129 @@
+Login/Logout 
+ Creating a users sign-in web page
+
+ 1. Inject AccountController with the SignIn service class 
+  
+  using Bloggie.Models.ViewModel;
+  using Microsoft.AspNetCore.Mvc;
+  using Microsoft.AspNetCore.Identity;
+
+  public class AccountController: Controller 
+  {
+    #region Fields
+    private readonly SignInManager _signInManager;    
+    #endregion
+
+    #region Constructors
+    public AccountController(SignInManager<IdentityUser> signInManager)
+    {
+      _signInManager = signInManager;
+    }
+    #endregion
+
+2. Implement the Login View Model class
+    namespace Bloggie.Models.ViewModel
+    {
+        public class LoginVM
+        {
+            public string Username { get; set; }
+            public string Password { get; set; }
+
+        }
+    }
+
+3. Create Login and Logout action controllers
+    #region Methods
+
+    [HttpGet]
+    public IActionResult Login()
+    {
+      return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Login(LoginVM loginVM)
+    {
+      var signInResult = await _signInManager.PasswordSignInAsync(
+        userName: loginVM.Username,
+        Password: loginVM.Password,
+        isPersistent: false,
+        lockoutOnFailure: false
+      );
+      if (signInResult != null && signInResult.Succeeded)
+      {
+        return RedirectToAction(controllerName: "Home", actionName: "Index")
+      }
+      
+      return View();
+    }
+    [HttpGet]
+    public async Task<IActionResult> Logout()
+    {
+      await _signInManager.SignOutAsync();
+      return RedirectToAction(controllerName: "Account", actionName: nameof(Register));
+    }
+    #endregion
+  }
+
+4. Login View
+
+  @model LoginVM
+
+  <div class="container mx-auto">
+      <div class="row justify-content-center">
+          <div class="col-12 col-lg-6">
+              <h1 class="mt-3 mb-3 h3">Log in to your account</h1>
+
+              <form class="" method="post">
+                  <div class="mb-3">
+                      <label class="form-label">Username</label>
+                      <input class="form-control" type="text" id="username" placeholder="Username..." autofocus asp-for="Username" />
+                  </div>
+          
+                  <div class="mb-3">
+                      <label class="form-label">Password</label>
+                      <input class="form-control" type="password" id="password" placeholder="password..." asp-for="Password" />
+                  </div>
+                  <div class="mb-3 d-flex justify-content-between">
+                      <button class="btn btn-secondary btn-sign-in"  type="submit">Sign In</button>
+                      <p class="mt-3">Don't have an account? <a class="link-secondary" asp-controller="Account" asp-action="Register">Sign Up</a></p>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+
+5. In _Layout.cshtml, add a Login, logout link in the header, displaying the current
+   status of the two, and also display the username in case the user is logged in.
+
+  - We inject the SignInManager to in the view to find out wether the user was logged in 
+    our out, using User property form that class.
+    
+  @using Microsoft.AspNetCore.Identity
+  @inject SignInManager<IdentityUser> signInManager
+
+  <div class="d-flex align-items-center">
+      @if (signInManager.IsSignedIn(User))
+      {
+          <div class="me-3 text-light">
+              <span>Hello, <span class="" role="button">@User?.Identity?.Name!</span></span>
+          </div>
+
+          <a class="nav-link text-light me-3"
+              asp-controller="Account"
+              asp-action="Logout">Logout</a>
+      }
+      else
+      {
+          <a class="nav-link text-light me-3"
+              asp-controller="Account"
+              asp-action="Login">Login</a>
+                
+              <a class="nav-link text-light"
+          asp-controller="Account"
+          asp-action="Register">Register</a>
+      }
+
+  </div>
+
+

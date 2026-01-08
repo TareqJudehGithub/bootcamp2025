@@ -5,4 +5,5 @@ Model
  - The controller creates and populates these ViewModel objects from the model.
  - ASP .NET Core MVC uses 'model binding' to convert request data (from values, query 
    string parameters, etc.) into objects that the controller can handle.
+  
    

@@ -1,0 +1,8 @@
+Data Annotation
+ - Checks or validates the integrity of the data sent by the user.
+ - Annotations should be implemented on the View Model only.
+
+ - In the action method, ModelState object checks if the view model 
+   is in a correct state or not.
+
+    ModelState.IsValid

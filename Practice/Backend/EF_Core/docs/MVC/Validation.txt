@@ -14,3 +14,44 @@ Validations
       builds on the popular Query Validation plugin.
       - Added by the _ValidationScriptsPartial.cshtml
       
+  - In the Controller, and int he action method, don't forver to wrap
+    the [HttpPost] code inside conditional if (ModelState.IsValid), or 
+    you will encounter a null reference error.
+
+  - Custom annotation validation
+
+    - We create a custom void method in the controller, and we set 
+      our desire conditional. In the conditional body, we use 
+      ModelState.AddModelError(key:"", errorMessage: "") to validate.
+
+
+      public async Task<IActionResult> Add(AddTagRequestVM addTagRequest)
+      {
+          // Adding a custom validation
+          ValidateAddTagRequest(addTagRequest);
+
+          if (ModelState.IsValid)
+          {
+              var model = new Tag
+              {
+                  Name = addTagRequest.Name,
+                  DisplayName = addTagRequest.DisplayName
+              };
+              await _tagRepository.Add(model);
+              return RedirectToAction(nameof(Index));
+          }
+          return View();
+      }
+      // Custom Validation methods
+      private void ValidateAddTagRequest(AddTagRequestVM addTagRequest)
+      {
+          if (addTagRequest.Name is not null && addTagRequest.DisplayName is not null)
+          {
+              if (addTagRequest.Name == addTagRequest.DisplayName)
+              {
+                  ModelState.AddModelError(
+                      key: "DisplayName",
+                      errorMessage: "Tag Code cannot be the same as Tag Description.");
+              }
+          }
+      }

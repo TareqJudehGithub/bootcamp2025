@@ -1,0 +1,5 @@
+  ConcurrencyStamp
+    The ConcurrencyStamp in ASP.NET Core Identity is a unique string value used for 
+    optimistic concurrency control. It ensures that data integrity is maintained when 
+    multiple users or processes attempt to modify the same user or role record in the 
+    database simultaneously, preventing silent data loss. 

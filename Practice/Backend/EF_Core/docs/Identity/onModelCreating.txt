@@ -1,0 +1,6 @@
+OnModelCreating
+
+In ASP.NET Core Identity, overriding the OnModelCreating method in your custom 
+IdentityDbContext is essential for customizing the database schema, such as renaming 
+tables, adding properties to existing entities, or seeding initial data. 
+

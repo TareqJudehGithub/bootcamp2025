@@ -1,0 +1,55 @@
+Attribute Routing
+
+ Add: app.UseRouting(); // Adds the routing middleware to the pipeline in 
+      Program.cs to enable routing.
+
+ Route annotations in controllers
+  [HttpGet]
+  [HttpPost]
+
+
+  [Route()]
+
+  On the controller level
+    The [Route] attribute on a controller defines the base path for all actions 
+    within that controller. When using the [ApiController] attribute, attribute 
+    routing is required by default. 
+
+      [ApiController]
+      [Route("api/[controller]")] // Sets the base route to "api/products"
+      public class ProductsController : ControllerBase
+      {
+          // ... actions ...
+      }
+
+  On the Action Method
+    On action methods, you can use HTTP verb-specific attributes ([HttpGet], [HttpPost], etc.) or 
+    the generic [Route] attribute to define the specific route for that action. 
+
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProductsController : ControllerBase
+    {
+        // Matches GET requests to /api/products
+        [HttpGet] 
+        public IEnumerable<Product> Get()
+        {
+            // ...
+        }
+
+        // Matches GET requests to /api/products/{id} (e.g., /api/products/5)
+        [HttpGet("{id}")] 
+        public ActionResult<Product> GetById(int id)
+        {
+            // ...
+        }
+
+        // Matches POST requests to /api/products/submit
+        [HttpPost("submit")] 
+        public IActionResult SubmitProduct(Product product)
+        {
+            // ...
+            return Ok();
+        }
+    }
+

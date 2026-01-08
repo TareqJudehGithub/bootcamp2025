@@ -1,0 +1,68 @@
+Register
+
+In order to create a functional user registering web page, follow these steps below:
+1. Create a new Account controller, inject it with the _userManager class, and create 
+   Register and Login action methods and their views.
+2. Create a view model class, and bind it to the action controller method and to it's 
+   related view.   
+
+   namespace Bloggie.Models.ViewModel
+{
+    public class RegisterVM
+    {
+        #region Properties
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+
+        #endregion
+    }
+}
+using Bloggie.Models.ViewModel;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+
+namespace Bloggie.Controllers
+{
+    public class AccountController : Controller
+    {
+        private readonly UserManager<IdentityUser> _userManager;
+        public AccountController(UserManager<IdentityUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterVM registerVM)
+        {
+            // New user object
+            var identityUser = new IdentityUser
+            {
+                UserName = registerVM.Username,
+                Email = registerVM.Email,
+            };
+
+            // Create a user using UserManager with a password
+            var identityResult = await _userManager.CreateAsync(user: identityUser, password: registerVM.Password);
+
+            if (identityResult.Succeeded)
+            {
+                // Assign this user a user role, and store the result in the database
+                var roleIdentityResult = await _userManager.AddToRoleAsync(user: identityUser, role: "User");
+                if (roleIdentityResult.Succeeded)
+                {
+                    return RedirectToAction(nameof(Register));
+                }
+            }
+
+            return View();
+        }
+    }
+}
+
