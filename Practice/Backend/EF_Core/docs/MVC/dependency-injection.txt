@@ -5,6 +5,17 @@ Dependency Injection (DI)
     are designed to be largely independent of each other. Like for example, the DB 
     Context injecting the _mapper.
     
+  - A design pattern to increase maintainability and testability
+  - DI is built into ASP.NET Core
+  - DI manages the life time of and dependencies of services used throughout the 
+    application.
+  - Instead of instantiating new object of a class, these dependencies are passed to that 
+    class (as parameters to the constructor). This a allows for a greater 
+    flexibility in a way objects are created and managed, and easier testing of 
+    individual components.
+
+  - DI container is responsible for creating and managing instances when the application
+    starts.
 
   Scoped vs Transient bs Singleton
     - AddTransient 

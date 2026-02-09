@@ -1,6 +1,8 @@
-Data Seeding
+Data Seeding and insertion into DB
   Data seeding in .NET Core with Entity Framework (EF) Core involves populating your 
   database with initial data.
+
+  1. First, we create the initial data and seed it using the OnModelCreating and modelBuilder.
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -18,3 +20,14 @@ Data Seeding
   Now, and in the PM console, run:
   PM> Add-Migration SeededTeams -Context FootballLeagueDbContext  
   PM> Update-Database -Context FootballLeagueDbContext
+
+
+    OnModelCreating(ModelBuilder modelBuilder)
+     - We use OnModelCreating and the builder to create and seed initial data.
+
+ 2. Second, we pass the created seeded data to HasData(), specifying which entity (table)
+    these data belongs to.
+    HasData()
+     - Inserts data (difficulties) created using the builder into the database tables.
+
+

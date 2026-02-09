@@ -1,7 +1,18 @@
 Repository Pattern (Rep)
+ - A design pattern to separate the data access layer from the application
  - Used to abstract data access
+ - Provides interface without exposing implementation
  - Typically used within the Service layer to handle data retrieval
    and persistence
  - A service layer can access/query multiple repositories
  - It hides all the data-related operations from other layers.
  - Each repository will only be responsible for a single model/table.
+
+
+ - Repository pattern benefits
+  - Decoupling
+   - Decoupling the data access layer from the rest of the application, which makes it
+     easier to maintain and test the application.
+  - Consistency
+  - Performance
+  - Multiple data sources(switching)

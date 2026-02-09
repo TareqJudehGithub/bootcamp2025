@@ -1,12 +1,15 @@
-Navigation
-  - Navigations are layered over foreign keys to provide a natural, object-oriented 
-    view for reading and manipulating relationships.
+Navigation Properties
+  - Navigation properties are layered over foreign keys to provide a natural, object-oriented 
+    view for reading and manipulating relationships. In other words, Navigation 
+    properties allow us to navigate from one domain model (entity) to another in a 
+    relational database.
+    
   - EF Core navigation properties are properties defined within entity classes that 
     represent relationships between those entities.
   - They allow for easy traversal and management of related data within an application.  
 
   There are two main types of navigation properties:
-   - Reference Navigation Properties
+   1- Reference Navigation Properties
     - These properties represent one-to-one or one-to-many relationships, where the 
       current entity refers to a single instance of another entity.
       For example, a Customer entity might have a BillingAddress property of type 
@@ -22,7 +25,7 @@ Navigation
             public Customer Customer { get; set; } 
         }
 
-   - Collection Navigation Properties
+   2- Collection Navigation Properties
     - These properties represent one-to-many or many-to-many relationships, where the 
       current entity is associated with a collection of other entities.
       For example, a Customer entity might have an Orders property of type
@@ -37,12 +40,59 @@ Navigation
               public ICollection<Order> Orders { get; set; } 
           }
 
-  - Navigation properties are crucial for:
+      - Navigation properties are crucial for:  
+      - Defining relationships: They explicitly declare the connections between different 
+        entities in your model.
+      - Loading related data: EF Core can use navigation properties to load associated 
+        entities through eager, explicit, or lazy loading.
+      - Simplifying data manipulation: They enable intuitive access and modification of 
+        related data without manually managing foreign keys.   
 
-- Navigation properties are crucial for:  
- - Defining relationships: They explicitly declare the connections between different 
-   entities in your model.
- - Loading related data: EF Core can use navigation properties to load associated 
-   entities through eager, explicit, or lazy loading.
- - Simplifying data manipulation: They enable intuitive access and modification of 
-   related data without manually managing foreign keys.         
+- Include the navigation properties in the entity you need to navigate to.
+    public class Walk 
+    {
+      public Guid Id { get; set; }
+      public string Name { get; set; }
+      public string Description { get; set; }
+      public double LengthInKm { get; set; }
+      public string? WalkImageUrl { get; set; }
+
+      public Guid DifficultyId { get; set; }
+      public Guid RegionId { get; set; }
+
+      // Navigation property  One to One relations
+      public Difficulty Difficulty { get; set; }
+      public Region Region { get; set; }       
+    }
+
+- We also need to include them in the DTO class
+
+    public class WalkDTO
+    {
+      public string Name { get; set; }
+      public string Description { get; set; }
+      public double LengthInKm { get; set; }
+      public string? WalkImageUrl { get; set; }
+
+      *** We already have both Region an Difficulty ids in the navigation properties 
+      below, so we DO NOT include the DifficultyId and RegionId in the DTO class.
+
+      // Navigation property  One to One relations
+      public RegionDTO Region { get; set; }
+      public DifficultyDTO Difficulty { get; set; }
+    }
+
+In the Repository class  file
+ - We use Include() to include the navigation properties to get the information
+   from Difficulty and from Region (from the domain model) using their navigation
+   properties there.
+
+  public async Task<List<Walk>> GetAllWalksAsync()
+  {
+      var walksModel = await _nZWalksDbContext.Walks
+          .Include("Difficulty")
+          .Include("Region")
+          .ToListAsync();
+
+      return walksModel;
+  }

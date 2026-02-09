@@ -1,0 +1,14 @@
+Data Transfer Objects (DTOs)
+
+  - Used tp transfer data between different layers of components in an application.
+  - Typically contain a subset of the properties in the domain model
+  - For example, transferring data over a network
+      Cleint request => DTOs => API => Domain Model => Database
+      response => Database => Domain Model => API > DTOs => Client 
+
+  Advantages of DTOs
+    - Separation on concerns
+    - Performance
+    - Security
+    - Versioning
+         

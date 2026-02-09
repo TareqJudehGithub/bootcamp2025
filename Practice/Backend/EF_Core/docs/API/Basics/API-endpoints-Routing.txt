@@ -1,0 +1,73 @@
+API Endpoints
+  - Also known as API controllers.
+  - An API endpoint is a specific URL that receives requests and sends responses, combining
+    a resource path with an HTTP method (GET, POST, PUT, DELETE).
+
+  Controller-based APIs
+  - Controller-based APIs use classes that derive from ControllerBase to handle requests.
+    Routing can be convention-based or, more commonly, attribute-based, where attributes 
+    like [Route(...)] and [HttpGet] define the endpoint behavior. 
+
+  [ApiController]
+  [Route("api/[controller]")]
+  public class ProductsController : ControllerBase
+  {
+      // GET: api/products
+      [HttpGet]
+      public ActionResult<IEnumerable<Product>> GetProducts()
+      {
+          // ... code to return list of products ...
+      }
+
+      // GET: api/products/5
+      [HttpGet("{id}")]
+      public ActionResult<Product> GetProduct(int id)
+      {
+          // ... code to return a specific product ...
+      }
+  }
+
+   [Route("api/[controller]")]
+    - Defines the route to the endpoint.
+    - https://localhost/api/controllerName
+         
+  [ApiController]
+    - Tells the application, that this controller is for API usage, and not an MVC 
+      controller. So for example, the application will automatically validates the 
+      model states and return a 200 response back.
+
+Routing
+
+ - Routing is the process of matching incoming HTTP requests to the appropriate 
+  action methods that will handle those requests.
+
+ - Routing is used to map the URL of a request to a controller and then its action 
+   method.
+
+  [HttpDelete("{id}")] 
+  public IActionResult Delete(int id)
+  {
+
+  }
+
+- The {id} from the URL is passed to the input parameter (int id) in the action method.
+
+[Http*] tells your method which HTTP verb it handles.
+[Route] defines custom paths and makes routing predictable.
+[ApiController] turns on helpful features like model validation and automatic binding.
+[FromBody], [FromQuery], and [FromRoute] specify exactly where data should come from.
+ 
+ [FromBody]
+  - Maps a parameter coming from another model (usually a DDO).
+
+ [FromRoute]
+  - Maps a parameter coming from a [Route()]
+  - Both parameters in the method and the Route should match.
+      Example:
+      [Route("{id:guid}")]
+        public IActionResult Update([FromRoute] Guid id)
+        {
+          // Method body
+          
+        }
+

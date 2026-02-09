@@ -1,0 +1,14 @@
+What is REST?
+ - REST stands for Representation State Transfer
+ - A style of architecture for building web services.
+ - A set of principles that defines how web services should be 
+   designed and how they interact with each other.
+ 
+ REST is stateless
+  - REST is a stateless client server model, meaning the server
+    should not store any client state between these requests, and the client should provide these information with each and 
+    every request.
+  - This allows fo scalability readability, as the server can handle
+    multiple requests at the same time, without the need to maintain 
+    client state.
+    

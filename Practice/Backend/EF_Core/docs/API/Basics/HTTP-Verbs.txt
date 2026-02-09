@@ -1,0 +1,20 @@
+HTTP Verbs
+
+ - HTTP verbs define the types of actions that can be performed
+   on resource identified by a url.
+ - get, post, put, and delete.
+
+ - GET
+  - Can be used to get all data from a resource
+  - Can be also used to get a single item by using the 'id' at the end 
+    of a url.
+
+ - POST 
+  - We use post to create a new resource
+ 
+ - PUT 
+  - Updates a resource, using its 'id'
+ 
+ - DELETE 
+  - Delete a resource by its 'id'
+  

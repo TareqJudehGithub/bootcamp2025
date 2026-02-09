@@ -6,17 +6,15 @@ Database Context DbContext
  - Allows for on-creation customizations and custom table configurations.
 
  - Through DbContext, we can have the following features:
+  - Maintains connection to Database
   - Querying (interacting with the database)
   - Performing CRUD operation on the database using EF Core
-  - Change Tracking (migrations) 
+  - Changes Tracking (migrations) 
   - Persistence
   - Manage Relationships
   - Caching
   - Transaction
   - Object Materialization
-
-
-
 
 Solution 'EntityFrameWorkCore'
  - EntityFrameWorkCore.Date project

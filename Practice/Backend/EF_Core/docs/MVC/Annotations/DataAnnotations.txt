@@ -1,8 +1,101 @@
-Data Annotation
+Data Annotation in ASP.NET Core
  - Checks or validates the integrity of the data sent by the user.
- - Annotations should be implemented on the View Model only.
+ - Annotations should be implemented on the View Model/DTOs only.
+
+  Example: 
+    using System.ComponentModel.DataAnnotations;
+    public class AddRegionRequestDTO
+    {
+        [Required]
+        public string Code { get; set; }
+        [Required]
+        public string Name { get; set; }
+        public string? RegionImageUrl { get; set; }
+    }
 
  - In the action method, ModelState object checks if the view model 
    is in a correct state or not.
 
-    ModelState.IsValid
+ // Add new region
+ [HttpPost]
+ public async Task<IActionResult> Create(
+     [FromBody] AddRegionRequestDTO addRegionRequestDTO
+     )
+ {
+     if (ModelState.IsValid)
+     {
+         // Map DTO to domain model
+         var regionModel = _mapper.Map<Region>(source: addRegionRequestDTO);
+
+         // Add newly created record to the DB and save
+         regionModel = await _regionRepository.CreateRegionAsync(regionModel);
+
+         // Map Domain model back to DTO
+         var regionDTO = _mapper.Map<RegionDTO>(source: regionModel);
+
+         return CreatedAtAction(
+             actionName: nameof(GetRegionById),
+             routeValues: new { id = regionDTO.Id },
+             value: regionDTO);
+     }
+     else
+     {
+         return BadRequest(ModelState);
+     }
+ }
+
+
+  Custom Validation
+    - We create a separate class which will act as middleware between the request
+      and the controller, which will validate all incoming requests and filters it.
+
+      // Create a folder named CustomActionFilters, inside it create a class named 
+          ValidateModelAttribute.cs
+
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Filters;
+
+      namespace newZealandWalksAPI.CustomActionFilters
+      {
+          public class ValidateModelAttribute : ActionFilterAttribute
+          {
+              // Override OnActionExecuting for custom validations
+              public override void OnActionExecuting(ActionExecutingContext context)
+              {
+                  if (context.ModelState.IsValid == false)
+                  {
+                      context.Result = new BadRequestResult();
+                  }
+              }
+          }
+      }
+ 
+  - In the controller:
+    - We use the annotation [ValidateModel], which is coming from the 
+    ValidateModelAttribute.cs file,  instead of implementing an if statement.
+   // Add new region
+    [HttpPost]
+    [ValidateModel]
+    public async Task<IActionResult> Create(
+        [FromBody] AddRegionRequestDTO addRegionRequestDTO
+        )
+    {
+
+        // Map DTO to domain model
+        var regionModel = _mapper.Map<Region>(source: addRegionRequestDTO);
+
+        // Add newly created record to the DB and save
+        regionModel = await _regionRepository.CreateRegionAsync(regionModel);
+
+        // Map Domain model back to DTO
+        var regionDTO = _mapper.Map<RegionDTO>(source: regionModel);
+
+        return CreatedAtAction(
+            actionName: nameof(GetRegionById),
+            routeValues: new { id = regionDTO.Id },
+            value: regionDTO);
+
+
+    }
+

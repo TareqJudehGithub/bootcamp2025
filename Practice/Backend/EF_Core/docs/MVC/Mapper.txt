@@ -8,5 +8,80 @@ Mapping or AutoMapper
  - Options include:
     - AutoMapper
     - Mapster
-      
- 
+
+
+
+  AutoMapper
+   - Object to Object mapping library for .NET applications
+   - Simplifies mapping between two objects with different structures by defining
+     mapping between their properties.
+   - Map between DTOs and domain models and vice versa
+
+
+   Installation and implementation
+    - From NuGet Package Manager, install AutoMapper
+    - Create a new folder and name it Mappings, and place it in the project root 
+      directory.
+    - Inside Mappings folder, create a new class file, name it AutoMapperProfiles.cs
+    - In AutoMapperProfiles.cs, let the class inherit Profile from AutoMapper package.
+
+      using AutoMapper;
+      public class AutoMapperProfiles : Profile  
+      {
+
+      }
+    
+    - Create a constructor, and inside the constructor we will create all the Mappings
+
+      public class AutoMapperProfiles()
+      {
+        CreateMap<source, destination>();
+        // Or
+        CreateMap<source, destination>();
+        .ForMember(x => x.Name, => opt.MapFrom(x => x.FullName))
+        .ReverseMap();     // Use .ReverseMap() to reverse map
+
+        Example from NZWalks API
+        CreateMap<Region, RegionDTO>().ReverseMap();
+      }
+      // Destination
+      public class UserDTO
+      {
+        public string FullName {get; set;}
+      }
+      // Source
+      public class UserDomain
+      {
+        public string Name {get; set;}  
+      }
+    - In Program.cs inject the AutoMapper
+
+      Import the AutoMapper class from the Mappings folder.
+        using SolutionName.Mappings;
+          // AutoMapper
+          builder.Services.AddAutoMapper(cfg => cfg.AddMaps(typeof(AutoMapperProfiles)));
+
+
+    - Inject the AutoMapper in the controller file.
+
+        #region Fields
+        {
+            private readonly IMapper _mapper;
+            #endregion
+
+            #region Constructors
+            public RegionsController(        
+                IMapper mapper
+                )
+            {        
+                _mapper = mapper;
+            }
+            #endregion  
+        }
+
+    - In the controller methods
+          - In case we needed to map the domain model to a DTO or a View Model:        
+            _mapper.Map<destination: DTO or ViewModel>(source: domainModel);    
+
+            Example from NZWalks API
+            _mapper.Map<RegionDTO>(source: Region);

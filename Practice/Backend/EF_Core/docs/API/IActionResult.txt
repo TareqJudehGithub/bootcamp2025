@@ -1,0 +1,20 @@
+IActionResult helpers
+
+ Return Ok()   
+  - Returns 200 response
+  - You can return an empty 200 response with return Ok(); or return data along with 
+    the 200 status using return Ok(data);
+
+ Return CreateAtAction() 
+  - A method used in [HttpPost] Create endpoints action.
+  - Returns an HTTP 201 Created status code.
+  - It indicates that a new resource has been successfully created and provides the 
+    client with the URI of the new resource in a Location header.   
+  - providing a clear and standard response for resource creation, which Ok() (HTTP 200) 
+    does not.
+  - The Location header automatically includes the URL where the newly created resource 
+    can be accessed via an HTTP GET request,  allowing the client to immediately 
+    retrieve the resource without guessing the URL.  
+  - Validation: The method validates that the target action (the one used to build the 
+    location URL) exists, providing a safer and more reliable way to generate the URI than 
+    manually hard-coding a string.   
