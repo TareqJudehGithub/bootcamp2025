@@ -1,0 +1,23 @@
+Claims
+  - A piece of information that describes a user.
+  - Used by APIs to make authorization decisions.
+  - Key-values pairs inside the payload of a JWT.
+  - Standard Claims - Predefined by JWT spec
+    - sub => Subject (unique user ID)
+    - iss => issuer (who created the token)
+    - aud => Audience (who the token is for)
+    - exp => Expiration time
+    - iat => issued at
+
+  Custom Claims
+   - "role": "Admin"
+   - "permission": "CanEditHotel"
+   - "FirstNAme" : "John"
+
+
+  Claims best practices
+    - Keep information minimal - Avoid including sensitive user details (like Password).
+    - Don't embed large arrays, nested JSON, or verbose text.
+    - sub should be a stable, unique ID(GUID/ULID), not a mutable field like email/username.
+    - User clean claim names. Use standard key names and clear custom names as necessary.
+      

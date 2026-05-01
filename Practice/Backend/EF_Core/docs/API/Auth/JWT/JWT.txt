@@ -1,0 +1,32 @@
+Json Web Token (JWT)
+  - Json Web Token (JWT) is a compact, self-contained token format.
+
+  Consists of:
+  - Header
+    - Token Type (JWT), signing algorithm (HS256)
+
+  - Payload
+    - Contains claims, which are bits information about the user who is trying to access.
+    - The roles, the Id, Email address.. etc
+  
+  - Signature
+      - Enures integrity using secret key
+  
+  - Encodes user identity and claims.
+
+  Sent in Http headers for stateless authentication.
+    - Authorization: Bearer Adkjj!#
+
+
+- The user sends a request containing the header, payload, and the signature.
+- Authorization: Bearer header must be included in the client request.
+- The Server/API endpoint validates the token.
+- The Server either returns a 200 or 401 response.
+
+
+- Stateless and cross-platform
+- Easy to use with SPAs, mobile apps, and microservices
+
+
+
+

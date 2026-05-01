@@ -1,6 +1,7 @@
 Identity Installation
 
  1. Install package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+
  2. IdentityDbContext class
   - In the Data folder, create a new class named AuthDbContext.cs
   - AuthDbContext class is responsible for creating new roles, users, and seeding all 
@@ -14,14 +15,16 @@ Identity Installation
 
         namespace Bloggie.Data
         {
-            public class AuthDbContext : IdentityDbContext
+            public class AuthDbContext : IdentityDbContext<IdentityUser>
             {
-                public AuthDbContext(DbContextOptions options) : base(options)
+                public AuthDbContext(DbContextOptions<BloggieAuthDb> options) : base(options)
                 {
 
                 }
 
-                // In order to seed the data, we override OnModelCreating method, which takes the builder, and pass it to the base class.
+                // In order to seed the data, we override OnModelCreating method, which 
+                takes the builder, and pass it to the base class.
+
                 protected override void OnModelCreating(ModelBuilder builder)
                 {
                     base.OnModelCreating(builder);
@@ -59,13 +62,14 @@ Identity Installation
 
                     };
 
-                    // Inserting the list of Roles data into the builder object (into the database).
-                    // So when we run EF Core migration, these Roles will be taken as seeds, and inserted into the database
+                    // Inserting the list of Roles data into the builder object 
+                    (into the database). So when we run EF Core migration, these Roles 
+                    will be taken as seeds, and inserted into the database
+                    
                     builder.Entity<IdentityRole>().HasData(roles);
 
 
                     // Seed/create a SuperAdminUser
-
                     // Create an Identity superAdminUser
                     var superAdminId = "e6a5af26-87be-427b-8a74-0cb43a2497b1";
 
@@ -142,4 +146,23 @@ Identity Installation
     1.  PM>Add-Migration "Creating Auth Db" -Context AuthDbContext
     2. PM>Update-Database -Context AuthDbContext
 
+ 4. Alternative   
+    Using AddIdentityApiEndpoints<>  instead of AddIdentity<>
+    
+    Service Registration:
+    builder.Services.AddAuthorization();
 
+    This method is used during the Dependency Injection (DI) configuration phase. It 
+    registers the necessary services that the authorization system needs to function.
+
+
+    Purpose: Registers the IAuthorizationService and related components like policy 
+    providers and requirements handlers.
+    
+
+    Configuration: This is where you define Policies and Roles. For example, you can 
+    use AddAuthorization to create a policy named "AdminOnly" that requires a specific claim.
+
+    Location: In modern .NET apps, this is called on the builder.Services object in 
+    Program.cs before builder.Build()
+        

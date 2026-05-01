@@ -1,0 +1,65 @@
+IFormFile
+  The IFormFile interface in ASP.NET Core represents a file transmitted with an 
+  HTTP request.
+  IFormFile is used for buffered file uploads, providing access to file metadata and 
+  the file's contents as a Stream.
+
+  Key Features and Properties
+    The IFormFile interface provides essential metadata and methods for handling 
+    uploaded files:
+      ContentDisposition: Gets the raw content-disposition header of the file.
+      
+      ContentType: Gets the raw content-type header (e.g., image/jpeg, application/pdf).
+      
+      FileName: Gets the file name from the content-disposition header. 
+      *** Security Note: Never use the client-supplied FileName directly for saving to     
+      physical storage; always create a safe, unique file name to prevent security 
+      vulnerabilities.
+
+      Length: Gets the size of the uploaded file in bytes.
+
+      Headers: Gets the request headers of the uploaded file.
+
+      OpenReadStream(): Returns a Stream for reading the contents of the file.
+
+      CopyTo(Stream target) / CopyToAsync(Stream target, ...): Methods to copy the 
+      file's contents to a target stream.
+
+  Usage in ASP.NET Core
+    To use IFormFile, you typically define it as a parameter in your controller action 
+    or Razor Page model: 
+    
+    Model Binding: ASP.NET Core's model binding mechanism automatically populates the 
+    IFormFile parameter or model property from the incoming form data.
+    
+    Form Requirements: The HTML form must use the POST method and set the enctype 
+    attribute to multipart/form-data.
+    
+    Name Matching: The name attribute of the HTML input element must exactly match the 
+    name of the IFormFile parameter or property in your C# code for successful binding.
+
+    Combining with Other Data: You can include IFormFile as a property within a larger 
+    view model or DTO to upload the file alongside other form data 
+    (e.g., product name, description). Use the [FromForm] attribute on the model in your action method. 
+
+    [HttpPost("/upload-file")]
+    public async Task<IActionResult> UploadFile(IFormFile file) // Parameter name "file" must match HTML input name
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest("File not selected or is empty.");
+
+        // Define a secure storage path (using a unique name is critical)
+        var trustedFileName = Path.GetRandomFileName(); 
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", trustedFileName);
+
+        // Ensure the directory exists
+        Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "uploads"));
+
+        // Save the file using a FileStream
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        return Ok(new { count = 1, filePath });
+    }

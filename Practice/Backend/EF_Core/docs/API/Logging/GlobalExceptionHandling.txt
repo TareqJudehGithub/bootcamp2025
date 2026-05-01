@@ -1,0 +1,72 @@
+Global Exception Handling
+  - To handle any errors (unhandled exceptions) during an HTTP request.
+  - Create consistent error response by centralizing error exception handling.
+  - Avoids repetition.
+
+
+  1- Create a new folder in the root directory called Middlewares
+    - Here, create a new class called ExceptionHandlerMiddleware.
+
+      // Inject Serilog logger and RequestDelegate
+
+      using System.Net;
+
+      namespace newZealandWalksAPI.Middlewares
+      {
+          public class ExceptionHandlerMiddleware
+          {
+              #region Fields
+              private readonly ILogger _logger;
+              private readonly RequestDelegate _next;
+              #endregion
+
+              #region Constructors
+              public ExceptionHandlerMiddleware(
+                  ILogger<ExceptionHandlerMiddleware> logger,
+                  RequestDelegate next
+                  )
+              {
+                  _logger = logger;
+                  _next = next;
+              }
+              #endregion
+
+              #region Methods
+              public async Task InvokeAsync(HttpContext context)
+              {
+                  try
+                  {
+                      await _next(context);
+                  }
+                  catch (Exception ex)
+                  {
+                      var errorId = Guid.NewGuid();
+
+                      // Log this exception
+                      _logger.LogError(exception: ex, message: $"{errorId} : {ex.Message}");
+
+                      // Return a custom error response
+                      context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                      context.Response.ContentType = "application/json";
+
+                      var error = new
+                      {
+                          Id = errorId,
+                          ErrorMessage = "Something went Wrong. We are currently looking into resolving this."
+                      };
+
+                      await context.Response.WriteAsJsonAsync(error);
+                  }
+              }
+              #endregion
+          }
+      }
+
+
+  2- In Program.cs, inject the service
+  
+  using Serilog;  // LoggerConfiguration
+  using newZealandWalksAPI.Middlewares;
+
+  // RequestDelegate Logger - Serilog
+  app.UseMiddleware<ExceptionHandlerMiddleware>();

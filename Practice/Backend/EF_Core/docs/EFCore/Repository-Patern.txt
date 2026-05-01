@@ -1,6 +1,7 @@
 Repository Pattern
+  - Used to abstract data access.
   - The Repository Pattern in ASP.NET Core is a design pattern that abstracts 
-    the data access ayer, mediating between the domain/business logic and the 
+    the data access layer, mediating between the domain/business logic and the 
     underlying data storage mechanism (e.g., EF Core).
   - Repository pattern encapsulates the logic for retrieving, storing, and manipulating 
     data, allowing the application's business logic to remain independent of the data 
@@ -24,14 +25,15 @@ Repository Pattern
   the rest of the application.
 
 
+
   Configuring the Repository in a project
 
   - Create a new Repositories or Services folder.
   - Inside the new folder created in the previous step, Create a new interface
-    for abstracted method (CRUD method operations)
-  - Implement the abstracted method in a new class created under the same folder
-      Repositories
+    for each abstracted method (CRUD method operations, also called interfaces).
         - IServiceLayer.cs
+  - Implement the abstracted method in a new class created under the same folder
+      Repositories  (these classes are called the implementations.)
         - ServiceLayer.cs
   - Inject the new Interface and its Implementation class in Program.cs
     using AddScoped service.

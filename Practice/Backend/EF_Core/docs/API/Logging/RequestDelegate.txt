@@ -1,0 +1,62 @@
+RequestDelegate 
+ A RequestDelegate is a fundamental building block in ASP.NET Core that represents 
+ a function (specifically, a public delegate Task RequestDelegate(HttpContext context)) 
+ that can process an HTTP request. The entire ASP.NET Core request pipeline is composed 
+ of a sequence of these request delegates, chained together as middleware components.
+
+ Key Characteristics
+  Signature: A RequestDelegate is an asynchronous method that takes an HttpContext 
+  parameter and returns a Task.
+
+  Pipeline Building Block: Each component of the middleware pipeline is essentially 
+  a RequestDelegate. When configured, these delegates are wrapped around one another 
+  in the order they are added, creating a nested structure (often compared to Russian 
+  nesting dolls).
+
+  Control Flow: Each delegate decides whether to process the request and pass it to 
+  the next delegate in the pipeline, or to short-circuit the pipeline and generate 
+  a response immediately. 
+
+  Configuration Methods
+  Developers configure the RequestDelegate pipeline using specific extension methods on 
+  the IApplicationBuilder (or WebApplication in modern templates) instance: 
+ 
+    Use: Chains multiple delegates together. A Use delegate typically performs operations 
+    both before and after invoking the next delegate in the pipeline, allowing the 
+    request to continue down the line.
+  
+    Run: Adds a terminal delegate that always short-circuits the pipeline (it does not 
+    have a next parameter and does not call any subsequent middleware).
+    
+    Map: Branches the pipeline based on the request's path. Requests matching a 
+    specified path are handled by a separate branch of delegates.
+  
+    MapWhen: Branches the pipeline based on a given predicate (Func<HttpContext, bool> 
+    Func<HttpContext, bool>).
+
+    Here is an example demonstrating Use (chaining) and Run (terminal) inline request 
+    delegates in Program.cs
+
+    var builder = WebApplication.CreateBuilder(args);
+    var app = builder.Build();
+
+    // First delegate (uses 'Use' to pass to the next)
+    app.Use(async (context, next) =>
+    {
+        await context.Response.WriteAsync("Hello from first delegate (before next)\n");
+        await next.Invoke(context); // Calls the next delegate
+        await context.Response.WriteAsync("Hello from first delegate (after next)\n");
+    });
+
+    // Second delegate (uses 'Run' and is terminal)
+    app.Run(async context =>
+    {
+        await context.Response.WriteAsync("Hello from second (terminal) delegate\n");
+    });
+
+    app.Run();
+
+
+  When this application runs, the output demonstrates how the request flows into the 
+  first delegate, then the second (terminal) one, and then back up through the first 
+  delegate after the await next.Invoke(context)

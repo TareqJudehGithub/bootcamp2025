@@ -1,0 +1,9 @@
+Minimal API
+ - Minimal means flexible, so you get what you really need in that request.
+ - Why Minimal API?
+  - Lightweight, fast startup (beats Node/Express)
+  - Pattern-agnostic(no controllers required)
+  - API-first ( No Razor Baggage)
+  - Full .NET features: DI, validation, OpenAPI, Auth, AOT
+  - Perfect backend for Blazor $ React
+  - Minimal = Flexible.

@@ -1,0 +1,36 @@
+JWT Token Authorization Flow
+
+The ASP.NET Core JWT authentication flow is a stateless mechanism that involves the 
+client obtaining a token after successful login and then presenting that token with 
+all subsequent requests to access protected resources.
+
+The Authentication Flow
+  1. User Login: The client application sends the user's credentials (e.g., username 
+     and password) to an authentication endpoint on the ASP.NET Core server via an HTTP
+     request.
+
+  2. Server Validation & Token Generation: The server validates the credentials. 
+     If they are correct, it generates a JSON Web Token (JWT) containing relevant user 
+     claims (like user ID, email, roles, and expiration time) and signs it using a 
+     secret key.   
+  
+  3. Token Issuance: The server returns the generated JWT to the client in the HTTP 
+     response.   
+  
+  4. Client Storage: The client application receives and securely stores the token 
+     (e.g., in a secure, HTTP-only cookie or local storage, following best practices).    
+
+  5. Subsequent Requests: For all future requests to access protected API endpoints, the 
+     client includes the JWT in the Authorization header using the Bearer scheme (e.g., 
+     Authorization: Bearer <token>).
+
+  6. Server Validation & Authorization: The ASP.NET Core server's authentication 
+     middleware (configured with the Microsoft.AspNetCore.Authentication.JwtBearer package) 
+     extracts the token from the header. It then validates the token by:
+
+    1. Verifying its signature using the same secret key (or public key for 
+       asymmetric encryption).
+    2. Checking the issuer (iss) and audience (aud) claims to ensure they match the 
+       expected values.
+    3. Confirming the token has not expired (exp).   
+

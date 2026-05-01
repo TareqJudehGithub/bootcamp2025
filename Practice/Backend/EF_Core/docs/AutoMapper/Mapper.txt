@@ -9,52 +9,48 @@ Mapping or AutoMapper
     - AutoMapper
     - Mapster
 
-
-
   AutoMapper
    - Object to Object mapping library for .NET applications
    - Simplifies mapping between two objects with different structures by defining
      mapping between their properties.
    - Map between DTOs and domain models and vice versa
 
-
    Installation and implementation
-    - From NuGet Package Manager, install AutoMapper
-    - Create a new folder and name it Mappings, and place it in the project root 
-      directory.
-    - Inside Mappings folder, create a new class file, name it AutoMapperProfiles.cs
-    - In AutoMapperProfiles.cs, let the class inherit Profile from AutoMapper package.
-
-      using AutoMapper;
-      public class AutoMapperProfiles : Profile  
-      {
-
-      }
+    1. From NuGet Package Manager, install AutoMapper latest version.
     
-    - Create a constructor, and inside the constructor we will create all the Mappings
+    2. Create a new folder and name it Mappings, and place it in the project root 
+      directory.
+      - Inside Mappings folder, create a new class file, name it AutoMapperProfiles.cs
+      - In AutoMapperProfiles.cs, let the class inherit Profile from AutoMapper package.
+      - Create a constructor, and inside the constructor we will create all the Mappings
 
-      public class AutoMapperProfiles()
-      {
-        CreateMap<source, destination>();
-        // Or
-        CreateMap<source, destination>();
-        .ForMember(x => x.Name, => opt.MapFrom(x => x.FullName))
-        .ReverseMap();     // Use .ReverseMap() to reverse map
+        using AutoMapper;
+        public class AutoMapperProfiles : Profile  
+        {
+          public class AutoMapperProfiles()
+          {
+              CreateMap<source, destination>();
+              // Or
+              CreateMap<source, destination>();
+              .ForMember(d => d.Name, => opt.MapFrom(s => s.FullName))
+              .ReverseMap();     // Use .ReverseMap() to reverse map
+          }   
+        }
 
         Example from NZWalks API
         CreateMap<Region, RegionDTO>().ReverseMap();
-      }
-      // Destination
-      public class UserDTO
-      {
-        public string FullName {get; set;}
-      }
-      // Source
-      public class UserDomain
-      {
-        public string Name {get; set;}  
-      }
-    - In Program.cs inject the AutoMapper
+
+        // Destination
+        public class UserDTO
+        {
+          public string FullName {get; set;}
+        }
+        // Source
+        public class UserDomain
+        {
+          public string Name {get; set;}  
+        }
+    3- In Program.cs inject the AutoMapper
 
       Import the AutoMapper class from the Mappings folder.
         using SolutionName.Mappings;
@@ -62,7 +58,7 @@ Mapping or AutoMapper
           builder.Services.AddAutoMapper(cfg => cfg.AddMaps(typeof(AutoMapperProfiles)));
 
 
-    - Inject the AutoMapper in the controller file.
+    4- Inject the AutoMapper in the controller file.
 
         #region Fields
         {

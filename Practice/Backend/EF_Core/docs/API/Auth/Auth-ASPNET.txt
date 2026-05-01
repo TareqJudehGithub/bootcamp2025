@@ -1,0 +1,79 @@
+Authentication in ASP.NET Core using JWT tokens
+
+ 1- Install NuGet Packages:
+  - Microsoft.AspNetCore.Authentication.JwtBearer
+  - Microsoft.IdentityModel.Tokens
+  - System.IdentityModel.Tokens.Jwt
+  - Microsoft.AspNetCore.Identity.EntityFrameworkCore
+
+ 2- Register the token in appsettings.json 
+    In ASP.NET Core JWT authentication, the key is used to cryptographically sign 
+    and verify the token, while the issuer and audience are standard claims that 
+    define who created the token and who the intended recipients are.
+    These elements are essential for the server to validate the token's authenticity 
+    and intended use.
+
+          "Jwt": {
+          "Key": "",
+          "Issuer": "",
+          }
+  
+    Key (Signing Key): This secret is used to create a digital signature on the JWT. 
+    When the token is received, the ASP.NET Core application uses the same (for 
+    symmetric encryption, e.g., HMAC SHA256) or a corresponding public key (for 
+    asymmetric encryption, e.g., RSA SHA256) to verify the signature. This ensures 
+    that the token has not been tampered with and was issued by a trusted source.
+
+    Secret Key generation
+     $ openssl rand -base64 32
+     We can also use https://randomkeygen.com/jwt-secret to generate s secret key
+
+    Issuer (iss claim): Identifies the security principal that issued the JWT, 
+    typically your authentication server or application's 
+    domain (e.g., "yourdomain.com"). The server validates this to confirm the token 
+    came from a legitimate issuer.
+
+    Audience (aud claim): Identifies the recipients or resources that the JWT is 
+    intended for (e.g., a specific API, "MyClientApp.com"). The receiving application 
+    validates this to ensure the token is being used for its intended purpose and not 
+    a different service. 
+
+ 3- Register the JWT authentication service in Program.cs
+   
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.IdentityModel.Tokens;
+
+    // JWT authentication service
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+      .AddJwtBearer(options =>
+      options.TokenValidationParameters = new TokenValidationParameters
+      {
+          ValidateIssuer = true,
+          ValidateAudience = true,
+          ValidateLifetime = true,
+          ValidateIssuerSigningKey = true,
+          ValidIssuer = builder.Configuration["Jwt: Issuer"],
+          ValidAudience = builder.Configuration["Jwt:Audience"],
+          IssuerSigningKey = new SymmetricSecurityKey(
+    key: Encoding.UTF8.GetBytes(builder.Configuration["Jwt: Key"]))
+      });
+
+    // Adding authentication to the middleware pipeline
+    app.UseAuthentication();
+
+ 4- In the controller
+      Add the attribute [Authorize] above the controller class name, to activate
+      authentication and authorization
+
+      [Route("api/[controller]")]
+      [ApiController]
+      [Authorize]  
+      public class RegionsController : ControllerBase
+      {
+        // controller body
+      }
+
+
+
+

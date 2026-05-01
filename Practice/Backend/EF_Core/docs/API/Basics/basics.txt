@@ -1,0 +1,6 @@
+Application Programming Interface (API)
+ - API is a connection between computers or between computer programs.
+ - API offers service to other pieces of software.
+ - API is an HTTP API accessed over the internet by URL.
+ - API takes the user request, and return a response in a JSON format.
+ 

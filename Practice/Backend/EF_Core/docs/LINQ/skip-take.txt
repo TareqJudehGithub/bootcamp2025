@@ -29,6 +29,44 @@ async Task SkipAndTake()
 
     }
 
-
 }
 //    await SkipAndTake();
+
+
+In ASP.NET Core with Entity Framework Core, pagination using the Skip() and Take()
+ LINQ operators is a common and straightforward approach for retrieving data in 
+ manageable chunks. This method translates directly to SQL's OFFSET and LIMIT 
+ clauses, ensuring the data filtering happens efficiently at the database level. 
+Microsoft Learn
+Microsoft Learn
+ +2
+Implementation Steps
+The basic implementation involves calculating the correct number of items to skip 
+based on the desired page number and page size. 
+Define Paging Parameters: You will need a pageNumber (usually starting from 1) and 
+a pageSize.
+Calculate Items to Skip: The formula to determine the number of items to bypass is 
+(pageNumber - 1) * pageSize.
+Apply LINQ Methods: Apply the OrderBy(), Skip(), and Take() methods to your IQueryable
+ (or IEnumerable) data source. 
+
+
+Code Example
+Here is a common C# implementation, often used in a repository or service layer:
+csharp
+    public async Task<List<Product>> GetPaginatedProducts(int pageNumber, int pageSize)
+    {
+        // Ensure data is sorted for consistent pagination results
+        var query = dbContext.Products.OrderBy(p => p.Id); 
+
+        // Calculate the number of items to skip
+        var skipAmount = (pageNumber - 1) * pageSize;
+
+        // Apply Skip and Take
+        var paginatedData = await query
+            .Skip(skipAmount) 
+            .Take(pageSize)   
+            .ToListAsync();
+
+        return paginatedData;
+    }

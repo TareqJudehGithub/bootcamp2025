@@ -1,0 +1,24 @@
+Authentication
+ - The process of confirming that users are who they say they are, providing
+   a username and a password.
+ - Authentication Verifies who the user is.  
+ - After user confirmation, users are granted access to protected parts of the
+   application.
+
+
+Authentication Methods
+
+  Basic Authentication
+    - Basic authentication is not recommended (legacy approach).
+  
+  API Keys (Simple but limited)
+
+  OAuth2 + OpenID Connect(Industry standard)
+    - The common authentication method used.
+
+  JWT Tokens
+    - Secure, scalable, stateless.
+     
+
+    
+ 

@@ -1,0 +1,209 @@
+Image Upload in ASP.NET Core Web API
+
+ // Create a class model under Models folder
+  using System.ComponentModel.DataAnnotations;
+  using System.ComponentModel.DataAnnotations.Schema;
+
+  namespace newZealandWalksAPI.Models.Domain
+  {
+      public class Image
+      {
+          public Guid Id { get; set; }
+
+          [NotMapped]
+          public IFormFile File { get; set; }
+
+          [Required]
+          public string FileName { get; set; }
+
+          public string FileDescription { get; set; }
+
+          [Required]
+          public string FileExtention { get; set; }
+
+          public long FileSizeInBytes { get; set; }
+
+          public string FilePath { get; set; }
+      }
+  }
+
+ // Add the new model/entity created to DbContext
+    public DbSet<Image> Images { get; set; }
+
+ // Run Add-Migration and Update-Database
+
+ // Create a new DTO class model
+  using System.ComponentModel.DataAnnotations;
+
+  namespace newZealandWalksAPI.Models.DTO
+  {
+      public class ImageUploadRequestDTO
+      {
+          [Required]
+          public IFormFile File { get; set; }
+
+          [Required]
+          public string FileName { get; set; }
+
+          public string? FileDescription { get; set; }
+      }
+  }
+
+ // Create a new ImageUpload interface and it's implementation
+  using newZealandWalksAPI.Models.Domain;
+
+  namespace newZealandWalksAPI.Repositories
+  {
+      public interface IImageRepository
+      {
+          Task<Image> ImageUpload(Image image);
+      }
+  }
+
+  using newZealandWalksAPI.Data;
+  using newZealandWalksAPI.Models.Domain;
+
+  namespace newZealandWalksAPI.Repositories
+  {
+      public class ImageRepository : IImageRepository
+      {
+          private readonly IWebHostEnvironment _webHostEnvironment;
+          private readonly IHttpContextAccessor _httpContextAccessor;
+          private readonly NZWalksDbContext _nzWalksDbContext;
+          public ImageRepository(
+              IWebHostEnvironment webHostEnvironment,
+              IHttpContextAccessor httpContextAccessor,
+              NZWalksDbContext nZWalksDbContext
+              )
+          {
+              _webHostEnvironment = webHostEnvironment;
+              _httpContextAccessor = httpContextAccessor;
+              _nzWalksDbContext = nZWalksDbContext;
+          }
+
+          public async Task<Image> ImageUpload(Image image)
+          {
+              // Local path variable
+              var localFilePath = Path
+                  .Combine(
+                  _webHostEnvironment.ContentRootPath,
+                  "Images",
+                  $"{image.FileName}{image.FileExtension}"
+                  );
+
+              // Upload image to local path
+              using var stream = new FileStream(localFilePath, FileMode.Create);
+              await image.File.CopyToAsync(stream);
+
+              // file path   scheme://host/pathbase/imagesFolder/fileName/FileExtension
+              var urlFilePath = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}{_httpContextAccessor.HttpContext.Request.PathBase}/Images/{image.FileName}{image.FileExtension}";
+
+              image.FilePath = urlFilePath;
+
+              // Save to database - Add Image to Images table
+              await _nzWalksDbContext.Images.AddAsync(image);
+              await _nzWalksDbContext.SaveChangesAsync();
+
+              return image;
+
+          }
+      }
+  }
+
+
+ // Create a new ImageUpload controller under Controllers folder
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using newZealandWalksAPI.Models.Domain;
+    using newZealandWalksAPI.Models.DTO;
+    using newZealandWalksAPI.Repositories;
+
+    namespace newZealandWalksAPI.Controllers
+    {
+        [Route("api/[controller]")]
+        [ApiController]
+        public class ImagesController : ControllerBase
+        {
+
+            #region Fields
+            private readonly IImageRepository _imageRepository;
+            #endregion
+
+            #region Constructors
+            public ImagesController(IImageRepository imageRepository)
+            {
+                _imageRepository = imageRepository;
+            }
+            #endregion
+
+            // Create a new POST action method, accepting the DTO class model created as a parameter
+            // POST: /api/Images/Upload
+            [HttpPost]
+            [Route("ImageUpload")]
+            public async Task<IActionResult> Upload([FromForm] ImageUploadRequestDTO imageUploadRequest)
+            {
+                // Check file extension and file size
+                ValidateFileUpload(imageUploadRequest);
+
+                if (ModelState.IsValid)
+                {
+                    // Convert DTO to domain model
+                    var imageDomainModel = new Image
+                    {
+                        File = imageUploadRequest.File,
+                        FileName = imageUploadRequest.FileName,
+                        FileExtension = Path.GetExtension(imageUploadRequest.File.FileName),
+                        FileSizeInBytes = imageUploadRequest.File.Length,
+                        FileDescription = imageUploadRequest.FileDescription
+                    };
+
+                    // User repository to upload image
+                    await _imageRepository.ImageUpload(imageDomainModel);
+
+                    return Ok(imageDomainModel);
+                }
+
+                // Error uploading file
+                return BadRequest(ModelState);
+            }
+
+            private void ValidateFileUpload(ImageUploadRequestDTO imageUploadRequest)
+            {
+                // Check file name
+                if (imageUploadRequest.FileName == null)
+                {
+                    ModelState.AddModelError(key: "file", errorMessage: "FileName cannot be empty!");
+                }
+
+                var allowedExtension = new string[] { ".jpg", ".png", ".jpeg" };
+                // Check file extension format
+                if (!allowedExtension.Contains(Path.GetExtension(imageUploadRequest.File.FileName)))
+                {
+                    ModelState.AddModelError(key: "file", errorMessage: "Invalid file extension!");
+                }
+
+                // Check file size - don't allow files that are greater than 10mg  
+                if (imageUploadRequest.File.Length > 10485760)
+                {
+                    ModelState.AddModelError(key: "file", errorMessage: "File size should be less than 10mg");
+                }
+
+            }
+
+        }
+    }
+
+// Upload Static Files
+    // Enables the UseStaticFiles() service in Program.cs
+
+    // Use static files
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        // Map to https://localhost:7150/Images
+        FileProvider = new PhysicalFileProvider(Path
+        .Combine(Directory
+        .GetCurrentDirectory(), "Images")),
+        RequestPath = "/Images"
+    }
+        );
+

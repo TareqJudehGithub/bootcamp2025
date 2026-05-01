@@ -18,3 +18,47 @@ HTTP Verbs
  - DELETE 
   - Delete a resource by its 'id'
   
+HTTP Requests
+  URL         Where the HTTP request is sent.  https://example.com/todos
+  Method      An Http verb. Example: GET
+  Headers     Information about the request. For example: Content-Type: Application/Json
+  Body        Data sent with the request. Example:
+              {
+                "name: "John Smith",
+                "email": "john.smith@email.com"
+              }
+
+Http Responses
+ Status Code  A number indicating the type of response. Example: 201 CREATED
+ Headers      Information about the response. Example: Location: http://example.com/todos/7895415
+ Body         Data sent with the request. Example:
+              {
+               "User logged in successfully!"
+              }
+
+Response Codes
+  1xx Informational
+  2xx - Success
+    200 OK
+    201 CREATED
+    204 NO Content. Meaning the request was successful, but the response was empty.
+
+  3xx
+    301 Moved Permanently.  The URL has Permanently changed
+    302 Found/Moved Permanently
+
+  4xx Client Error
+    400 Bad Request
+    401 Unauthorized. You're not logged in.  
+    403 Forbidden.    Ok, you're logged in, back you cannot go there.
+    404 Not Found
+  
+  5xx Server Error
+    500 Internal Server Error
+    503 The server is not available at the time being.
+    
+
+
+
+
+

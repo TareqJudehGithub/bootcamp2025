@@ -1,0 +1,150 @@
+Custom Identity
+  - We can build a custom Identity authentication and authorization by creating a custom
+    Identity controller, and DTO models.
+
+
+    DTOs
+
+      - Create a new RegisterUserDto.cs and LoginUserDto.cs classes
+
+        using System.ComponentModel.DataAnnotations;
+
+        // Register
+        namespace HotelListingAPI.DTOs.Auth;
+
+        public class RegisterUserDto
+        {
+            [Required]
+            [EmailAddress]
+            public string Email { get; set; } = string.Empty;
+
+            [Required]
+            [MaxLength(length: 12, ErrorMessage = "{0} max length is {1} characters.")]
+            public string Password { get; set; } = string.Empty;
+
+            [Required]
+            [Compare(otherProperty: "Password")]
+            public string ConfirmPassword { get; set; } = string.Empty;
+
+            [Required]
+            [MaxLength(length: 12, ErrorMessage = "{0} max length is {1} characters.")]
+            public string FirstName { get; set; } = string.Empty;
+
+
+            [Required]
+            [MaxLength(length: 12, ErrorMessage = "{0} max length is {1} characters.")]
+            public string LastName { get; set; } = string.Empty;
+        }
+
+        // Login
+        using System.ComponentModel.DataAnnotations;
+
+        namespace HotelListingAPI.DTOs.Auth;
+        
+            public class LoginUserDto
+            {
+                [Required]
+                [EmailAddress]
+                [MaxLength(length: 12, ErrorMessage = "{0} max length is {1} characters.")]
+                public string Email { get; set; }
+                [Required]
+                [MaxLength(length: 12, ErrorMessage = "{0} max length is {1} characters.")]
+                public string Password { get; set; }
+            }
+        
+  Create a new AuthController with endpoints: Register, login, and logout.
+
+
+  using Microsoft.AspNetCore.Authorization;
+  using Microsoft.AspNetCore.Identity;
+  using Microsoft.AspNetCore.Mvc;
+
+  using HotelListingAPI.Data;
+  using HotelListingAPI.DTOs.Auth;
+  using HotelListingAPI.Results;
+  using HotelListingAPI.Constants;
+
+  namespace HotelListingAPI.Controllers
+  {
+      [Route("api/[controller]")]
+      [ApiController]
+      [AllowAnonymous]
+      public class AuthController : BaseApiController
+      {
+
+          #region fields
+          private readonly UserManager<ApplicationUser> _userManager;
+          #endregion
+
+          #region Constructors
+          public AuthController(UserManager<ApplicationUser> userManager)
+          {
+              _userManager = userManager;
+          }
+          #endregion
+          #region MyRegion
+
+          #endregion
+
+          // POST:  "api/auth/register"
+          //[HttpPost("register")]
+          [HttpPost]
+          [Route("register")]
+          public async Task<IActionResult> Register(RegisterUserDto registerUserDto)
+          {
+              var user = new ApplicationUser()
+              {
+                  Email = registerUserDto.Email,
+                  UserName = registerUserDto.Email,
+                  FirstName = registerUserDto.FirstName,
+                  LastName = registerUserDto.LastName,
+              };
+
+              var result = await _userManager.CreateAsync(user: user, password: registerUserDto.Password);
+              if (!result.Succeeded)
+              {
+
+                  var errors = result.Errors
+                      .Select(error => new Error(Code: ErrorCodes.BadRequest, Description: error.Description))
+                      .ToArray();
+
+                  return MapErrorsToResponse(errors: errors);
+              }
+              return Ok();
+          }
+
+          // GET:  "api/auth/login"
+          [HttpGet]
+          [Route("login")]
+          public async Task<IActionResult> Login(LoginUserDto loginUserDto)
+          {
+              var user = await _userManager.FindByEmailAsync(loginUserDto.Email);
+
+              if (user is null)
+              {
+                  return Unauthorized(new { message = "Invalid Credentials - User was not found." });
+              }
+              var isPasswordValid = await _userManager
+                  .CheckPasswordAsync(user: user, password: loginUserDto.Password);
+
+              if (!isPasswordValid)
+              {
+                  return Unauthorized(new { message = "Invalid username or password." });
+              }
+
+              return Ok();
+          }
+
+          
+        // GET: "api/auth/logout"
+        [HttpGet]
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok();
+        }
+      }
+  }
+
+

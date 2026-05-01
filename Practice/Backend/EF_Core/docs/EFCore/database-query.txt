@@ -1,0 +1,6 @@
+
+AsQueryable()
+  AsQueryable() extension method is used to convert a collection that implements 
+  IEnumerable<T> into an IQueryable<T>. This conversion is crucial for building dynamic 
+  LINQ queries with deferred execution, especially when working with data providers like 
+  Entity Framework Core.

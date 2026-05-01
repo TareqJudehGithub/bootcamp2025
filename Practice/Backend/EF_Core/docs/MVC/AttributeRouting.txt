@@ -17,39 +17,39 @@ Attribute Routing
 
       [ApiController]
       [Route("api/[controller]")] // Sets the base route to "api/products"
+
       public class ProductsController : ControllerBase
       {
           // ... actions ...
       }
 
-  On the Action Method
-    On action methods, you can use HTTP verb-specific attributes ([HttpGet], [HttpPost], etc.) or 
-    the generic [Route] attribute to define the specific route for that action. 
+  On the Action Method level
+    On action methods, you can use HTTP verb-specific attributes ([HttpGet], [HttpPost], 
+    etc.) or the generic [Route] attribute to define the specific route for that action. 
 
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
-    {
-        // Matches GET requests to /api/products
-        [HttpGet] 
-        public IEnumerable<Product> Get()
-        {
-            // ...
-        }
 
         // Matches GET requests to /api/products/{id} (e.g., /api/products/5)
-        [HttpGet("{id}")] 
-        public ActionResult<Product> GetById(int id)
+        [Route("{id:int}")] 
+        public ActionResult<Product> GetById([FromRoute] int id)
         {
             // ...
         }
 
-        // Matches POST requests to /api/products/submit
-        [HttpPost("submit")] 
-        public IActionResult SubmitProduct(Product product)
+  [Authorization]
+    - Prevent unauthorized access to a route.
+
+        // Below, only users with roles ("Reader, Writer")
+         have access to GetAllRegions route.
+
+        [Authorize(Roles = "Reader, Writer")]
+        public async Task<IActionResult> GetAllRegions()
         {
-            // ...
-            return Ok();
+            // Get data from the database
+            var regionsModel = await _regionRepository.GetAllRegionsAsync();
+
+            // Map domain models to DTOs
+            var regionsDTO = _mapper.Map<List<RegionDTO>>(source: regionsModel);
+
+            return Ok(regionsDTO);
         }
-    }
 

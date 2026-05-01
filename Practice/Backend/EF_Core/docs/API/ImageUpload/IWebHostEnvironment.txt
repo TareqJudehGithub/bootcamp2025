@@ -1,0 +1,27 @@
+IWebHostEnvironment
+
+  The IWebHostEnvironment interface in ASP.NET Core provides information about the web 
+  hosting environment in which an application is running. It is a key service used for 
+  accessing environment-specific settings, file paths, and managing application behavior 
+  based on the current runtime environment (e.g., Development, Staging, Production).
+
+  Key Features and Properties
+    The IWebHostEnvironment interface is found in the Microsoft.AspNetCore.Hosting 
+    namespace and provides several useful properties and methods.
+
+    EnvironmentName: A string representing the name of the current environment (e.g., 
+    "Development", "Staging", "Production"). This value is typically set via the 
+    ASPNETCORE_ENVIRONMENT environment variable.
+
+    ApplicationName: The name of the application.
+
+    ContentRootPath: The absolute path to the directory that contains the application 
+    content files.
+    
+    ContentRootFileProvider: An IFileProvider pointing at the ContentRootPath.
+    
+    WebRootPath: The absolute path to the directory that contains the web-servable 
+    static content files (defaults to the wwwroot subfolder).
+    
+    WebRootFileProvider: An IFileProvider pointing at the WebRootPath. 
+    

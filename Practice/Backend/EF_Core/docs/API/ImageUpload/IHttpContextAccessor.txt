@@ -1,0 +1,37 @@
+IHttpContextAccessor interface
+  The IHttpContextAccessor interface provides access to the current HttpContext within 
+  application components that do not have direct access to it, such as services resolved 
+  through dependency injection.  It is particularly useful for accessing information 
+  like user claims, session data, headers, and other request/response properties. 
+
+Key Uses and Implementation
+  Accessing HttpContext in Services: The primary use case is to access the current 
+  HttpContext from a service layer or business logic layer, which sits outside of the 
+  typical controller or Razor Page context.
+  
+  Dependency Injection: The IHttpContextAccessor and its implementation 
+  (HttpContextAccessor) must be registered in the Dependency Injection (DI) container.
+
+  Configuration: In modern ASP.NET Core applications (2.1+), you can register it using 
+  the extension method services.AddHttpContextAccessor(); within the ConfigureServices 
+  method of your Startup.cs (or Program.cs in newer templates).
+  
+  Usage Example: Once registered, you can inject the interface into a class's 
+  constructor and use the HttpContext property.
+
+  public class MyService
+  {
+      private readonly IHttpContextAccessor _contextAccessor;
+
+      public MyService(IHttpContextAccessor contextAccessor)
+      {
+          _contextAccessor = contextAccessor;
+      }
+
+      public string GetUserName()
+      {
+          var httpContext = _contextAccessor.HttpContext;
+          // Access user information, headers, etc.
+          return httpContext?.User?.Identity?.Name;
+      }
+  }

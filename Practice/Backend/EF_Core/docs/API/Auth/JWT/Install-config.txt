@@ -1,0 +1,52 @@
+JWT Installation and configuration in ASP.NET Web API
+
+1. Install NuGet package JWT Bearer
+
+2. Add JWT to appsettings.json file
+    {      
+      "JwtSettings": {
+      "Issuer": "", // who is issuing?  
+      "Audience": "", //  Receiving party
+      "DurationInMinutes": "10", // How long the token will be valid for
+      "Key": "G+aEs9?dkfvtS4RnOBs#AdX3J1Ua_<;k" // Key Value
+      }
+    }
+
+3. Program.cs
+ 
+
+
+
+// Authentication 
+builder.Services.AddAuthentication(options =>
+{
+  // Add scheme
+    // JWT 
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    // Handle scheme
+
+    // JWT 
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            // Validate:
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            // Validate against:
+            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+            ValidAudience = builder.Configuration["JwtSettings:Audience"],
+            // Encode signing key using SymetricSecurityKey
+            IssuerSigningKey = new SymmetricSecurityKey(key: Encoding.UTF8
+            .GetBytes(builder.Configuration["JwtSettings:Key"])),
+            // Token expiry extra time - Zero for no extra time
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+  
+  

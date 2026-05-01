@@ -1,0 +1,85 @@
+Installation using AddIdentityApiEndpoints<> service
+  - An extension method that simplifies the process of adding built-in authentication 
+    and authorization HTTP endpoints to an ASP.NET Core Web API. 
+  
+  - AddIdentityApiEndpoints<TUser> is introduced in .NET 8.
+  
+  - It provides a modern alternative to the traditional Razor Pages UI for Single Page 
+    Applications (SPAs) like React or Angular.
+  
+  Key Features
+  Automatic Registration: Registers essential Identity services and configures Bearer 
+  token and Cookie authentication in a single call. 
+
+  Standardized Endpoints: Adds pre-built routes for common tasks, including:
+    /register: Create new user accounts.
+    /login: Authenticate and receive a token or cookie.
+    /refresh: Exchange an expired token for a new one.
+    /manage/info: View or update user profile details
+
+
+  ApplicationUser.cs
+
+  using Microsoft.AspNetCore.Identity;
+
+  namespace HotelListingAPI.Data;
+
+  public class ApplicationUser : IdentityUser
+  {
+      #region Properties
+      public string FirstName { get; set; } = string.Empty;
+      public string LastName { get; set; } = string.Empty;
+      #endregion
+  }
+
+
+  HotelListingsDbContext.cs
+
+  using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+  using Microsoft.EntityFrameworkCore;
+
+  namespace HotelListingAPI.Data
+  {
+      public class HotelListingsDbContext : IdentityDbContext<ApplicationUser>
+      {
+          #region Constructors
+          public HotelListingsDbContext(DbContextOptions<HotelListingsDbContext> options) : base(options)
+          {
+          }
+          #endregion
+
+          #region DbSets
+          public DbSet<Hotel> Hotels { get; set; }
+          public DbSet<Country> Countries { get; set; }
+          #endregion
+      }
+  }
+
+  Program.cs
+  // Identity service
+
+  // Identity service - AddIdentityEndPoints<> - Access to API endpoints
+  builder.Services.AddIdentityApiEndpoints<ApplicationUser>(options =>
+  {
+      options.Password.RequireUppercase = true;
+      options.Password.RequireDigit = true;
+      options.Password.RequiredUniqueChars = 1;
+  }
+  )
+      // Identity Database store location
+      .AddEntityFrameworkStores<HotelListingsDbContext>();
+
+  // Register AddAuthorization service
+  builder.Services.AddAuthorization();
+
+
+
+// Add Identity endpoints middleware
+
+// app.MapIdentityApi<ApplicationUser>();   for default endpoints path
+
+// identity - AddIdentityEndPoints 
+app.MapGroup("api/defaultauth").MapIdentityApi<ApplicationUser>();
+
+app.MapGroup("api/auth").MapIdentityApi<ApplicationUser>();
+

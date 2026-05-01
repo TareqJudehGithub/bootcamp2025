@@ -1,0 +1,5 @@
+[NotMapped]
+  The [NotMapped] data annotation attribute in ASP.NET is used with 
+  Entity Framework (EF) to indicate that a property or class should 
+  not be mapped to a corresponding column or table in the database.
+  
