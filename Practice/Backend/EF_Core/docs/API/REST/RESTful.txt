@@ -1,0 +1,4 @@
+RESTful Design
+
+  api/hotels/{hotelId}/bookings
+  

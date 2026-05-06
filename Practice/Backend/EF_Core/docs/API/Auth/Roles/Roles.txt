@@ -1,0 +1,17 @@
+Roles
+ - Roles represent a set of permissions assigned to a user.
+ - Examples:  Admin, Manager, User.
+ - Users can belong to multiple roles.
+ - ASP.NET Core Identity provides built-in support for role management.
+ 
+ Why Roles are important?
+  - Simplifies authorization management.
+  - Reduces complexity to assigning permissions individually.
+  - Provides a clear separation of concerns between identity and authorization.
+  - widely used in enterprise applications and APIs.
+
+
+  [Authorize(Roles = "Admin")]
+
+  - Access => 200
+  - Forbidden 403

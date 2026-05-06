@@ -66,6 +66,10 @@ Installation using AddIdentityApiEndpoints<> service
       options.Password.RequiredUniqueChars = 1;
   }
   )
+
+      // identity Roles
+      .AddRoles<ApplicationUser>()
+      
       // Identity Database store location
       .AddEntityFrameworkStores<HotelListingsDbContext>();
 

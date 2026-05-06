@@ -13,40 +13,107 @@ JWT Installation and configuration in ASP.NET Web API
     }
 
 3. Program.cs
- 
 
-
-
-// Authentication 
-builder.Services.AddAuthentication(options =>
-{
-  // Add scheme
-    // JWT 
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-    // Handle scheme
-
-    // JWT 
-    .AddJwtBearer(options =>
+    builder.Services.AddIdentityApiEndpoints<ApplicationUser>(options =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            // Validate:
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
+        options.Password.RequireUppercase = true;
+        options.Password.RequireDigit = true;
+        options.Password.RequiredUniqueChars = 1;
+    }
+    )
+        // identity Roles
+        .AddRoles<IdentityRole>()
 
-            // Validate against:
-            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-            ValidAudience = builder.Configuration["JwtSettings:Audience"],
-            // Encode signing key using SymetricSecurityKey
-            IssuerSigningKey = new SymmetricSecurityKey(key: Encoding.UTF8
-            .GetBytes(builder.Configuration["JwtSettings:Key"])),
-            // Token expiry extra time - Zero for no extra time
-            ClockSkew = TimeSpan.Zero
-        };
-    });
-  
-  
+        // Identity Database store location
+        .AddEntityFrameworkStores<HotelListingsDbContext>();
+
+    // Authentication 
+    builder.Services.AddAuthentication(options =>
+    {
+    // Add scheme
+        // JWT 
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+        // Handle scheme
+
+        // JWT 
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                // Validate:
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+
+                // Validate against:
+                ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+                ValidAudience = builder.Configuration["JwtSettings:Audience"],
+                // Encode signing key using SymetricSecurityKey
+                IssuerSigningKey = new SymmetricSecurityKey(key: Encoding.UTF8
+                .GetBytes(builder.Configuration["JwtSettings:Key"])),
+                // Token expiry extra time - Zero for no extra time
+                ClockSkew = TimeSpan.Zero
+            };
+        });
+
+2. Create a new service layer, for JWT
+    
+    - In IUsersServices.cs, add abstract: GenerateToken
+        Task<string> GenerateToken(ApplicationUser user);
+    
+    - In UsersServices.cs implemented GenerateToken
+
+        public async Task<string> GenerateToken(ApplicationUser user)
+        {
+            // Set basic user claims
+            var claims = new List<Claim>
+            {
+                new (type: JwtRegisteredClaimNames.Sub, value: user.Id),
+                new (type: JwtRegisteredClaimNames.Email, value: user.Email),
+                new (type: JwtRegisteredClaimNames.Jti, value: Guid.NewGuid().ToString()),
+                new(type: JwtRegisteredClaimNames.Name, value: $"{user.FullName}")
+            };
+            // Set user Role claims
+            var roles = await _userManager.GetRolesAsync(user: user);
+
+            // Convert user roles into claims list
+            var roleClaims = roles.Select(q => new Claim(type: ClaimTypes.Role, value: q)).ToList();
+
+            claims = claims.Union(roleClaims).ToList();
+
+            // Set JWT key credentials
+            // retrieve JWT security key
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtSettings:Key"]));
+            // Hash the new securityKey with HmacSha256
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            // Create an encoded token
+            var token = new JwtSecurityToken(
+                issuer: _config["JwtSettings:Issuer"],
+                audience: _config["JwtSettings:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToInt32(_config["JwtSettings:DurationInMinutes"])),
+                signingCredentials: credentials
+                );
+
+            // Return token value
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+    - in LoginAsync implementation, add the token result
+      to the return result
+
+            // return success result
+            return Result<string>.Success(token);    
+ 
+ - Postman:
+    1. execute the Login API endpoint with a valid
+    Identity username and password.
+    2. Copy/paste the autogenerated JWT token from step 1. and
+    paste it after 'Bearer ' keyword in a GET API endpoint you wish to test, in the 
+    Header section.
+
+    "Bearer  JWT token encode"

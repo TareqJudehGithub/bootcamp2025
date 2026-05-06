@@ -1,0 +1,45 @@
+In the Service Method, use Result as a type to check for method results.
+
+
+public async Task<Result<IEnumerable<GetCountriesDto>>> GetCountriesAsync()
+{
+    #region Manual Mapping
+    //var countries = await _context.Countries
+    //    .Select(q => new GetCountriesDto(
+    //        Id: q.Id,
+    //        Name: q.Name,
+    //        ShortName: q.ShortName
+    //        ))
+    //    .ToListAsync();
+    #endregion
+
+    var countries = await _context.Countries
+        .ProjectTo<GetCountriesDto>(_mapper.ConfigurationProvider)
+        .ToListAsync();
+
+    return Result<IEnumerable<GetCountriesDto>>.Success(countries);
+}
+
+
+ public async Task<Result> DeleteCountryAsync(int id)
+ {
+     if (!await CountryExistsAsync(id))
+     {
+         return Result
+             .NotFound(new Error(Code: ErrorCodes.NotFound, $"Country with Id: {id} was not found."));
+     }
+
+     try
+     {
+         var country = await _context.Countries.FirstOrDefaultAsync(q => q.Id == id);
+
+         _context.Countries.Remove(country);
+         await _context.SaveChangesAsync();
+
+         return Result.Success();
+     }
+     catch (Exception)
+     {
+         return Result.Failure();
+     }
+ }

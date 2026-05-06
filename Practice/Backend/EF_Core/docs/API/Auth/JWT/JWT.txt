@@ -1,6 +1,16 @@
 Json Web Token (JWT)
   - Json Web Token (JWT) is a compact, self-contained token format.
 
+  What is JWT-based authentication?
+    Tokens are digitally encoded signatures that are used to authenticate and authorize 
+    access to protected resources in an application. JWT (JSON Web Token) is an open 
+    standard commonly used for exchanging information between two parties in a secure manner.
+    Typically, a JWT token is used in ASP.NET Core applications to authenticate users 
+    and, if the authentication is successful, provide them access to protected resources 
+    in the application.
+
+
+
   Consists of:
   - Header
     - Token Type (JWT), signing algorithm (HS256)
@@ -29,4 +39,10 @@ Json Web Token (JWT)
 
 
 
+What are access tokens?
+  An access token is a digital (cryptographic) key that provides secure access to API endpoints. A token-based authentication system uses access tokens to allow an application to access APIs on the server. After authentication with valid credentials is successful, access tokens are issued to the user.
 
+  The tokens are then passed as ‘bearer’ tokens in the request header while a user requests data from the server. As long as the token is valid, the server understands that the bearer is authorized to access the resource.
+
+
+More on JWT on https://www.red-gate.com/simple-talk/development/dotnet-development/how-to-use-refresh-tokens-in-asp-net-core-a-complete-guide/

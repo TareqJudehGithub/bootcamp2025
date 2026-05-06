@@ -1,0 +1,14 @@
+In the Controller, inherit from BaseiApiController in order to be able to use
+ActionResult, ActionResult<> and ToActionResult()
+
+public async Task<ActionResult<IEnumerable<GetCountriesDto>>> GetCountries()
+{
+    var result = await _countriesServices.GetCountriesAsync();
+    return ToActionResult(result: result);
+}
+
+ public async Task<IActionResult> DeleteCountry([FromRoute] int id)
+ {
+     var result = await _countriesServices.DeleteCountryAsync(id);
+     return ToActionResult(result: result); 
+ }

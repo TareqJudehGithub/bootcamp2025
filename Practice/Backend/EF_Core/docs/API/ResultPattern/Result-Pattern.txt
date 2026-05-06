@@ -1,7 +1,7 @@
 Result Pattern
 
   The Result Pattern in ASP.NET is a design pattern that wraps the outcome of an 
-  operation—whether a success or a failure—into a single object.
+  operation whether a success or a failure into a single object.
   This approach is often preferred over throwing exceptions for expected business 
   logic errors.
 

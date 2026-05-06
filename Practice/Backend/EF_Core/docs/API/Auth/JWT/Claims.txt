@@ -20,4 +20,10 @@ Claims
     - Don't embed large arrays, nested JSON, or verbose text.
     - sub should be a stable, unique ID(GUID/ULID), not a mutable field like email/username.
     - User clean claim names. Use standard key names and clear custom names as necessary.
-      
+
+
+
+  - jti =>
+  The jti (JWT ID) claim is a unique identifier for a JSON Web Token. In ASP.NET 
+  applications, it is primarily used as a security mechanism to prevent "replay attacks" 
+  and to enable granular token revocation.
