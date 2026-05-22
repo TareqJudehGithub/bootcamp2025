@@ -1,0 +1,25 @@
+TypeFilterAttribute
+
+  TypeFilterAttribute is used to apply filters that require Dependency 
+  Injection (DI) without needing to register the filter type itself in the DI container.
+
+  It acts as a factory, using ObjectFactory to instantiate the filter type while 
+  automatically resolving its constructor dependencies from the application's service 
+  provider.  
+
+  Key Features
+
+    Automatic DI: It resolves services registered in your DI container (like ILogger 
+    or custom services) and injects them into the filter's constructor.
+
+    No Registration Required: Unlike ServiceFilterAttribute, the filter implementation 
+    class does not need to be registered in Program.cs.
+
+    Custom Arguments: You can pass non-service arguments (like strings or integers) 
+    directly to the filter's constructor using the Arguments property.
+
+    Lifecycle Management: It provides an IsReusable property to indicate if the filter 
+    instance can be reused across different requests (though the runtime makes no strict 
+    guarantees).
+
+    

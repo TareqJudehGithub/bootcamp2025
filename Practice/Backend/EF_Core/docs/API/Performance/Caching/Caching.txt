@@ -1,0 +1,76 @@
+What is Caching?
+  Caching is temporarily frequently accessed data in memory or another 
+  fast-accessed medium.
+
+  Reduces round-trip to databases, API, or disk.
+
+  Cached data is served much faster that recomputing or re-querying a database.
+
+  Essential for scalability and for performance optimization.
+
+
+  When not to use Caching?
+
+    Avoid caching data that changes frequently(e. g., booking)
+
+    Personalized content (e.g., "My orders" page)
+
+    When consistency is critical (e.g., banking transactions)
+
+    Cache data that is stagnant for the most part(e.g., Countries)
+
+  
+  Caching options/methods
+
+      Client-side Caching
+        - Data is stored at the client-side device (browser, mobile app)
+        - Commonly uses Cache-Control, ETag, LocalStorage, or SessionStorage.
+        - Reduces network calls, and improves load time for static content.
+
+        - AVOID caching sensitive user data.
+
+      In-Memory Caching
+        - Stores data in the app's local memory (RAM)
+        - Fastest caching option, no network call is required
+        - Ideal for single-instance or small-scale apps
+        
+        Limitations:
+          - Cache lost when app restarts
+          - Not shared between app servers
+      
+      Response Caching
+        - Stores full HTTP respones for identical requests
+        - Reduces processing time for frequently requested endpoints.
+        - Implemented sing ResponseCaching middleware
+        - Works best for GET request only.
+
+      Output Caching
+        - Advanced version or Response Caching
+        - Caches Controller or Minimal API outputs using policies
+        - Support cache tags, vary-by rules, and expiration policies
+        - Integrates with distributed caches like Redis    
+
+      Distributed Caching
+        - Centralized cache shared by all app instances
+        - Works well in load-balanced or cloud deployments
+        - Common providers: Redis, SQL Server, NCache
+
+        - Benefits:
+          Data consistency across servers
+          Survives restarts
+          Scales horizontally
+
+
+    Caching Considerations
+      - Cache only What's needed
+      - Avoid large object graphs
+      - Use async cache I/O
+      - Handle stale date gracefully
+      - Use distributed cache for multi-server environments
+      
+    Common Pitfalls
+      - Stale data: Cached info is outdated, never being refreshed.
+      - Cache stampede: Many requests rebuild the cache simultaneously
+      - Memory Pressure: Too much cached data
+      - Over-Caching small data: Cache only expensive items.
+      

@@ -1,0 +1,7 @@
+Rate Limiting
+  - Rate Limit controls how many requests a client can make in a specific time.
+  - Helps prevents abuse, ensure fairness, and protect backend systems.
+  - Example: 
+    - 100 requests per minute per user
+    - Block excess requests beyond the limit
+    

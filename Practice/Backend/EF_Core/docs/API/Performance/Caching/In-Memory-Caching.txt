@@ -1,0 +1,126 @@
+
+1. Program.cs
+  
+    // Register  In-Memory Caching
+    builder.Services.AddMemoryCache();
+
+2. Services Layer 
+
+
+using Microsoft.Extensions.Caching.Memory;
+
+// Fields
+  private readonly IMemoryCache _memoryCache;
+
+// Constructors
+ public CountriesService( 
+     IMemoryCache memoryCache
+     )
+ {    
+     _memoryCache = memoryCache;
+ }
+
+  // local variables and methods
+    private const string CountriesListCacheName = $"countries_list_";
+    private const string CountryCacheName = $"countries_list_";
+    private void InvalidateCountryCache(int id)
+    {
+        // Look for the country Id and remove it from cache
+        _memoryCache.Remove($"{CountryCacheName}{id}");
+    }
+
+ // Get all
+
+  public async Task<Result<IEnumerable<GetCountriesDto>>> GetCountriesAsync(CountryFilterParameters filters)
+  {
+      var query = _context.Countries.AsQueryable();
+
+      #region Caching
+      var searchTerm = filters?.Search?.Trim().ToLowerInvariant() ?? string.Empty;
+      var cacheKey = $"{CountriesListCacheName}{searchTerm}";
+
+      // If data was not in the cache
+      if (!_memoryCache.TryGetValue(key: cacheKey, out IEnumerable<GetCountriesDto>? countriesDto))
+      {
+          countriesDto = await query
+              .AsNoTracking()
+              .ProjectTo<GetCountriesDto>(_mapper.ConfigurationProvider)
+              .ToListAsync();
+        
+
+          var cacheOptions = new MemoryCacheEntryOptions()
+              .SetSlidingExpiration(TimeSpan.FromMinutes(5))
+              .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
+
+          _memoryCache.Set(key: cacheKey, value: countriesDto, options: cacheOptions);
+      }
+      #endregion
+      //countriesDto ??= [];
+
+      if (countriesDto is null && !countriesDto.Any())
+      {
+          return Result<IEnumerable<GetCountriesDto>>.
+              NotFound(new Error(Code: ErrorCodes.NotFound, Description: $"Hotel list is empty."));
+      }
+
+      return Result<IEnumerable<GetCountriesDto>>.Success(countriesDto);
+  }
+
+ // Get By Id
+
+      public async Task<Result<GetCountryDto>> GetCountryAsync(int id)
+      {
+          #region Caching
+          // Check the cache
+          var cacheKey = $"{CountryCacheName}{id}";
+
+          // If not found in cache, then hit the database (Cache hit or miss)
+          if (!_memoryCache.TryGetValue(key: cacheKey, value: out GetCountryDto? countrDto))
+          {
+              //  return selected country including all hotels
+              countrDto = await _context.Countries
+                  .Where(c => c.Id == id)
+                  .ProjectTo<GetCountryDto>(_mapper.ConfigurationProvider)
+                  .FirstOrDefaultAsync();
+
+              // If found
+              if (countrDto is not null)
+              {
+                  var cacheOptions = new MemoryCacheEntryOptions()
+                      .SetSlidingExpiration(TimeSpan.FromMinutes(5))
+                      .SetAbsoluteExpiration(TimeSpan.FromHours(1));
+
+                  _memoryCache.Set(key: cacheKey, value: countrDto, options: cacheOptions);
+              }
+          }
+          #endregion
+
+          if (!await CountryExistsAsync(id))
+          {
+              return Result<GetCountryDto>
+                  .NotFound(errors: new Error(Code: ErrorCodes.NotFound, Description: $"Country with Id: {id} not found."));
+          }
+
+              return countrDto is null
+                  ?
+                  Result<GetCountryDto>.NotFound()
+                  :
+                  Result<GetCountryDto>.Success(countrDto);
+          }
+          
+ // Create
+      Add after saving to DB, and after converting back to Dto
+    #region Caching
+
+    // Refresh Cache with the new entry
+    _memoryCache.Remove(key: CountriesListCacheName);
+    #endregion
+
+ // Update and Delete
+
+    Add after Saving to the database 
+        await _context.SaveChangesAsync();
+        #region Caching
+        // Refresh Cache after Update
+        InvalidateCountryCache(id);
+        #endregion

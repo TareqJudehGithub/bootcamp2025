@@ -1,0 +1,7 @@
+In AutoMapper, you choose between the generic Map<TDestination> and non-generic Map methods based on whether the types are known at compile time or runtime.
+
+  1. Generic Map Method 
+    (Typed)Use this when you know the destination type while writing your code. It is the most common approach in ASP.NET Core applications.Syntax: _mapper.Map<TDestination>(sourceObject);When to use:Standard DTO Mapping: Returning a specific Data Transfer Object (DTO) from a controller or service.Type Safety: You want the compiler to ensure you are assigning the result to the correct type.Performance: It avoids boxing/unboxing overhead for value types and is generally more efficient.
+  2. Non-Generic Map Method (Object-based).
+  
+    Use this when the types are dynamic or only known at runtime.Syntax: _mapper.Map(sourceObject, sourceType, destinationType);When to use:Dynamic Scenarios: When your application uses reflection to determine which types to map.Generic Base Classes: If you have a shared service handling many different entity types where the specific type is passed as a System.Type parameter.Runtime Resolution: When the mapping target is decided by user input or dynamic configuration.

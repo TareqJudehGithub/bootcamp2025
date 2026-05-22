@@ -1,0 +1,57 @@
+PATCH Installation and configuration
+  -  We start by installing:
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="10.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.7" />
+
+  - In program.cs
+    //  Avoid errors from object cycles, and to return Country details in GetHotels endpoint.
+    builder.Services.AddControllers()
+    // Patch requirement (NewtonsoftJson)
+    .AddNewtonsoftJson()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
+
+  - In the target Controller contract abstract, create a new abstract and it's implementation.
+
+    using Microsoft.AspNetCore.JsonPatch;
+    Task<Result> PatchCountryAsync(int id, JsonPatchDocument<UpdateCountryDto> patchDoc);  
+
+  - Service class
+
+      public async Task<Result> PatchCountryAsync
+        (int id, JsonPatchDocument<UpdateCountryDto> patchDoc)
+    {
+        // Get country
+        var country = await _context.Countries.FirstOrDefaultAsync(q => q.Id == id);
+        if (country == null)
+        {
+            return Result
+                .NotFound(new Error(Code: ErrorCodes.NotFound, Description: $"Country with Id: {id} not found."));
+        }
+        // Map country to Dto
+        var countryDto = _mapper.Map<UpdateCountryDto>(country);
+
+        // Apply changes to countryDto
+        patchDoc.ApplyTo(countryDto);
+
+        if (countryDto.Id != id)
+        {
+            return Result
+                .BadRequest(new Error(Code: ErrorCodes.Validation, Description: $"Cannot modify Id field."));
+        }
+        // Check for CountryName duplicates
+        if (await _context.Countries
+            .AnyAsync(q => q.Name.ToLower().Trim() == countryDto.Name.ToLower().Trim() && q.Id != id))
+        {
+            return Result
+              .BadRequest(new Error(Code: ErrorCodes.Conflict, Description: $"Country Name already exists."));
+        }
+
+        // Map to Domain model and save
+        _mapper.Map(countryDto, country);
+        await _context.SaveChangesAsync();
+
+        return Result.Success();
+    }

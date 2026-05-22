@@ -1,0 +1,17 @@
+Filtering
+  Filtering allows clients to specify criteria to retrieve only 
+  the data that meets certain conditions.
+
+  Commonly used to pass filtering criteria in the URL. 
+  For example, GET/api/booking?startDate=2026-03-01
+
+  We can build dynamic queries based on filtering criteria provided by the client.
+
+  Often used in conjunction with paging to limit the number of results returned.
+
+
+Implementation
+
+1. Start by defining a new filter abstract and it's filter implementation(s).
+2. Build a filter method extension class.
+3. Reflect Filter method in Services and in Controllers.

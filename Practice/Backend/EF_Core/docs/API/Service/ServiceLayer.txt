@@ -1,0 +1,59 @@
+The Service Layer
+
+ The Service Layer is an architectural pattern that sits between your presentation 
+ layer (Controllers) and your data access layer (Repositories). 
+ 
+ - The Service Layer serves as the "brain" of your application, where core business 
+   logic and rules live.
+
+ - A level of abstraction for business login.
+
+ - Allows all logic related to a module to be implemented.
+
+ - Removes concerns from Controllers, allowing them to focus on directing
+   web traffic.
+
+    - Preventing controllers from becoming bloated with logic. Controllers should 
+        only handle HTTP concerns (routing, status codes), while services handle the 
+        actual work.
+
+    - Business logic should not be included in the controller, it should reside
+      in the service layer instead.
+    - Controllers should be focused on directing web traffic.
+
+ - Business Logic Encapsulation: Rules like data validation, complex calculations, and 
+   transaction orchestration are centralized here.
+
+ - Includes a contract (interface) and an implementation (class).
+  
+ - All dependencies for the module will be injected here.
+
+ - It is reasonable to use EF Core directly (like in the service layer) and
+   directly access all features for database accesses.
+
+
+  Typical Flow  
+    1. Controller: 
+        Receives an HTTP request and extracts data (often a DTO).Service Layer: The controller calls a service method. The service performs business validation and logic.  
+
+    2. Service Layer: 
+        The controller calls a service method. The service performs business validation and logic.
+
+    3. Repository Layer: 
+        The service calls a repository to save or fetch data from the database. 
+
+    4. Response:
+        The service returns a result (or another DTO) back to the controller to be sent to the user.
+
+implementation
+
+  1. Start by defining a new interface for the service, under Contracts folder.
+  2. Implement the service abstracts, under Services/ServiceName folder.
+  3. Register as a service in Programs.cs using AddedScope() method
+  4. Inject in the Controller constructor.
+  
+
+
+
+
+        

@@ -1,0 +1,42 @@
+Patch 
+
+  What is PATCH?
+    - Patch is an HTTP method used to update a resource partially.
+    - Only the fields specified in the request are changed, other fields remain untouched.
+    - Ideal for scenarios where you want to update a few properties of an object, not the 
+      whole object.
+    - Am alternative to PUT, which is used to replace the entire resource with the data 
+      provided in the request.  All fields are updated, and any missing fields may be 
+      reset to defaults or removed.
+
+  Why use PATCH?
+    - PATCH reduces bandwidth and processing for minor updates.
+    - Minimizes risk of accidentally overwriting data.
+    - Follows RESTful best practices for resource modification.
+
+  PATCH Operations
+    add
+      Adds value to an object or inserts it into an array.
+      {"op": "add", "path": "/tags/0", "value": "newtag"}  Inserts "newtag" at the start
+      of the tags array.
+    
+    remove
+      Removes a value from an object or from an array  
+      {"op": "remove", "path": "/tags/2"}   Removes the 3rd element from the tags array.
+
+    replace
+      Straight way to update a value in a path
+      {"op": "replace", "path": "/email", "value": "smith@gmail.com"}  
+
+    move
+      Moves a value from one location to another
+      {"op": "move", "from": "/oldLocation", "path": "NewLocation" } 
+
+    copy:  
+    Copies a value from one location to another
+      {"op": "copy", "from": "/oldLocation", "path": "NewLocation" } 
+
+    test
+      Test that a value at a path matches the provided value. Compares the value at the 
+      specified path with the provided value.  
+      {"op": "test", "path": "/status", "value": "active"}

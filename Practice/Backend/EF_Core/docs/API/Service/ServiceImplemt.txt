@@ -1,0 +1,18 @@
+public async Task<Result<IEnumerable<GetCountriesDto>>> GetCountriesAsync()
+{
+    #region Manual Mapping
+    //var countries = await _context.Countries
+    //    .Select(q => new GetCountriesDto(
+    //        Id: q.Id,
+    //        Name: q.Name,
+    //        ShortName: q.ShortName
+    //        ))
+    //    .ToListAsync();
+    #endregion
+
+    var countries = await _context.Countries
+        .ProjectTo<GetCountriesDto>(_mapper.ConfigurationProvider)
+        .ToListAsync();
+
+    return Result<IEnumerable<GetCountriesDto>>.Success(countries);
+}

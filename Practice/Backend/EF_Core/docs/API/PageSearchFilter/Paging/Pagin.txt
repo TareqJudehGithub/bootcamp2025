@@ -1,0 +1,23 @@
+Paging
+
+  A technique used to divide large set of data into smaller more manageable 
+  chunks or "pages".
+
+  Paging helps improve performance and user experience by loading only a subset 
+  of dat at a time.
+
+  Paging reduces the amount of data sent over the network and improves the responsiveness
+  of the the application by avoiding the need to load all data at once.
+
+  Paging implementation
+  PageNumber and PageSize are query parameters used to implement paging.
+
+  The server processes the paging parameters and retrieves the appropriate subset 
+  of data from the database.
+
+  The API response should include the paged data along with metadata such as the total
+  number of items, the current page number, and the total number of pages.
+
+  
+
+

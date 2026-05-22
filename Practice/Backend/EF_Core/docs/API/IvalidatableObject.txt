@@ -1,0 +1,42 @@
+IValidatableObject 
+
+IValidatableObject interface is used to implement custom, class-level validation logic. 
+It is particularly useful for cross-property validation, where the validity of one field 
+depends on the value of another.
+
+Key CharacteristicsExecution Order: By default, the Validate method only runs after 
+property-level Data Annotation attributes (like [Required] or [Range]) have passed.
+
+Integration: It automatically populates the ModelState in MVC and Web API controllers, 
+allowing you to check ModelState.IsValid.
+
+Limited Scope: It does not natively support asynchronous validation (e.g., 
+Task<IEnumerable<ValidationResult>>) or easy Dependency Injection without manual service 
+resolution from the ValidationContext.
+
+
+Basic Implementation ExampleTo use it, implement the Validate method from the 
+System.ComponentModel.DataAnnotations namespace.
+
+using System.ComponentModel.DataAnnotations;
+
+public class Appointment : IValidatableObject
+{
+    [Required]
+    public DateTime StartDate { get; set; }
+
+    [Required]
+    public DateTime EndDate { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        // Custom cross-property logic
+        if (EndDate < StartDate)
+        {
+            yield return new ValidationResult(
+                "End Date must be after the Start Date.",
+                new[] { nameof(EndDate) } // Associates error with a specific field
+            );
+        }
+    }
+}

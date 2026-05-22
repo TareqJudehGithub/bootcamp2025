@@ -1,0 +1,9 @@
+AsNoTracking()
+  
+  AsNoTracking is a method in Entity Framework (EF) Core used to tell the Change Tracker to ignore the results of a query. By default, EF Core tracks all entities it retrieves so that any changes you make can be automatically saved back to the database when you call SaveChanges().Why Use AsNoTracking?Performance: Queries execute up to 30-60% faster because EF Core skips the overhead of creating snapshots for change detection.Memory Efficiency: It can reduce memory usage by two to five times since the DbContext doesn't store tracking metadata for those entities.Scalability: Ideal for high-volume, read-only operations like API list endpoints, reports, or dashboards.When to Use ItRead-Only Scenarios: Use it whenever you only need to display data and have no intention of updating it.Large Datasets: Essential when pulling thousands of records to avoid massive memory allocation.Stateless Environments: Perfect for web APIs where the context is disposed of after the request, and entities are often mapped to DTOs anyway.
+
+
+  How to Use ItYou can apply it to individual queries or set it as a global default for a context instance.Individual Querycsharpvar users = await context.Users
+    .AsNoTracking()
+    .Where(u => u.IsActive)
+    .ToListAsync();

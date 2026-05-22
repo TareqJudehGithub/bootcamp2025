@@ -1,0 +1,3 @@
+JsonPatchDocument<T>
+
+  In ASP.NET Core, JsonPatchDocument<T> is a class used to implement partial updates for resources in a RESTful API. Unlike a PUT request, which replaces an entire object, a PATCH request using JsonPatchDocument only sends specific instructions (like add, remove, or replace) to modify certain fields.

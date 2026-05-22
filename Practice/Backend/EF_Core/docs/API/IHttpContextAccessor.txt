@@ -16,22 +16,38 @@ Key Uses and Implementation
   the extension method services.AddHttpContextAccessor(); within the ConfigureServices 
   method of your Startup.cs (or Program.cs in newer templates).
   
-  Usage Example: Once registered, you can inject the interface into a class's 
+  Usage Example: Once registered in Program.cs, you can inject the interface into a class's 
   constructor and use the HttpContext property.
 
-  public class MyService
-  {
-      private readonly IHttpContextAccessor _contextAccessor;
+    Program.cs
+        builder.Services.AddHttpContextAccessor();
 
-      public MyService(IHttpContextAccessor contextAccessor)
-      {
-          _contextAccessor = contextAccessor;
-      }
+    ServiceClass.cs
 
-      public string GetUserName()
-      {
-          var httpContext = _contextAccessor.HttpContext;
-          // Access user information, headers, etc.
-          return httpContext?.User?.Identity?.Name;
-      }
-  }
+        public class MyService
+        {
+            private readonly IHttpContextAccessor _contextAccessor;
+
+            public MyService(IHttpContextAccessor contextAccessor)
+            {
+                _contextAccessor = contextAccessor;
+            }
+
+            public string GetUserName()
+            {
+                // Not recommended anymore
+                var httpContext = _contextAccessor.HttpContext;                
+                // Access user information, headers, etc.
+                return httpContext?.User?.Identity?.Name;
+
+                //
+                using System.IdentityModel.Tokens.Jwt;
+
+                var userId = _contextAccessor
+                    .HttpContext?
+                    .User?
+                    .FindFirst(JwtRegisteredClaimNames.Sub)?
+                    .Value;
+
+            }
+        }

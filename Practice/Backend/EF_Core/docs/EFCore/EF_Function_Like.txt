@@ -1,0 +1,7 @@
+
+ var search = filters.Search.Trim();
+ query = query
+     .Where(q => 
+     EF.Functions.Like(q.Name, $"%{search}%")
+     ||
+     EF.Functions.Like(q.Address, $"%{search}%"));

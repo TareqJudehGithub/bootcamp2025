@@ -1,0 +1,14 @@
+
+
+[Route("api/[controller]")]
+[ApiController]
+[Authorize]
+public class CountriesController : BaseApiController
+{
+    private readonly ICountriesServices _countriesServices;
+    
+    public CountriesController(ICountriesServices countriesServices)
+    {
+        _countriesServices = countriesServices;
+    }
+}

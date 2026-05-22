@@ -1,0 +1,23 @@
+
+Program.cs
+
+  // Out-Put Caching
+  builder.Services.AddOutputCache();
+
+  // Add after app.UseAuthorization();
+
+
+  // Out-Put Cache middleware
+
+  app.UseAuthorization();
+
+  app.UseOutputCache();
+
+  In endpoint action controlle
+Must remove [Authorize] first.
+
+      using Microsoft.AspNetCore.OutputCaching;
+
+      [HttpGet]
+      [OutputCache]
+

@@ -1,0 +1,167 @@
+
+
+
+1. 
+
+namespace HotelListingAPI.Common.Models.Filtering;
+
+public abstract class BasedFilterParameters
+{
+    public string? Search { get; set; }
+    public string? SortBy { get; set; }
+    public bool SortDescending { get; set; } = false;
+
+}
+
+2.
+namespace HotelListingAPI.Common.Models.Filtering;
+
+public class HotelFilterParameters : BasedFilterParameters
+{
+    // Filter items by:
+    public string? HotelName { get; set; }
+    public int? CountryId { get; set; }
+    public string? CountryName { get; set; }
+    public double? MinRating { get; set; }
+    public double? MaxRating { get; set; }
+    public decimal? MinPrice { get; set; }
+    public decimal? MaxPrice { get; set; }
+    public string? Location { get; set; }
+}
+
+
+3. Adjust the contract abstract and its implementation arguments 
+
+using HotelListingAPI.Application.DTOs.Hotel;
+using HotelListingAPI.Common.Results;
+using HotelListingAPI.Common.Models.Paging;
+using HotelListingAPI.Common.Models.Filtering;
+
+namespace HotelListingAPI.Application.Contracts;
+
+public interface IHotelsServices
+{
+    #region Before Result Pattern
+    #region Before Result Pattern
+    //Task<IEnumerable<GetHotelDto>> GetHotelsAsync();
+    //Task<GetHotelDto?> GetHotelAsync(int id);
+    //Task<GetHotelDto?> CreateHotelAsync(CreateHotelDto hotelDto);
+    //Task UpdateHotelAsync(int id, UpdateHotelDto hotelDto);
+    //Task DeleteHotelAsync(int id);
+    #endregion
+    #endregion
+    Task<Result<PagedResult<GetHotelDto>>> GetHotelsAsync(
+        PaginationParameters paginationParameters,
+        HotelFilterParameters filters);
+    Task<Result<GetHotelDto>> GetHotelAsync(int id);
+    Task<Result<GetHotelDto>> CreateHotelAsync(CreateHotelDto hotelDto);
+    Task<Result> UpdateHotelAsync(int id, UpdateHotelDto hotelDto);
+    Task<Result> DeleteHotelAsync(int id);
+
+    Task<bool> HotelExistsAsync(int id);
+    Task<bool> HotelExistsAsync(string name);
+}
+
+
+4. Service implementation
+
+ public async Task<Result<PagedResult<GetHotelDto>>> GetHotelsAsync(
+     PaginationParameters paginationParameters,
+     HotelFilterParameters filters)
+ {
+     #region Filters
+     // Convert Hotels as queryables
+     var query = _dbContext.Hotels.AsQueryable();
+
+     // Filter By hotel name
+     if (!string.IsNullOrWhiteSpace(filters.HotelName))
+     {
+         query = query
+             .Where(q => q.Name.Contains(filters.HotelName));
+     }
+     // Filter by CountryId
+     if (filters.CountryId.HasValue)
+     {
+         query = query.Where(q => q.CountryId == filters.CountryId);
+     }
+     // Filter By country name
+     if (!string.IsNullOrWhiteSpace(filters.CountryName))
+     {
+         query = query
+             .Where(q => q.Country.Name! == filters.CountryName);
+     }
+     // Filter by Min. Rating
+     if (filters.MinRating.HasValue)
+     {
+         query = query.Where(q => q.Rating >= filters.MinRating);
+     }
+     // Filter by Max. Rating
+     if (filters.MaxRating.HasValue)
+     {
+         query = query.Where(q => q.Rating <= filters.MaxRating);
+     }
+     // Filter by Min. Price
+     if (filters.MinPrice.HasValue)
+     {
+         query = query.Where(q => q.PerNightRate >= filters.MinPrice);
+     }
+     // Filter by Max. Price
+     if (filters.MaxPrice.HasValue)
+     {
+         query = query.Where(q => q.PerNightRate <= filters.MaxPrice);
+     }
+     // Filter by Max. Location
+     if (!string.IsNullOrWhiteSpace(filters.Location))
+     {
+         query = query
+             .Where(q => q.Address.Contains(filters.Location));
+     }
+     // Generic search param
+     if (!string.IsNullOrWhiteSpace(filters.Search))
+     {
+         query = query
+             .Where(q => q.Name.Contains(filters.Search)
+             ||
+             q.Address.Contains(filters.Search));
+     }
+
+     query = filters.SortBy?.ToLower() switch
+     {
+         "name" => filters.SortDescending ?
+             query.OrderByDescending(h => h.Name) : query.OrderBy(h => h.Name),
+         "rating" => filters.SortDescending ?
+             query.OrderByDescending(h => h.Rating) : query.OrderBy(h => h.Rating),
+         "price" => filters.SortDescending ?
+             query.OrderByDescending(h => h.PerNightRate) : query.OrderBy(h => h.PerNightRate),
+         _ => query.OrderBy(h => h.Name)
+     };
+
+     #endregion
+
+     // Auto Mapper 
+     var hotelsDto = await query
+             .Include(q => q.Country)
+             .ProjectTo<GetHotelDto>(_mapper.ConfigurationProvider)
+             .ToPagedResultAsync(paginationParameters);
+
+     if (hotelsDto.Data.Count() == 0)
+     {
+         return Result<PagedResult<GetHotelDto>>
+             .NotFound(new Error(Code: ErrorCodes.NotFound, Description: $"Hotel list is empty."));
+     }
+
+     return Result<PagedResult<GetHotelDto>>.Success(value: hotelsDto);     
+
+ }
+
+ 5. Adjust the Controller
+  public async Task<ActionResult<PagedResult<GetHotelDto>>> GetHotels(
+     [FromQuery] PaginationParameters paginationParameters,
+     [FromQuery] HotelFilterParameters hotelFilterParameters
+     )
+ {
+     var hotelsDto = await _hotelsServices.GetHotelsAsync(
+         paginationParameters,
+         hotelFilterParameters);
+     return ToActionResult(hotelsDto);
+ }
