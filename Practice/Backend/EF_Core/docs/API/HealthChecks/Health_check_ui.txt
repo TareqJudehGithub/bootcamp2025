@@ -1,0 +1,38 @@
+Packages:
+
+  AspNetCore.HealthChecks.UI Version="9.0.0" 
+
+  AspNetCore.HealthChecks.UI.Client Version="9.0.0" 
+
+  AspNetCore.HealthChecks.UI.InMemory.Storage Version="9.0.0" 
+
+
+Code:  
+
+  Program.cs
+
+
+
+
+    #region Health Check UI service
+      builder.Services.AddHealthChecksUI(setup =>
+      {
+          setup.SetEvaluationTimeInSeconds(10); // Check every 10 seconds
+          setup.MaximumHistoryEntriesPerEndpoint(50);
+          setup.AddHealthCheckEndpoint("HotelListing API", "/healthz");
+      })
+          .AddInMemoryStorage();
+    #endregion
+
+    HealthCheck UI Delegates
+   app.MapHealthChecks("/healthz-ui", new HealthCheckOptions
+   {
+       ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+   });
+
+    HealthChecks UI
+    app.MapHealthChecksUI(options =>
+    {
+        options.UIPath = "/healthchecks-ui";
+        options.ApiPath = "/healthchecks-api";
+    });

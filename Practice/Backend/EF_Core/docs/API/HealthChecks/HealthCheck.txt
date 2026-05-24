@@ -1,0 +1,12 @@
+Health Checks
+
+  - Health checks helps detect when your API or dependent services (DB, cache, external
+    API) are down.
+  - They are vital for uptime monitoring and load balancers.
+
+  Types of Health Checks:
+    - Liveness: Is the app running?
+    - Readiness: Can it serve traffic
+    - Dependency: Are externals services available?
+    
+      

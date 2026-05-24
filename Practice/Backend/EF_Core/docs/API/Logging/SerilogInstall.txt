@@ -1,0 +1,158 @@
+Serilog Implementation
+
+  - Serilog is a popular 3rd party logging tool/framework for ASP.NET Core
+    - flexible
+
+  1. Serilog installation
+  
+    - Serilog
+    - Serilog.AspNetCore
+    - Serilog.Sinks.Console
+    - Serilog.Enrichers.Environment
+    - Serilog.Sinks.File
+    - Serilog.Sinks.Seq   (*for visual presentation)
+        - For Seq, we also need to download and install it from the web.
+
+  Program.cs
+
+  // Logging
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
+    .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateBootstrapLogger();
+
+    try
+    {
+      Log.Information("Starting HotelListing API");
+
+      var builder = WebApplication.CreateBuilder(args);
+
+      // Inject Serilog service
+      builder.Host.UseSerilog((context, services, configuration) => configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services)
+    );
+
+    
+    // Serilog middleware
+    app.UseSerilogRequestLogging(options =>
+    {
+        options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000}ms";
+
+        options.GetLevel = (httpContext, elapsed, ex) => ex != null
+        ? LogEventLevel.Error
+        : httpContext.Response.StatusCode >= 500
+            ? LogEventLevel.Error
+            : httpContext.Response.StatusCode >= 400
+                ? LogEventLevel.Warning
+                : LogEventLevel.Information;
+
+        options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+        {
+            diagnosticContext.Set("UserName", httpContext.User?.Identity?.Name ?? "anonymous");
+            diagnosticContext.Set("RemoteIP", httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown");
+
+            if (httpContext.User?.Identity?.IsAuthenticated == true)
+            {
+                diagnosticContext.Set("UserId", httpContext.User.FindFirst("sub")?.Value ?? "unknown");
+            }
+        };
+    });
+
+    
+    }
+    catch (Exception ex)
+    {
+        Log.Fatal(ex, "Application terminated unexpectedly");
+        throw;
+    }
+    finally
+    {
+        Log.CloseAndFlush();
+    }
+
+appSettings.Json   
+
+  In the development file:
+{
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information",
+        "Microsoft.EntityFrameworkCore": "Warning"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "Console"
+      },
+      {
+        "Name": "File",
+        "Args": {
+          "path": "Logs/log-.txt",
+          "rollingInterval": "Day",
+          "retainedFileCountLimit": 30
+        }
+      },
+      {
+        "Name": "Seq",
+        "Args": {
+          "serverUrl": "http://localhost:5341",
+          "apiKey": null,
+          "restrictedToMinimumLevel": "Information"
+        }
+      }
+    ],
+    "Enrich": [ "FromLogContext", "WithMachineName", "WithEnvironmentName" ],
+    "Properties": {
+      "Application": "HotelListingApi"
+    }
+  },
+  "ConnectionStrings": {
+    "MSSQLConnection": "Server=TareqPC\\MSSQLSRV; Database=HotelsListingDB; Trusted_Connection=True; TrustServerCertificate=True;"
+  },
+  // Api Key Authentication
+  "ApiKey": "dXNlcjFAbG9jYWxob3N0LmNvbTpQQHNzd29yZDE=",
+
+  // JWT Token
+  "JwtSettings": {
+    "Issuer": "HotelListingAPI",
+    "Audience": "HotelListingAPIClient",
+    "DurationInMinutes": "10",
+    "Key": "G+aEs9?dkfvtS4RnOBs#AdX3J1Ua_<;k"
+  }
+}
+
+Service Layer
+
+// Register
+   if (!result.Succeeded)
+   {
+       var errors = result.Errors
+           .Select(error => new Error(Code: ErrorCodes.BadRequest, Description: error.Description))
+           .ToArray();
+
+       // Logging errors
+       _logger.LogError(message: $"User registration failed for Email: {registerUserDto.Email} with errors: {string.Join(", ", errors)}");
+
+       return Result<RegisteredUserDto>.BadRequest(errors: errors);
+   }
+
+
+// Login
+     // Check for null
+  if (user is null)
+  {
+      _logger.LogWarning(message: $"Failed login attempt for email: {loginUserDto.Email}");
+
+      return Result<string>
+          .NotFound(errors: new Error(Code: ErrorCodes.NotFound, Description: "User not found"));
+  }
+    

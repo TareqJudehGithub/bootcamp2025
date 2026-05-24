@@ -1,0 +1,30 @@
+Logging in ASP.NET Core Web API
+
+  - Logging is the process of capturing and storing information about the app behavior 
+    during runtime.
+  - Logging can provide valuable insights whenever an issue arise.
+
+  - Serilog is a popular 3rd party logging tool/framework for ASP.NET Core
+    - flexible
+
+  1. Serilog installation
+  
+    - Serilog
+    - Serilog.AspNetCore
+    - Serilog.Sinks.Console
+  
+  2. Inject Serilog service in Program.cs
+
+    using Serilog;  // LoggerConfiguration
+
+    // Add services to the container.
+    var logger = new LoggerConfiguration()
+        .WriteTo.Console()                               // Where to write the log
+        .MinimumLevel.Information()                     // Logging level information
+        .CreateLogger();                               // Create the log
+
+    builder.Logging.ClearProviders();                 // Clear any provider injected
+    builder.Logging.AddSerilog(logger: logger);
+
+
+  3. Inject Serilog logger inside the controller you wish to log.

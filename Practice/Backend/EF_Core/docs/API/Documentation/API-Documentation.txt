@@ -1,0 +1,4 @@
+API Documentation
+
+  - Use tag <summary> to explain what an API endpoint is designed for.
+  

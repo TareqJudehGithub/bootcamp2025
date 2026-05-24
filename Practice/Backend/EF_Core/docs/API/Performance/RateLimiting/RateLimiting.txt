@@ -4,4 +4,11 @@ Rate Limiting
   - Example: 
     - 100 requests per minute per user
     - Block excess requests beyond the limit
-    
+
+  Rate Limiting Strategies
+
+    - Fixed Window: Limits requests per time block.
+    - Sliding Window: Smoother enforcement over time.
+    - Token Bucket: Allows short bursts with a refill.
+    - Leaky Bucket: Processes requests at a constant rate.
+     

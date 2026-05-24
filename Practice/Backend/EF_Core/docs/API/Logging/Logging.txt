@@ -1,110 +1,19 @@
+Logging in ASP.NET Core
+
 Logging in ASP.NET Core Web API
 
   - Logging is the process of capturing and storing information about the app behavior 
     during runtime.
-  - Logging can provide valuable insights whenever an issue arise.
+  
+  - Logging records important events and behavior during application execution. It helps
+    developers: 
+      - Diagnose issues and trace requests.
+      - Monitor application performance.
+      - Maintain audit trails for compliance.
+
+  - Logging is vital for post-deployment troubleshooting.  
+
+
 
   - Serilog is a popular 3rd party logging tool/framework for ASP.NET Core
     - flexible
-
-  1. Serilog installation
-    - Serilog
-    - Serilog.AspNetCore
-    - Serilog.Sinks.Console
-  
-  2. Inject Serilog service in Program.cs
-
-    using Serilog;  // LoggerConfiguration
-
-    // Add services to the container.
-    var logger = new LoggerConfiguration()
-        .WriteTo.Console()                               // Where to write the log
-        .MinimumLevel.Information()                     // Logging level information
-        .CreateLogger();                               // Create the log
-
-    builder.Logging.ClearProviders();                 // Clear any provider injected
-    builder.Logging.AddSerilog(logger: logger);
-
-
-  3. Inject Serilog logger inside the controller you wish to log.
-
-public class RegionsController : ControllerBase
-#region Fields
-  {
-      private readonly IRegionRepository _regionRepository;
-      private readonly IMapper _mapper;
-      private readonly ILogger<RegionsController> _logger;
-
-      #endregion
-
-      #region Constructors
-      public RegionsController(
-          IRegionRepository regionRepository,
-          IMapper mapper,
-          ILogger<RegionsController> logger
-          )
-      {
-          _regionRepository = regionRepository;
-          _mapper = mapper;
-          _logger = logger;
-      }
-      #endregion
-      #region Endpoints
-      [HttpGet]
-      [Authorize(Roles = "Reader, Writer")]
-      public async Task<IActionResult> GetAllRegions()
-      {
-          // Log information
-          _logger.LogInformation(message: "GetAllRegions is being invoked!");
-
-          // Get data from the database
-          var regionsModel = await _regionRepository.GetAllRegionsAsync();
-
-          _logger.LogInformation(message: $"Retrieving all data from the database was successful! Data returned: {JsonSerializer
-              .Serialize(value: regionsModel)} ");
-
-          // Map domain models to DTOs
-          var regionsDTO = _mapper.Map<List<RegionDTO>>(source: regionsModel);
-          _logger.LogInformation(message: "Converting Allregions domain model to DTO was successful!");
-
-          return Ok(regionsDTO);
-      }
-  }
-
-_logger.LogError(ex, ex.Message);
-_logger.LogWarning(message: "This is a warning message");
-
-
-Saving log result to a file
- 1- Install package Serilog.Sinks.File from NuGet Package Manager.
-    - If we are using the file logging only, we need to have:
-      Serilog, Serilog.AspNetCore, and Serilog.Sinks.Console installed.      
- 2- Configure a try/catch in action methods
-    [HttpGet]
-    [Authorize(Roles = "Reader, Writer")]
-    public async Task<IActionResult> GetAllRegions()
-    {
-        // Log information
-        _logger.LogInformation(message: "GetAllRegions is being invoked!");
-
-        try
-        {
-            throw new Exception("This is a custom exception");
-            // Get data from the database
-            var regionsModel = await _regionRepository.GetAllRegionsAsync();
-
-            _logger.LogInformation(message: $"Retrieving all data from the database was successful! Data returned: {JsonSerializer
-                .Serialize(value: regionsModel)} ");
-
-            // Map domain models to DTOs
-            var regionsDTO = _mapper.Map<List<RegionDTO>>(source: regionsModel);
-            _logger.LogInformation(message: "Converting Allregions domain model to DTO was successful!");
-            return Ok(regionsDTO);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, ex.Message);
-            throw;
-        }
-
-    }

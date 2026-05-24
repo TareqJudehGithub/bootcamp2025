@@ -1,0 +1,12 @@
+Deprecation 
+
+  An endpoint that is no longer in use.
+  We use Deprecated keyword in ApiVersion annotation to indicate that an endpoint
+  has been deprecated.
+
+  [Route("api/v{version:apiVersion}/[controller]")]
+  [ApiVersion("1.0", Deprecated = true)]
+
+  [ApiController]
+  [EnableRateLimiting("fixed")]
+  [Authorize]

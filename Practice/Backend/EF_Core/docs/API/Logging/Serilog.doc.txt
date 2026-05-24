@@ -21,3 +21,6 @@ Serilog.Sinks.Console, etc.), configuring it in Program.cs via UseSerilog,
 and setting up sinks and levels in appsettings.json. The setup enables structured 
 logging and HTTP request tracking. You can then use the standard ILogger<T> interface 
 for logging.
+
+
+Serilog is the logger library that runs inside your application. It captures "structured logs" (data, not just text) and sends them to different destinations called Sinks.Seq is the log server and dashboard that receives those logs. It provides a visual interface to search, filter, and analyze the structured data in real-time.

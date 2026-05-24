@@ -1,0 +1,56 @@
+Program.cs
+
+// Rate Limiting service
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("fixed", opt =>
+    {
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.PermitLimit = 1;
+        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        opt.QueueLimit = 0;
+    });
+     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    // Rules
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+        {
+            context.HttpContext.Response.Headers.RetryAfter = retryAfter.TotalSeconds.ToString();
+        }
+
+        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+        context.HttpContext.Response.ContentType = "application/json";
+
+        await context.HttpContext.Response.WriteAsJsonAsync(new
+        {
+            error = "Too many requests",
+            message = "Rate limit exceeded. Please try again later.",
+            retryAfter = retryAfter.TotalSeconds
+        }, cancellationToken: cancellationToken);
+    };
+});
+
+app.UseHttpsRedirection();
+
+// Rate Limiting
+app.UseRateLimiter();
+
+app.UseAuthorization();
+
+// Out-Put Cache middleware
+//app.UseOutputCache();
+
+app.MapControllers();
+
+app.Run();
+
+
+In the controller endpoint
+
+    [Route("api/[controller]")]
+    [ApiController]
+    [EnableRateLimiting("fixed")]
+    [Authorize]
+    
